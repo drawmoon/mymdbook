@@ -1,19 +1,20 @@
 # Table of contents
 
-- [ASP.NET Core Notes](#ASP.NET-Core-Notes)
-  - [Foo，Bar，Baz 是什么意思](#Foo，Bar，Baz-是什么意思)
+- [ASP.NET Core Notes](#aspnet-core-notes)
+  - [Foo，Bar，Baz 是什么意思](#foobarbaz-是什么意思)
   - [可为空的值类型](#可为空的值类型)
   - [将警告视为错误](#将警告视为错误)
   - [判断两个集合的元素是否相等](#判断两个集合的元素是否相等)
-  - [Naming convention for a C# Dictionary](#Naming-convention-for-a-C#-Dictionary)
-  - [Serialize with object to MemoryStream](#Serialize-with-object-to-MemoryStream)
-  - [Regex replace](#Regex-replace)
-  - [设置 HTTPClient 代理](#设置-HTTPClient-代理)
-  - [中间件管道，Map 与 MapWhen](#中间件管道，Map-与-MapWhen)
-  - [Required 与 BindRequired 混用问题](#Required-与-BindRequired-混用问题)
-  - [配置 Controller 允许接收空字符串](#配置-Controller-允许接收空字符串)
-  - [配置 Controller 将空 Body 视为有效输入](#配置-Controller-将空-Body-视为有效输入)
-  - [xUnit 判断两个集合的元素是否相等](#xUnit-判断两个集合的元素是否相等)
+  - [字典的命名约定](#字典的命名约定)
+  - [将对象序列化为字节数组，与反序列化为对象](#将对象序列化为字节数组与反序列化为对象)
+  - [用正则表达式进行字符串替换](#用正则表达式进行字符串替换)
+  - [设置 HttPClient 代理](#设置-httpclient-代理)
+  - [中间件管道，Map 与 MapWhen](#中间件管道map-与-mapwhen)
+  - [Required 与 BindRequired 混用问题](#required-与-bindrequired-混用问题)
+  - [配置 Controller 允许接收空字符串](#配置-controller-允许接收空字符串)
+  - [配置 Controller 将空 Body 视为有效输入](#配置-controller-将空-body-视为有效输入)
+  - [xUnit 测试两个集合的元素是否相等](#xunit-判断两个集合的元素是否相等)
+  - [xUnit 测试异常情况](#xUnit-测试异常情况)
 
 # ASP.NET Core Notes
 
@@ -45,7 +46,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <TargetFrameworks>net5.0</TargetFrameworks>
-        <!-- 将警告视为错误 -->
+        <!-- 启用将警告视为错误 -->
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     </PropertyGroup>
 </Project>
@@ -54,25 +55,25 @@
 ## 判断两个集合的元素是否相等
 
 ```csharp
-List<string> foo = new{ "A", "B", "C" };
-List<string> bar = new{ "A", "B", "C" };
+List<string> foo = new(){ "A", "B", "C" };
+List<string> bar = new(){ "A", "B", "C" };
 
 if (foo.All(bar.Contains))
 {
-  return true;
+    return true;
 }
 ```
 
-## Naming convention for a C# Dictionary
+## 字典的命名约定
 
 ```csharp
 Dictionary<string, List<string>> provincesByCountry = new();
 ```
 
-## Serialize with object to MemoryStream
+## 将对象序列化为字节数组，与反序列化为对象
 
 ```csharp
-// Serialize
+// 将对象序列化为字节数组
 using(MemoryStream memoryStream = new())
 {
     DataContractSerializer serializer = new(tyoeof(T));
@@ -82,7 +83,7 @@ using(MemoryStream memoryStream = new())
     var bytes = memoryStream.GetBuffer();
 }
 
-// Deserialize
+// 将字节数组反序列化为对象
 using(MemoryStream memoryStream = new(bytes))
 {
     DataContractSerializer serializer = new(tyoeof(T));
@@ -91,17 +92,19 @@ using(MemoryStream memoryStream = new(bytes))
 }
 ```
 
-## Regex replace
+## 用正则表达式进行字符串替换
 
 ```csharp
-Regex regex = new(@"({(?<tableId>[1-9]*[1-9][0-9]*)}\s*\.\s*)?{(?<fieldId>[1-9]*[1-9][0-9]*)}", RegexOptions.Compiled);
+var input = "COUNT({123}.{1712})";
 
-var str = regex.Replace("COUNT({123}.{1712})", p => $"{{{p.Groups["fieldId"].Value}}}");
+Regex regex = new(@"({(?<table>[1-9]*[1-9][0-9]*)}\s*\.\s*)?{(?<tableField>[1-9]*[1-9][0-9]*)}", RegexOptions.Compiled);
 
-Console.WriteLine(str); // COUNT({1712})
+var str = regex.Replace(input, match => $"{{{match.Groups["tableField"].Value}}}");
+
+Console.WriteLine(str); // 输出结果为 COUNT({1712})
 ```
 
-## 设置 HTTPClient 代理
+## 设置 HttPClient 代理
 
 ```csharp
 WebProxy proxy = new("127.0.0.1:8899", false)
@@ -109,9 +112,9 @@ WebProxy proxy = new("127.0.0.1:8899", false)
     UseDefaultCredentials = false
 };
 
-HttpClient client = new(new{ Proxy = proxy }, false)
+HttpClient client = new(new HttpClientHandler{ Proxy = proxy }, false)
 {
-    BaseAddress = new("http://127.0.0.1:8080")
+    BaseAddress = new Uri("http://127.0.0.1:8080")
 };
 ```
 
@@ -121,6 +124,16 @@ HttpClient client = new(new{ Proxy = proxy }, false)
 
 用于约定来创建管道分支。`Map`基于给定请求路径的匹配项来创建请求管道分支。如果请求路径以给定路径开头，则执行分支。
 
+```csharp
+public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+{
+    app.Map("/swagger", appBuilder =>
+    {
+        appBuilder.UseSwagger();
+    });
+}
+```
+
 ### MapWhen
 
 基于给定谓词的结果创建请求管道分支。
@@ -128,11 +141,11 @@ HttpClient client = new(new{ Proxy = proxy }, false)
 ```csharp
 public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 {
-    app.MapWhen(p => p.Request.Path.StartsWithSegments("/api/values"), innerApp =>
+    app.MapWhen(httpContext => httpContext.Request.Path.StartsWithSegments("/api/values"), appBuilder =>
     {
-        innerApp.Run(async context =>
+        appBuilder.Run(async context =>
         {
-            await context.Response.WriteAsync(JsonSerializer.Serialize(new string[] { "value1", "value2" }));
+            await context.Response.WriteJsonAsync(new[]{"value1", "value2"});
         });
     });
 }
@@ -151,15 +164,15 @@ public class RequiredBindingMetadataProvider : IBindingMetadataProvider
         }
     }
 }
-```
 
-配置`MVC`选项
-
-```csharp
-services.AddMvcCore(options =>
+// Startup.cs
+public void ConfigureServices(IServiceCollection services)
 {
-    options.ModelMetadataDetailsProviders.Add(new RequiredBindingMetadataProvider());
-});
+    services.AddControllers(options =>
+    {
+        options.ModelMetadataDetailsProviders.Add(new RequiredBindingMetadataProvider());
+    });
+}
 ```
 
 ## 配置 Controller 允许接收空字符串
@@ -175,35 +188,50 @@ public class AllowEmptyDisplayMetadataProvider : IMetadataDetailsProvider, IDisp
         }
     }
 }
-```
 
-配置`MVC`选项
-
-```csharp
-service.AddMvcCore(options =>
+// Startup.cs
+public void ConfigureServices(IServiceCollection services)
 {
-    options.ModelMetadataDetailsProviders.Add(new AllowEmptyDisplayMetadataProvider());
-});
+    service.AddControllers(options =>
+    {
+        options.ModelMetadataDetailsProviders.Add(new AllowEmptyDisplayMetadataProvider());
+    });
+}
 ```
 
 ## 配置 Controller 将空 Body 视为有效输入
 
 ```csharp
-services.AddMvcCore(options =>
+public void ConfigureServices(IServiceCollection services)
 {
-    options.AllowEmptyInputInBodyModelBinding = true;
-});
+    services.AddControllers(options =>
+    {
+        options.AllowEmptyInputInBodyModelBinding = true;
+    });
+}
 ```
 
-## xUnit 判断两个集合的元素是否相等
+## xUnit 测试两个集合的元素是否相等
 
 ```csharp
-List<string> foo = new{ "A", "B" };
-List<string> bar = new{ "A" };
+List<string> foo = new(){ "A", "B" };
+List<string> bar = new(){ "A" };
 
 // 是否全部包含
 Assert.All(foo, p => Assert.Contains(p, bar));
 
 // 是否全部不包含
 Assert.All(foo, p => Assert.DoseNotContains(p, bar));
+```
+
+## xUnit 测试异常情况
+
+```csharp
+var exception = await Assert.ThrowsAsync<AppException>(async () =>
+{
+    await tableFieldService.Update(filed);
+});
+
+Assert.Equal("存在重复的表字段名称", exception.Message);
+Assert.Equal(200400, exception.ErrorCode);
 ```
