@@ -4,22 +4,22 @@
 
 ## ASP.NET Core Notes
 
-- [ASP.NET Core Notes](AspNetCoreNotes.md)
-- [ASP.NET Core Swagger Notes](AspNetCoreSwaggerNotes.md)
-- [Entity Framework Core Notes](EntityFrameworkCoreNotes.md)
+- [ASP.NET Core Notes](AspNetCoreNotes/AspNetCoreNotes.md)
+- [ASP.NET Core Swagger Notes](AspNetCoreNotes/AspNetCoreSwaggerNotes.md)
+- [Entity Framework Core Notes](AspNetCoreNotes/EntityFrameworkCoreNotes.md)
 
 ## TypeScript Notes
 
-- [TypeScript Notes](TypeScriptNotes.md)
-- [NestJs Notes](NestjsNotes.md)
-- [TypeOrm Notes](TypeOrmNotes.md)
+- [TypeScript Notes](TypeScriptNotes/TypeScriptNotes.md)
+- [NestJs Notes](TypeScriptNotes/NestjsNotes.md)
+- [TypeOrm Notes](TypeScriptNotes/TypeOrmNotes.md)
 
-## Other
+## Other Notes
 
 - [Gitmoji](Gitmoji.md)
-- [Manjaro](SystemAndDevelopmentToolNotes/Manjaro.md)
-- [macOS](SystemAndDevelopmentToolNotes/macOS.md)
-- [Windows 10](SystemAndDevelopmentToolNotes/Windows.md)
-- [Ubuntu](SystemAndDevelopmentToolNotes/Ubuntu.md)
-- [Fedora](SystemAndDevelopmentToolNotes/Fedora.md)
-- [Visual Studio Code 插件与配置](SystemAndDevelopmentToolNotes/VisualStudioCode.md)
+- [Manjaro](OtherNotes/Manjaro.md)
+- [macOS](OtherNotes/macOS.md)
+- [Windows 10](OtherNotes/Windows.md)
+- [Ubuntu](OtherNotes/Ubuntu.md)
+- [Fedora](OtherNotes/Fedora.md)
+- [Visual Studio Code 插件与配置](OtherNotes/VisualStudioCode.md)
