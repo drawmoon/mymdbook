@@ -12,6 +12,7 @@
 
 - [TypeScript Notes](TypeScriptNotes.md)
 - [NestJs Notes](NestjsNotes.md)
+- [TypeOrm Notes](TypeOrmNotes.md)
 
 ## Other
 

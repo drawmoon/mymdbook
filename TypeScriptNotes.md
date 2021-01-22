@@ -8,7 +8,7 @@
 ## 策略模式消除 if-else 的方法
 
 ```ts
-private readonly relationRecord: Record<string, (trashObject: TrashObject) => Promise<IHasDataState[]>> = {};
+private readonly relationRecord: Record<string, (trashObject: TrashObject) => Promise<TargetWithRelation>> = {};
 
 constructor() {
   this.initRelationRecord();
@@ -16,48 +16,66 @@ constructor() {
 
 private initRelationRecord(): void {
   this.relationRecord[CategoryEntity.name] = async (trashObject) => {
-    const subObjects: IHasDataState[] = [];
+    const targetObject: TargetWithRelation = {};
+    const subObjects: ICanTrash[] = [];
 
     const category = await this.categoryRepository.findOne(trashObject.objectId);
 
     if (!category) {
-      return subObjects;
+      return targetObject;
     }
 
-    const subCategories = await this.categoryRepository.findDescendants(category);
-    subObjects.push(subCategories);
-
-    const categoryIds = subCategories.map((p) => p.id);
+    const categoryIds = (await this.categoryRepository.findDescendants(category)).map((p) => p.id);
     const files = await this.fileRepository.find({ where: { parentId: In(categoryIds) } });
-    subObjects.push(files);
+    subObjects.push(...files);
 
-    return subObjects;
+    const subCategoryTree = await this.categoryRepository.findDescendantsTree(category);
+    // 在里面处理好层级关系，从下往上读取，将子级目录添加到数组的前面
+    const subCategories = await this.getCategoryRelationSubObjects(subCategoryTree);
+    for (const subCategory of subCategories) {
+      if (subCategory.id != category.id) {
+        subObjects.push(subCategory);
+      }
+    }
+
+    targetObject.target = category;
+    targetObject.relations = subObjects;
+    return targetObject;
   };
 
-  this.relationRecord[ProjectEntity.name] = async (trashObject) => {
-    const subObjects: IHasDataState[] = [];
+  this.relationRecord[FileEntity.name] = async (trashObject) => {
+    const targetObject: TargetWithRelation = {};
+    const subObjects: ICanTrash[] = [];
 
-    const project = await this.projectRepository.findOne(trashObject.objectId);
+    const file = await this.fileRepository.findOne(trashObject.objectId);
 
-    if (!project) {
+    if (!file) {
       return subObjects;
     }
-    
-    const categories = await this.categoryRepository.findOne({ where: { project: trashObject.objectId } });
-    subObjects.push(categories);
 
-    const files = await this.fileRepository.findOne({ where: { project: trashObject.objectId } });
-    subObjects.push(files);
-
+    targetObject.target = file;
+    targetObject.relations = subObjects;
     return subObjects;
   };
 }
 
-private async cascadeDelete(trashObject: TrashObject): Promise<void> {
-  const relations = await this.relationRecord[trashObject.objectType](trashObject);
+private async delete(trashObject: TrashObject, entityManager: EntityManager): Promise<void> {
+  const targetWithRelation = await this.relationRecord[trashObject.objectType](trashObject);
 
-  for (let i = 0; i < relations.length; i++) {
-    await this.cascadeDeleteCore(relations[i]);
+  const target = targetWithRelation.target;
+  switch (target.state) {
+    case DataState.Normal:
+      await this.cascadeDelete(targetWithRelation.relations);
+      target.state = DataState.Deleted;
+      await entityManager.save(target);
+      break;
+    case DataState.Deleted:
+      await this.cascadeHardDelete(targetWithRelation.relations);
+      await entityManager.remove(target);
+      break;
+    case DataState.CascadeDeleted:
+      // 不处理
+      break;
   }
 }
 ```
