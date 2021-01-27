@@ -24,7 +24,7 @@ public static async fixMPath<TKey, TEntity>(
   }
 
   const entityMpath = await this.getEntityMpath(entityRepository, id);
-  const parentMpath = await this.getEntityMpath(entityRepository, parentId);
+  const parentMpath = parentId && (await this.getEntityMpath(entityRepository, parentId));
 
   const newMpath = `${parentMpath}${id}.`;
 
