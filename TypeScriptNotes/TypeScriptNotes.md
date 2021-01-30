@@ -8,18 +8,18 @@
 ## 策略模式消除 if-else 的方法
 
 ```ts
-private readonly relationRecord: Record<string, (trashObject: TrashObject) => Promise<TargetWithRelation>> = {};
+private readonly relationRecord: Record<string, <TKey>(id: TKey) => Promise<TargetWithRelation>> = {};
 
 constructor() {
   this.initRelationRecord();
 }
 
 private initRelationRecord(): void {
-  this.relationRecord[CategoryEntity.name] = async (trashObject) => {
+  this.relationRecord[CategoryEntity.name] = async (id) => {
     const targetObject: TargetWithRelation = {};
     const subObjects: ICanTrash[] = [];
 
-    const category = await this.categoryRepository.findOne(trashObject.objectId);
+    const category = await this.categoryRepository.findOne(id);
 
     if (!category) {
       return targetObject;
@@ -43,11 +43,11 @@ private initRelationRecord(): void {
     return targetObject;
   };
 
-  this.relationRecord[FileEntity.name] = async (trashObject) => {
+  this.relationRecord[FileEntity.name] = async (id) => {
     const targetObject: TargetWithRelation = {};
     const subObjects: ICanTrash[] = [];
 
-    const file = await this.fileRepository.findOne(trashObject.objectId);
+    const file = await this.fileRepository.findOne(id);
 
     if (!file) {
       return subObjects;
@@ -60,7 +60,7 @@ private initRelationRecord(): void {
 }
 
 private async delete(trashObject: TrashObject, entityManager: EntityManager): Promise<void> {
-  const targetWithRelation = await this.relationRecord[trashObject.objectType](trashObject);
+  const targetWithRelation = await this.relationRecord[trashObject.objectType](trashObject.objectId);
 
   const target = targetWithRelation.target;
   switch (target.state) {
