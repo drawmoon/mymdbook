@@ -1,18 +1,16 @@
-# Ubuntu 开发环境使用
-
-系统版本：Ubuntu 20.4 LTS。
+# Ubuntu Notes
 
 ## Vim
 
-```
+```bash
 ➜  ~ sudo apt install vim
 ```
 
 ## 修改源
 
-```
+```bash
 # 备份文件
-➜  ~ sudo cp /etc/apt/source.list source.list.backup
+➜  ~ sudo cp /etc/apt/source.list /etc/apt/source.list.backup
 
 # 修改文件
 ➜  ~ sudo vim /etc/apt/source.list
@@ -73,29 +71,29 @@ deb http://security.ubuntu.com/ubuntu/ focal-security multiverse
 
 | 服务商              | 地址                                     |
 | ------------------- | ---------------------------------------- |
-| Ubuntu 官方         | http://archive.ubuntu.com/ubuntu/        |
-| Ubuntu 官方（中国） | http://cn.archive.ubuntu.com/ubuntu/     |
-| 网易（广东广州）    | http://mirrors.163.com/ubuntu/           |
-| 阿里云              | http://mirrors.aliyun.com/ubuntu/        |
-| 腾讯                | http://mirrors.cloud.tencent.com/ubuntu/ |
-| 华为                | http://mirrors.huaweicloud.com/ubuntu/   |
+| Ubuntu 官方         | `http://archive.ubuntu.com/ubuntu/`        |
+| Ubuntu 官方（中国） | `http://cn.archive.ubuntu.com/ubuntu/`     |
+| 网易（广东广州）    | `http://mirrors.163.com/ubuntu/`          |
+| 阿里云              | `http://mirrors.aliyun.com/ubuntu/`        |
+| 腾讯                | `http://mirrors.cloud.tencent.com/ubuntu/` |
+| 华为                | `http://mirrors.huaweicloud.com/ubuntu/`   |
 
 ## Git
 
-```
+```bash
 ➜  ~ sudo apt install git
 ```
 
 设置账号的缺省身份标识
 
-```
+```bash
 ➜  ~ git config --global user.email "you@example.com"
 ➜  ~ git config --global user.name "Your Name"
 ```
 
 ## 将 zsh 用作默认 Shell
 
-```
+```bash
 ➜  ~ sudo apt install zsh
 
 # zsh设为默认shell
@@ -106,12 +104,12 @@ deb http://security.ubuntu.com/ubuntu/ focal-security multiverse
 ➜  ~ sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 ```
 
-[教程](https://zhuanlan.zhihu.com/p/27052046)
-[教程 2](https://www.jianshu.com/p/ba782b57ae96)
+- [Ubuntu 超炫的 ZSH 配置](https://zhuanlan.zhihu.com/p/27052046)
+- [Ubuntu | 安装oh-my-zsh](https://www.jianshu.com/p/ba782b57ae96)
 
 设置代理
 
-```
+```bash
 # 临时代理
 ➜  ~ export http_proxy=127.0.0.1:10809
 ➜  ~ export https_proxy=127.0.0.1:10809
@@ -128,7 +126,7 @@ alias unsetproxy='unset http_proxy;unset https_proxy'
 
 手动更新`oh-my-zsh`
 
-```
+```bash
 ➜  ~ upgrade_oh_my_zsh
 ```
 
@@ -136,7 +134,7 @@ alias unsetproxy='unset http_proxy;unset https_proxy'
 
 添加软件源
 
-```
+```bash
 ➜  ~ sudo apt-get install \
     apt-transport-https \
     ca-certificates \
@@ -153,27 +151,27 @@ alias unsetproxy='unset http_proxy;unset https_proxy'
 
 安装 Docker CE
 
-```
+```bash
 ➜  ~ sudo apt-get install docker-ce
 ```
 
 启用 Docker CE
 
-```
+```bash
 ➜  ~ sudo systemctl enable docker
 ➜  ~ sudo systemctl start docker
 ```
 
 建立 docker 用户组
 
-```
+```bash
 ➜  ~ sudo groupadd docker
 ➜  ~ sudo usermod -aG docker $USER
 ```
 
 镜像加速
 
-```
+```bash
 ➜  ~ vim /etc/docker/daemon.json
 
 {
@@ -186,7 +184,7 @@ alias unsetproxy='unset http_proxy;unset https_proxy'
 
 重启服务
 
-```
+```bash
 ➜  ~ sudo systemctl daemon-reload
 ➜  ~ sudo systemctl restart docker
 ```
@@ -195,7 +193,7 @@ alias unsetproxy='unset http_proxy;unset https_proxy'
 
 [清理 Docker 文件](https://www.cnblogs.com/yogoup/p/12143103.html)
 
-```
+```bash
 ➜  ~ docker system prune
 ```
 
@@ -203,20 +201,20 @@ alias unsetproxy='unset http_proxy;unset https_proxy'
 
 安装 Docker 镜像版
 
-```
+```bash
 ➜  ~ docker pull postgres:latest
 ➜  ~ docker run --name postgres -e POSTGRES_PASSWORD=123456 -p 5432:5432 -d postgres:latest
 ```
 
 启动 postgres
 
-```
+```bash
 ➜  ~ docker container start postgres
 ```
 
 ## .Net Core SDK
 
-```
+```bash
 ➜  ~ wget https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
 ➜  ~ sudo dpkg -i packages-microsoft-prod.deb
 
@@ -230,21 +228,31 @@ alias unsetproxy='unset http_proxy;unset https_proxy'
 
 ## Nodejs
 
-```
+```bash
 ➜  ~ sudo apt install nodejs
 ➜  ~ sudo apt install npm
 ```
 
 ## TypeScript
 
-```
+```bash
 ➜  ~ sudo npm install -g typescript
 ➜  ~ tsc -v
 ```
 
+[安装教程](https://classic.yarnpkg.com/zh-Hans/docs/install#debian-stable)
+
+## Whistle
+
+```bash
+➜  ~ sudo npm install -g whistle
+```
+
+[whistle 教程](https://wproxy.org/whistle/)
+
 ## Yarn
 
-```
+```bash
 ➜  ~ curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
 ➜  ~ echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
 
@@ -252,13 +260,3 @@ alias unsetproxy='unset http_proxy;unset https_proxy'
 
 ➜  ~ yarn --version
 ```
-
-[安装教程](https://classic.yarnpkg.com/zh-Hans/docs/install#debian-stable)
-
-## Whistle
-
-```
-➜  ~ sudo npm install -g whistle
-```
-
-[whistle 教程](https://wproxy.org/whistle/)
