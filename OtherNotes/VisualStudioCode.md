@@ -13,7 +13,7 @@
 - Visual Studio IntelliCode
 - ESLint
 - ~~TSLint~~([TSLint 未来将被弃用，对 TypeScript 的支持将迁移至 ESLint](https://medium.com/palantir/tslint-in-2019-1a144c2317a9))
-- Markdownlint
+- markdownlint
 - Markdown PDF
 - TabNine
 - Prettier

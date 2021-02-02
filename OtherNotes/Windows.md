@@ -1,3 +1,9 @@
+# Table of contents
+
+- [Windows 10 Notes](#windows-10-notes)
+  - [在 Windows 的子系统 Linux 中安装 Docker](#在-windows-的子系统-linux-中安装-docker)
+  - [安装 Docker 镜像版的 PostgreSql](#安装-docker-镜像版的-postgresql)
+
 # Windows 10 Notes
 
 ## Scoop
@@ -38,11 +44,9 @@ scoop install nodejs
 npm install -g typescript
 ```
 
-## Docker
+## 在 Windows 的子系统 Linux 中安装 Docker
 
-安装适用于 Linux 的 Windows 的子系统
-
-安装 WSL2 之前，必须启用`虚拟机平台`
+安装适用于 Linux 的 Windows 的子系统，安装 WSL2 之前，必须启用`虚拟机平台`
 
 ```bash
 dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
@@ -121,18 +125,18 @@ WSL 使用 Windows 的代理
 
 ~~Ubuntu 设置代理参考 [Ubuntu 安装指南设置代理部分](./ubuntu.md#将-zsh-用作默认-shell)，代理 IP 为 Windows 的 IP。~~
 
-## PostgreSql
+## 安装 Docker 镜像版的 PostgreSql
 
-在 Docker 中运行 PostgreSql。
+拉取 PostgreSql 镜像
 
 ```bash
 docker pull postgres:latest
-docker run --name postgres -e POSTGRES_PASSWORD=123456 -p 5432:5432 -d postgres:latest
 ```
 
-启动 postgres
+启动 Postgres
 
 ```bash
+docker run --name postgres -e POSTGRES_PASSWORD=123456 -p 5432:5432 -d postgres:latest
 docker container start postgres
 ```
 

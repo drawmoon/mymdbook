@@ -1,15 +1,20 @@
-# Manjaro 开发环境使用
+# Table of contents
 
-系统版本：Manjaro GNOME。
+- [Manjaro Notes](#manjaro-notes)
+  - [修改软件源为国内源，添加 archlinuxcn 软件源](#修改软件源为国内源添加-archlinuxcn-软件源)
+  - [安装 Google 拼音输入法](#安装-google-拼音输入法)
+  - [安装 Visual Studio Code](#安装-visual-studio-code)
 
-## 更新软件源
+# Manjaro Notes
+
+## 修改软件源为国内源，添加 archlinuxcn 软件源
 
 ```bash
 sudo pacman-mirrors -i -c China -m rank
 sudo pacman -Syy
 ```
 
-配置 archlinuxcn 软件源
+添加 archlinuxcn 软件源
 
 [清华archlinuxcn软件源](https://mirror.tuna.tsinghua.edu.cn/help/archlinuxcn/)
 
@@ -54,7 +59,7 @@ sudo pacman -S v2ray
 yaourt -S qv2ray
 ```
 
-## Google 拼音输入法
+## 安装 Google 拼音输入法
 
 ```bash
 sudo pacman -S fcitx-lilydjwg-git
@@ -96,10 +101,10 @@ cd smartgit/bin
 bash smartgit.sh
 ```
 
-## Visual Studio Code
+## 安装 Visual Studio Code
 
 ```bash
-yaourt -S code
+yaourt -S visual-studio-code-bin
 ```
 
 ## dotnet sdk
