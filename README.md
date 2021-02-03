@@ -16,10 +16,12 @@
 
 ## Other Notes
 
-- [Gitmoji](Gitmoji.md)
-- [Manjaro](OtherNotes/Manjaro.md)
-- [macOS](OtherNotes/macOS.md)
-- [Windows 10](OtherNotes/Windows.md)
-- [Ubuntu](OtherNotes/Ubuntu.md)
-- [Fedora](OtherNotes/Fedora.md)
+- [😜 一个 Emoji 表情提交指南](Gitmoji.md)
+- [macOS Notes](OtherNotes/macOS.md)
+- [Windows 10 Notes](OtherNotes/Windows.md)
+- Linux
+  - [Manjaro Notes](OtherNotes/Manjaro.md)
+  - [Ubuntu Notes](OtherNotes/Ubuntu.md)
+  - [CentOS Notes](OtherNotes/CentOS.md)
+  - [Fedora Notes](OtherNotes/Fedora.md)
 - [Visual Studio Code 插件与配置](OtherNotes/VisualStudioCode.md)

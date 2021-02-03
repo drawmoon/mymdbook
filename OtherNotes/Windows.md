@@ -1,12 +1,23 @@
 # Table of contents
 
 - [Windows 10 Notes](#windows-10-notes)
+  - [安装 Scoop](#安装-scoop)
+  - [安装 Git](#安装-git)
+  - [安装 NodeJs](#安装-nodejs)
+  - [安装 TypeScript](#安装-typescript)
   - [在 Windows 的子系统 Linux 中安装 Docker](#在-windows-的子系统-linux-中安装-docker)
   - [安装 Docker 镜像版的 PostgreSql](#安装-docker-镜像版的-postgresql)
+  - [安装 Whistle](#安装-whistle)
+  - [安装 Snipaste](#安装-snipaste)
+  - [安装 MobaXterm](#安装-mobaxterm)
+  - [安装 Yarn](#安装-yarn)
+  - [启用 Hyper-V](#启用-hyper-v)
+  - [安装 Minikube](#安装-minikube)
+  - [安装 Deno](#安装-deno)
 
 # Windows 10 Notes
 
-## Scoop
+## 安装 Scoop
 
 更改执行策略，以超级管理员身份运行`PowerShell`，并执行命令。
 
@@ -20,7 +31,7 @@ Set-ExecutionPolicy RemoteSigned -scope CurrentUser
 Invoke-Expression (New-Object System.Net.WebClient).DownloadString('https://get.scoop.sh')
 ```
 
-## Git
+## 安装 Git
 
 利用`scoop`安装。
 
@@ -28,7 +39,7 @@ Invoke-Expression (New-Object System.Net.WebClient).DownloadString('https://get.
 scoop install git
 ```
 
-## Nodejs
+## 安装 NodeJs
 
 利用`scoop`安装。
 
@@ -36,7 +47,7 @@ scoop install git
 scoop install nodejs
 ```
 
-## TypeScript
+## 安装 TypeScript
 
 利用`npm`安装。
 
@@ -140,7 +151,7 @@ docker run --name postgres -e POSTGRES_PASSWORD=123456 -p 5432:5432 -d postgres:
 docker container start postgres
 ```
 
-## whistle
+## 安装 Whistle
 
 利用`npm`安装。
 
@@ -150,15 +161,15 @@ npm install -g whistle
 
 [whistle 教程](https://wproxy.org/whistle/)
 
-## Snipaste
+## 安装 Snipaste
 
 [官网](https://zh.snipaste.com/)
 
-## MobaXterm
+## 安装 MobaXterm
 
 [官网](https://mobaxterm.mobatek.net/)
 
-## Yarn
+## 安装 Yarn
 
 利用`scoop`安装。
 
@@ -166,7 +177,7 @@ npm install -g whistle
 scoop install yarn
 ```
 
-## Hyper-V
+## 启用 Hyper-V
 
 以超级管理员身份运行`PowerShell`，并执行命令
 
@@ -174,7 +185,7 @@ scoop install yarn
 Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All
 ```
 
-## Minikube
+## 安装 Minikube
 
 [安装 Minikube](https://kubernetes.io/zh/docs/tasks/tools/install-minikube/)
 
@@ -182,7 +193,7 @@ Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All
 minikube start --iso-url='https://kubernetes.oss-cn-hangzhou.aliyuncs.com/minikube/iso/minikube-v1.13.0.iso' --image-repository=registry.cn-hangzhou.aliyuncs.com/google_containers
 ```
 
-## Deno
+## 安装 Deno
 
 利用`scoop`安装。
 
