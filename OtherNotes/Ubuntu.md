@@ -1,6 +1,22 @@
+# Table of contents
+
+- [Ubuntu Notes](#ubuntu-notes)
+  - [安装 Vim](#安装-vim)
+  - [修改源](#修改源)
+  - [安装 Git](#安装-git)
+  - [将 zsh 用作默认 Shell](#将-zsh-用作默认-shell)
+  - [安装 Docker](安装-docker)
+  - [安装 PostgreSql](#安装-postgresql)
+  - [安装 .NET](#安装-net)
+  - [安装 NodeJs](#安装-nodejs)
+  - [安装 TypeScript](#安装-typescript)
+  - [安装 Whistle](#安装-whistle)
+  - [安装 Yarn](#安装-yarn)
+  - [安装 Nginx](#安装-nginx)
+
 # Ubuntu Notes
 
-## Vim
+## 安装 Vim
 
 ```bash
 ➜  ~ sudo apt install vim
@@ -78,7 +94,7 @@ deb http://security.ubuntu.com/ubuntu/ focal-security multiverse
 | 腾讯                | `http://mirrors.cloud.tencent.com/ubuntu/` |
 | 华为                | `http://mirrors.huaweicloud.com/ubuntu/`   |
 
-## Git
+## 安装 Git
 
 ```bash
 ➜  ~ sudo apt install git
@@ -130,7 +146,7 @@ alias unsetproxy='unset http_proxy;unset https_proxy'
 ➜  ~ upgrade_oh_my_zsh
 ```
 
-## Docker
+## 安装 Docker
 
 添加软件源
 
@@ -197,7 +213,7 @@ alias unsetproxy='unset http_proxy;unset https_proxy'
 ➜  ~ docker system prune
 ```
 
-## PostgreSql
+## 安装 PostgreSql
 
 安装 Docker 镜像版
 
@@ -212,7 +228,7 @@ alias unsetproxy='unset http_proxy;unset https_proxy'
 ➜  ~ docker container start postgres
 ```
 
-## .Net Core SDK
+## 安装 .Net
 
 ```bash
 ➜  ~ wget https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
@@ -226,14 +242,20 @@ alias unsetproxy='unset http_proxy;unset https_proxy'
 
 [安装教程](https://docs.microsoft.com/zh-cn/dotnet/core/install/linux-ubuntu)
 
-## Nodejs
+## 安装 Nodejs
 
 ```bash
 ➜  ~ sudo apt install nodejs
 ➜  ~ sudo apt install npm
 ```
 
-## TypeScript
+安装 NodeJs 管理工具
+
+```bash
+npm install -g n
+```
+
+## 安装 TypeScript
 
 ```bash
 ➜  ~ sudo npm install -g typescript
@@ -242,7 +264,7 @@ alias unsetproxy='unset http_proxy;unset https_proxy'
 
 [安装教程](https://classic.yarnpkg.com/zh-Hans/docs/install#debian-stable)
 
-## Whistle
+## 安装 Whistle
 
 ```bash
 ➜  ~ sudo npm install -g whistle
@@ -250,7 +272,7 @@ alias unsetproxy='unset http_proxy;unset https_proxy'
 
 [whistle 教程](https://wproxy.org/whistle/)
 
-## Yarn
+## 安装 Yarn
 
 ```bash
 ➜  ~ curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
@@ -259,4 +281,60 @@ alias unsetproxy='unset http_proxy;unset https_proxy'
 ➜  ~ sudo apt-get update && sudo apt-get install yarn
 
 ➜  ~ yarn --version
+```
+
+## 安装 Nginx
+
+安装依赖包
+
+```bash
+sudo apt install gcc libpcre3-dev zlib1g-dev openssl libssl-dev make
+```
+
+- `gcc`: C 语言编译器
+- `libpcre3-dev`: 正则表达式库
+- `zlib1g-dev`: 数据压缩库
+- `openssl`: TLS/SSL 加密库
+- `make`: 解释 Makefile 的命令工具
+
+下载 [Nginx](https://nginx.org/en/download.html)，选择 Stable version
+
+解压 Nginx 压缩包
+
+```bash
+tar -zxvf nginx-1.18.0.tar.gz
+```
+
+执行 Nginx 默认配置
+
+```bash
+cd nginx-1.18.0/
+./configure
+```
+
+执行编译、安装
+
+```bash
+# 编译
+make
+
+# 安装
+sudo make install
+```
+
+启动 Nginx
+
+```bash
+cd /usr/local/nginx/sbin/
+sudo ./nginx
+```
+
+验证 Nginx 是否成功启动
+
+```bash
+# 查看 Nginx 进程
+ps -ef | grep nginx # 如果显示了 Nginx 的进程，说明已经成功启动
+
+# 请求 80 端口
+curl http://127.0.0.1 # 如果看到了 Welcome to nginx!，说明已经成功启动
 ```
