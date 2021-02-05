@@ -86,6 +86,7 @@ Nginx 配置 MinIO Browser 代理
 
 ```conf
 # nginx.conf
+
 server {
   listen      80;
   server_name localhost;
@@ -140,6 +141,8 @@ nohup node main &
 配置 Nginx 代理
 
 ```conf
+# nginx.conf
+
 server {
   listen      1082;
   server_name localhost;
