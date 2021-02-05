@@ -77,21 +77,20 @@ sudo yum install dotnet-runtime-5.0
 
 安装依赖包
 
-```bash
-sudo yum install gcc pcre-devel zlib-devel openssl openssl-devel make
-```
-
 - `gcc`: C 语言编译器
 - `pcre-devel`: 正则表达式库
 - `zlib-devel`: 数据压缩库
 - `openssl`: TLS/SSL 加密库
 - `make`: 解释 Makefile 的命令工具
 
-下载 [Nginx](https://nginx.org/en/download.html)，选择 Stable version
+```bash
+sudo yum install gcc pcre-devel zlib-devel openssl openssl-devel make
+```
 
-解压 Nginx 压缩包
+下载并解压 Nginx 压缩包
 
 ```bash
+wget https://nginx.org/download/nginx-1.18.0.tar.gz
 tar -zxvf nginx-1.18.0.tar.gz
 ```
 
@@ -127,4 +126,10 @@ ps -ef | grep nginx # 如果显示了 Nginx 的进程，说明已经成功启动
 
 # 请求 80 端口
 curl http://127.0.0.1 # 如果看到了 Welcome to nginx!，说明已经成功启动
+```
+
+将 Nginx 添加到全局变量中
+
+```bash
+In -s /usr/local/nginx/sbin/nginx /usr/local/bin/
 ```
