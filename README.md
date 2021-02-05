@@ -13,7 +13,7 @@
 - [TypeScript Notes](TypeScriptNotes/TypeScriptNotes.md)
 - [NestJs Notes](TypeScriptNotes/NestjsNotes.md)
 - [TypeOrm Notes](TypeScriptNotes/TypeOrmNotes.md)
-- [CentOS 部署 NestJs 项目（Nginx + NestJs + MinIO）](#TypeScriptNotes/DeployingNestjsOnCentOS.md)
+- [CentOS 部署 NestJs 项目（Nginx + NestJs + MinIO）](TypeScriptNotes/DeployingNestjsOnCentOS.md)
 
 ## Other Notes
 
