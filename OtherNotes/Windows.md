@@ -5,7 +5,8 @@
   - [安装 Git](#安装-git)
   - [安装 NodeJs](#安装-nodejs)
   - [安装 TypeScript](#安装-typescript)
-  - [在 Windows 的子系统 Linux 中安装 Docker](#在-windows-的子系统-linux-中安装-docker)
+  - [安装 WSL](#安装-wsl)
+  - [在 WSL 中安装 Docker](#在-wsl-中安装-docker)
   - [安装 Docker 镜像版的 PostgreSql](#安装-docker-镜像版的-postgresql)
   - [安装 Whistle](#安装-whistle)
   - [安装 Snipaste](#安装-snipaste)
@@ -55,7 +56,7 @@ scoop install nodejs
 npm install -g typescript
 ```
 
-## 在 Windows 的子系统 Linux 中安装 Docker
+## 安装 WSL
 
 安装适用于 Linux 的 Windows 的子系统，安装 WSL2 之前，必须启用`虚拟机平台`
 
@@ -72,6 +73,36 @@ wsl --set-default-version 2
 ```
 
 在 Microsoft Store 中安装 [Ubuntu 20.04 LTS](https://www.microsoft.com/zh-cn/p/ubuntu-2004-lts/9n6svws3rx71#activetab=pivot:overviewtab)
+
+查看 WSL 的分发运行状态
+
+```bash
+wsl -l -v
+```
+
+手动切换分发的版本
+
+```bash
+wsl --set-version <Name> 2
+```
+
+WSL 访问 Windows 文件
+
+```bash
+cd /mnt/c/Windows
+```
+
+WSL 使用 Windows 的代理
+
+如果代理客户端使用的是 v2rayN，首先需要配置 v2rayN ☑ 允许来自局域网的连接。
+
+```bash
+export hostip=$(cat /etc/resolv.conf |grep -oP '(?<=nameserver\ ).*')
+export https_proxy="http://${hostip}:10809"
+export http_proxy="http://${hostip}:10809"
+```
+
+## 在 WSL 中安装 Docker
 
 安装 Docker
 
@@ -111,30 +142,6 @@ sudo vim /etc/docker/daemon.json
   ]
 }
 ```
-
-查看 WSL 的分发运行状态
-
-```bash
-wsl -l -v
-```
-
-手动切换分发的版本
-
-```bash
-wsl --set-version <Name> 2
-```
-
-WSL 访问 Windows 文件
-
-```bash
-cd /mnt/c/Windows
-```
-
-WSL 使用 Windows 的代理
-
-配置 v2rayN，参数设置 -> v2rayN 设置 -> [x] 允许来自局域网的连接。
-
-~~Ubuntu 设置代理参考 [Ubuntu 安装指南设置代理部分](./ubuntu.md#将-zsh-用作默认-shell)，代理 IP 为 Windows 的 IP。~~
 
 ## 安装 Docker 镜像版的 PostgreSql
 
