@@ -65,7 +65,7 @@ curl http://127.0.0.1 # 如果看到了 Welcome to nginx!，说明已经成功�
 将 Nginx 添加到全局变量中
 
 ```bash
-In -s /usr/local/nginx/sbin/nginx /usr/local/bin/
+ln -s /usr/local/nginx/sbin/nginx /usr/local/bin/
 
 # 测试
 nginx -v
