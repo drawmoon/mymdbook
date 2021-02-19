@@ -13,7 +13,7 @@
 @Delete()
 @ApiQuery({
   name: 'id',
-  description: 'description',
+  description: '批量删除的用户Id',
   required: true,
   type: [Number],
   isArray: true,
@@ -25,22 +25,28 @@ batchDelete(@Query('id', ParseArrayPipe) id: number[]): UserDTO[] {}
 
 ## x-www-form-urlencode 风格的接口，接收来自 form-data 的参数
 
+```ts
+
+```
+
 ## Swagger 描述数组形式的 form-data 参数
 
 ```ts
+// user-batch-delete.dto.ts
 export class UserBatchDeleteDto {
   @ApiProperty({
-    description: 'description',
-    type: [Number],
+    description: '批量删除的用户Id',
+    type: Number,
     isArray: true,
     required: true,
   })
-  id: number[];
+  ids: number[];
 }
 
+// users.controller.ts
 @Delete()
 @ApiBody({
   type: UserBatchDeleteDto,
 })
-batchDelete(@Body('id', ParseArrayPipe) id: number[]): UserDTO[] {}
+batchDelete(@Body('ids', ParseArrayPipe) ids: number[]): UserDTO[] {}
 ```
