@@ -1,60 +1,53 @@
 # Table of contents
 
 - [Windows 10 Notes](#windows-10-notes)
-  - [安装 Scoop](#安装-scoop)
-  - [安装 Git](#安装-git)
-  - [安装 NodeJs](#安装-nodejs)
-  - [安装 TypeScript](#安装-typescript)
+  - [Windows 终端](#windows-终端)
+  - [截图、贴图](#截图贴图)
+  - [Dbeaver](#dbeaver)
+  - [Web 调试代理工具](#web-调试代理工具)
   - [安装 WSL](#安装-wsl)
   - [在 WSL 中安装 Docker](#在-wsl-中安装-docker)
   - [安装 Docker 镜像版的 PostgreSql](#安装-docker-镜像版的-postgresql)
-  - [安装 Whistle](#安装-whistle)
-  - [安装 Snipaste](#安装-snipaste)
-  - [安装 MobaXterm](#安装-mobaxterm)
-  - [安装 Yarn](#安装-yarn)
-  - [启用 Hyper-V](#启用-hyper-v)
   - [安装 Minikube](#安装-minikube)
-  - [安装 Deno](#安装-deno)
 
 # Windows 10 Notes
 
-## 安装 Scoop
+## Windows 终端
 
-更改执行策略，以超级管理员身份运行`PowerShell`，并执行命令。
+- [Windows Terminal](https://www.microsoft.com/zh-cn/p/windows-terminal/9n0dx20hk701?activetab=pivot:overviewtab)
+- [MobaXterm](https://mobaxterm.mobatek.net/)
 
-```bash
-Set-ExecutionPolicy RemoteSigned -scope CurrentUser
+## 截图、贴图
+
+[官网](https://zh.snipaste.com/)
+
+## Dbeaver
+
+[阿里云云效 Maven](https://maven.aliyun.com/mvn/guide)
+
+窗口 > 首选项 > 连接 > 驱动 > Maven
+
+```txt
+ID: aliyun-maven-repo
+Name: 阿里云仓库
+URL: https://maven.aliyun.com/repository/public/
 ```
 
-执行`PowerShell`命令安装。
+## Web 调试代理工具
 
 ```bash
-Invoke-Expression (New-Object System.Net.WebClient).DownloadString('https://get.scoop.sh')
+npm install -g whistle
 ```
 
-## 安装 Git
+Example
 
-利用`scoop`安装。
+```conf
+http://report.net/api/1.0/file http://localhost:3000/api/1.0/file
 
-```bash
-scoop install git
+http://report.net http://localhost:5000
 ```
 
-## 安装 NodeJs
-
-利用`scoop`安装。
-
-```bash
-scoop install nodejs
-```
-
-## 安装 TypeScript
-
-利用`npm`安装。
-
-```bash
-npm install -g typescript
-```
+[whistle 教程](https://wproxy.org/whistle/)
 
 ## 安装 WSL
 
@@ -158,33 +151,9 @@ docker run --name postgres -e POSTGRES_PASSWORD=123456 -p 5432:5432 -d postgres:
 docker container start postgres
 ```
 
-## 安装 Whistle
+## 安装 Minikube
 
-利用`npm`安装。
-
-```bash
-npm install -g whistle
-```
-
-[whistle 教程](https://wproxy.org/whistle/)
-
-## 安装 Snipaste
-
-[官网](https://zh.snipaste.com/)
-
-## 安装 MobaXterm
-
-[官网](https://mobaxterm.mobatek.net/)
-
-## 安装 Yarn
-
-利用`scoop`安装。
-
-```bash
-scoop install yarn
-```
-
-## 启用 Hyper-V
+启用 Hyper-V
 
 以超级管理员身份运行`PowerShell`，并执行命令
 
@@ -192,18 +161,8 @@ scoop install yarn
 Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All
 ```
 
-## 安装 Minikube
-
 [安装 Minikube](https://kubernetes.io/zh/docs/tasks/tools/install-minikube/)
 
 ```bash
 minikube start --iso-url='https://kubernetes.oss-cn-hangzhou.aliyuncs.com/minikube/iso/minikube-v1.13.0.iso' --image-repository=registry.cn-hangzhou.aliyuncs.com/google_containers
-```
-
-## 安装 Deno
-
-利用`scoop`安装。
-
-```bash
-scoop install deno
 ```

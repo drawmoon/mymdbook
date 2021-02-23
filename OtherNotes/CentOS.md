@@ -1,14 +1,41 @@
 # Table of contents
 
 - [CentOS Notes](#centos-notes)
-  - [安装 NodeJs](#安装-nodejs)
+  - [查看本机的 IP](#查看本机的-ip)
+  - [安装 NodeJs 与 Node 管理工具](#安装-nodejs)
   - [安装 Yarn](#安装-yarn)
   - [安装 .NET](#安装-net)
   - [安装 Nginx](#安装-nginx)
 
 # CentOS Notes
 
-## 安装 NodeJs
+## 查看本机的 IP
+
+```bash
+$ ip addr
+```
+
+输出结果
+
+```bash
+lo: ...
+eth0: ...
+```
+
+如果没有显示 IP，检查是否已经激活网卡
+
+```bash
+$ vi /etc/sysconfig/network-scripts/ifcfg-eth0
+
+# ifcfg-eth0 content
+TYPE=Ethernet
+...
+ONBOOT=no # update to `yes`
+
+$ service network restart
+```
+
+## 安装 NodeJs 与 Node 管理工具
 
 添加 Nodesource 包存储库
 

@@ -1,6 +1,8 @@
-# macOS 开发环境使用
+# Table of contents
 
-系统版本：macOS。
+- [macOS Notes](#macos-notes)
+
+# macOS Notes
 
 ## iTerm2
 
@@ -82,24 +84,29 @@ npm install -g typescript
 brew cask install docker
 ```
 
-[安装教程](https://yeasy.gitbook.io/docker_practice/install/mac)
-
+[安装教程](https://yeasy.gitbook.io/docker_practice/install/mac) \
 [清理 Docker 文件](https://www.cnblogs.com/yogoup/p/12143103.html)
 
 ```bash
 docker system prune
 ```
 
-## whistle
-
-> 基于Node实现的跨平台web调试代理工具。
-
-利用`npm`安装。
+## Web 调试代理工具
 
 ```bash
 npm install -g whistle
 ```
 
-## 截图/贴图
+Example
+
+```conf
+http://report.net/api/1.0/file http://localhost:3000/api/1.0/file
+
+http://report.net http://localhost:5000
+```
+
+[whistle 教程](https://wproxy.org/whistle/)
+
+## 截图、贴图
 
 [官网](https://zh.snipaste.com)
