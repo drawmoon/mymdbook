@@ -1,12 +1,10 @@
 # Table of contents
 
-- [NestJs Notes](#nestjs-notes)
+- [Nest Notes](#nest-notes)
   - [处理 form-data 的请求](#处理-form-data-的请求)
-  - [Swagger 指定 Query 参数为数组](#swagger-指定-query-参数为数组)
-  - [Swagger 指定 form-data 参数为数组](#swagger-指定-form-data-参数为数组)
   - [接口执行文件下载操作](#接口执行文件下载操作)
 
-# NestJs Notes
+# Nest Notes
 
 ## 处理 form-data 的请求
 
@@ -49,51 +47,13 @@ updateName(@Param('id') id: number, @Body('newName') newName: string): FolderDTO
 }
 ```
 
-## Swagger 指定 Query 参数为数组
-
-```ts
-// folder.controller.ts
-@Delete('batch')
-@ApiQuery({
-  name: 'ids',
-  description: '批量删除的文件夹的Id',
-  required: true,
-  type: [Number],
-  isArray: true,
-  style: 'form',
-  explode: true,
-})
-batchDelete(@Query('ids', ParseArrayPipe) ids: number[]): FolderDTO[] {
-}
-```
-
-## Swagger 指定 form-data 参数为数组
-
-```ts
-// folder-batch-delete.dto.ts
-@ApiProperty({
-  description: '批量删除的文件夹的Id',
-  type: Number,
-  isArray: true,
-  required: true,
-})
-ids: number[];
-
-// folder.controller.ts
-@Delete()
-@ApiBody({
-  type: UserBatchDeleteDto,
-})
-batchDelete(@Body('ids', ParseArrayPipe) ids: number[]): FolderDTO[] {
-}
-```
-
 ## 接口执行文件下载操作
 
 ```ts
 // file.controller.ts
 import { Get, Param, Res } from '@nestjs/common';
 import { Response } from 'express';
+import { Readable } from 'stream';
 
 @Get(':id/docx')
 exportDocx(@Param('id') id: number, @Res() res: Response): void {
