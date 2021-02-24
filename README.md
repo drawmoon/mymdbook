@@ -18,28 +18,38 @@
 
 ## Other Notes
 
-- [😜 一个 Emoji 表情提交指南](Gitmoji.md)
-- [macOS Notes](OtherNotes/macOS.md)
-- [Windows 10 Notes](OtherNotes/Windows.md)
-  <details>
-    <summary>Table of contents</summary>
-    <ul>
-      <li><a href="OtherNotes/Windows.md#windows-终端">Windows 终端</a></li>
-      <li><a href="OtherNotes/Windows.md#截图贴图">截图、贴图</a></li>
-      <li><a href="OtherNotes/Windows.md#dbeaver">Dbeaver</a></li>
-      <li><a href="OtherNotes/Windows.md#web-调试代理工具">Web 调试代理工具</a></li>
-      <li><a href="OtherNotes/Windows.md#安装-wsl">安装 WSL</a></li>
-      <li><a href="OtherNotes/Windows.md#在-wsl-中安装-docker">在 WSL 中安装 Docker</a></li>
-      <li><a href="OtherNotes/Windows.md#安装-docker-镜像版的-postgresql">安装 Docker 镜像版的 PostgreSql</a></li>
-      <li><a href="OtherNotes/Windows.md#安装-minikube">安装 Minikube</a></li>
-    </ul>
-  </details>
-- Linux
-  - [Manjaro Notes](OtherNotes/Manjaro.md)
-  - [Ubuntu Notes](OtherNotes/Ubuntu.md)
-  - [CentOS Notes](OtherNotes/CentOS.md)
-  - [Fedora Notes](OtherNotes/Fedora.md)
-- [Visual Studio Code Notes](OtherNotes/VisualStudioCode.md)
-- [Rider Notes](OtherNotes/RiderNotes.md)
+[😜 一个 Emoji 表情提交指南](https://gitmoji.js.org/)
+
+<details>
+  <summary><a href="OtherNotes/macOS.md">macOS Notes</a></summary>
+</details>
+<details>
+  <summary><a href="OtherNotes/Windows.md">Windows 10 Notes</a></summary>
+
+- [Windows 终端](OtherNotes/Windows.md#windows-终端)
+- [截图、贴图](OtherNotes/Windows.md#截图贴图)
+- [Dbeaver](OtherNotes/Windows.md#dbeaver)
+- [Web 调试代理工具](OtherNotes/Windows.md#web-调试代理工具)
+- [安装 WSL](OtherNotes/Windows.md#安装-wsl)
+- [在 WSL 中安装 Docker](OtherNotes/Windows.md#在-wsl-中安装-docker)
+- [安装 Docker 镜像版的 PostgreSql](OtherNotes/Windows.md#安装-docker-镜像版的-postgresql)
+- [安装 Minikube](OtherNotes/Windows.md#安装-minikube)
+
+</details>
+<details>
+  <summary><a href="OtherNotes/Manjaro.md">Manjaro Notes</a></summary>
+</details>
+<details>
+  <summary><a href="OtherNotes/Ubuntu.md">Ubuntu Notes</a></summary>
+</details>
+<details>
+  <summary><a href="OtherNotes/CentOS.md">CentOS Notes</a></summary>
+</details>
+<details>
+  <summary><a href="OtherNotes/Fedora.md">Fedora Notes</a></summary>
+</details>
+
+[Visual Studio Code Notes](OtherNotes/VisualStudioCode.md) \
+[Rider Notes](OtherNotes/RiderNotes.md)
 
 ## Examples
