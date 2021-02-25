@@ -26,7 +26,7 @@
   - [Ubuntu Notes](OtherNotes/Ubuntu.md)
   - [CentOS Notes](OtherNotes/CentOS.md)
   - [Fedora Notes](OtherNotes/Fedora.md)
-- [Visual Studio Code Notes](OtherNotes/VisualStudioCode.md)
+- [Visual Studio Code Notes](OtherNotes/VisualStudioCodeNotes.md)
 - [Rider Notes](OtherNotes/RiderNotes.md)
 
 ## Examples
