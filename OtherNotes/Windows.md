@@ -9,6 +9,7 @@
   - [在 WSL 中安装 Docker](#在-wsl-中安装-docker)
   - [安装 Docker 镜像版的 PostgreSql](#安装-docker-镜像版的-postgresql)
   - [安装 Minikube](#安装-minikube)
+  - [安装 Yarn](#安装-yarn)
 
 # Windows 10 Notes
 
@@ -165,4 +166,16 @@ Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All
 
 ```bash
 minikube start --iso-url='https://kubernetes.oss-cn-hangzhou.aliyuncs.com/minikube/iso/minikube-v1.13.0.iso' --image-repository=registry.cn-hangzhou.aliyuncs.com/google_containers
+```
+
+## 安装 Yarn
+
+```bash
+npm install -g yarn
+```
+
+更改 PowerShell 执行策略
+
+```bash
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 ```

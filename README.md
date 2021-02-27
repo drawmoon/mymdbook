@@ -1,6 +1,6 @@
-# 📕 Code Notes 📕
+# ✍ Notes & Codes ✍
 
-此仓库的目的是记录在开发过程中遇到的问题与解决方案或笔记，也包括在开发过程中尝试解决问题时写的Demo。
+此仓库的目的是记录在开发过程中遇到的问题与解决方案或笔记，也包括在开发过程中尝试解决问题时写的 Demo。
 
 ## ASP.NET Core Notes
 
@@ -12,7 +12,7 @@
 
 - [TypeScript Notes](TypeScriptNotes/TypeScriptNotes.md)
 - [Nest Notes](TypeScriptNotes/NestNotes.md)
-- [Nest Swagger Notes](#TypeScriptNotes/NestSwaggerNotes.md)
+- [Nest Swagger Notes](TypeScriptNotes/NestSwaggerNotes.md)
 - [TypeOrm Notes](TypeScriptNotes/TypeOrmNotes.md)
 - [CentOS 部署 Nest 项目（Nginx + Nest + MinIO）](TypeScriptNotes/DeployingNestOnCentOS.md)
 
