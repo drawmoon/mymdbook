@@ -8,9 +8,9 @@
 
 ## 处理 form-data 的请求
 
-```ts
-npm install express-form-data
+通过`npm`安装依赖项`npm install express-form-data`，或通过`yarn`安装依赖项`yarn add express-form-data`。
 
+```ts
 // form-data.interceptor.ts
 import { Injectable, NestInterceptor, ExecutionContext, CallHandler } from '@nestjs/common';
 import { Observable, Subject } from 'rxjs';
@@ -53,16 +53,20 @@ updateName(@Param('id') id: number, @Body('newName') newName: string): FolderDTO
 // file.controller.ts
 import { Get, Res } from '@nestjs/common';
 import { Response } from 'express';
-import { Readable } from 'stream';
+import { download } from './mvc-helper';
 
 @Get('docx')
 exportDocx(@Res() res: Response): void {
-  const buffer = this.getDocxBuffer();
+  const buffer = this.fileService.getDocxBuffer();
 
-  this.download(res, buffer);
+  download(res, buffer, 'example.docx');
 }
 
-private download(res: Response, buffer: Buffer): void {
+// mvc-helper.ts
+import { Response } from 'express';
+import { Readable } from 'stream';
+
+export function download(res: Response, buffer: Buffer, filename: string): void {
   const stream = new Readable();
   stream.push(buffer);
   stream.push(null);
@@ -70,7 +74,7 @@ private download(res: Response, buffer: Buffer): void {
   res.set({
     'Content-Type': 'application/octet-stream',
     'Content-Length': buffer.length,
-    'Content-Disposition': 'attachment; filename="example.docx"', // 指定下载的文件名称
+    'Content-Disposition': `attachment; filename="${encodeURI(filename)}"`, // 指定下载的文件名称
   });
 
   stream.pipe(res);
