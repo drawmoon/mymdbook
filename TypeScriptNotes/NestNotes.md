@@ -51,14 +51,18 @@ updateName(@Param('id') id: number, @Body('newName') newName: string): FolderDTO
 
 ```ts
 // file.controller.ts
-import { Get, Param, Res } from '@nestjs/common';
+import { Get, Res } from '@nestjs/common';
 import { Response } from 'express';
 import { Readable } from 'stream';
 
-@Get(':id/docx')
-exportDocx(@Param('id') id: number, @Res() res: Response): void {
-  const buffer = this.getDocxBlob(id);
+@Get('docx')
+exportDocx(@Res() res: Response): void {
+  const buffer = this.getDocxBuffer();
 
+  this.download(res, buffer);
+}
+
+private download(res: Response, buffer: Buffer): void {
   const stream = new Readable();
   stream.push(buffer);
   stream.push(null);
