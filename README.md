@@ -1,4 +1,4 @@
-# ✍ Notes & Codes ✍
+# notes
 
 此仓库的目的是记录在开发过程中遇到的问题与解决方案或笔记，也包括在开发过程中尝试解决问题时写的 Demo。
 
@@ -18,22 +18,14 @@
 
 ## Other Notes
 
-- [😜 一个 Emoji 表情提交指南](https://gitmoji.js.org/)
-- [macOS Notes](OtherNotes/macOS.md)
-- [Windows 10 Notes](OtherNotes/Windows.md)
-- Linux
-  - [Manjaro Notes](OtherNotes/Manjaro.md)
-  - [Ubuntu Notes](OtherNotes/Ubuntu.md)
-  - [CentOS Notes](OtherNotes/CentOS.md)
-  - [Fedora Notes](OtherNotes/Fedora.md)
-- [Visual Studio Code Notes](OtherNotes/VisualStudioCodeNotes.md)
-- [Rider Notes](OtherNotes/RiderNotes.md)
+- [在 vscode 中编辑远程服务器文件](vscode-remote-ssh.md)
+- [rider 远程调试](rider-remote-debug.md)
 
-## Examples
+## System Notes
 
-<details>
-  <summary><a href="#">ASP.NET Core</a></summary>
-</details>
-<details>
-  <summary><a href="#">TypeScript</a></summary>
-</details>
+- [macOS Notes](systems/macOS.md)
+- [Windows 10 Notes](systems/Windows.md)
+- [Manjaro Notes](systems/Manjaro.md)
+- [Ubuntu Notes](systems/Ubuntu.md)
+- [CentOS Notes](systems/CentOS.md)
+- [Fedora Notes](systems/Fedora.md)

@@ -1,20 +1,4 @@
-# Table of contents
-
-- [Visual Studio Code Notes](#visual-studio-code-notes)
-  - [设置制表符缩进为 2 个空格](#设置制表符缩进为-2-个空格)
-  - [编辑远程服务器文件](#编辑远程服务器文件)
-
-# Visual Studio Code Notes
-
-## 设置制表符缩进为 2 个空格
-
-```json
-{
-  "editor.tabSize": 2
-}
-```
-
-## 编辑远程服务器文件
+# 在 vscode 中编辑远程服务器文件
 
 > Install Remote - SSH
 

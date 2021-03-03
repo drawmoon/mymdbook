@@ -1,11 +1,4 @@
-# Table of contents
-
-- [Rider Notes](#rider-notes)
-  - [远程调试](#远程调试)
-
-# Rider Notes
-
-## 远程调试
+# rider 远程调试
 
 Build, Execution, Deployment > Debugger > Remote Debug
 
