@@ -2,6 +2,7 @@
 
 - [TypeScript Notes](#typescript-notes)
   - [AutoMapper 对象与对象自动映射](#automapper-对象与对象自动映射)
+  - [委托](#委托)
   - [策略模式消除 if-else 的方法](策略模式消除if-else的方法)
 
 # TypeScript Notes
@@ -106,7 +107,59 @@ return Mapper.mapArray(users, UserDTO, User);
 // 输出结果：[{"id":1,"username":"drsh","email":"1340260725@qq.com","a2":"a1"}]
 ```
 
+## 委托
+
+```ts
+async convertToHtml(buffer: Buffer, convertImgCallback: (imgBase64Buffer: Buffer) => Promise<string>): Promise<string> {
+  // ...
+  for (const img of doc.images) {
+    const imgBase64Buffer = img.read('base64');
+    img.src = await convertImgCallback(imgBase64Buffer);
+  }
+  // ...
+}
+
+async importDocx(buffer: Buffer): Promise<void> {
+  await convertToHtml(buffer, async (imgBase64Buffer) => {
+    await fs.writeFile(imgPath, imgBase64Buffer, 'base64');
+    return imgPath;
+  });
+  // ...
+}
+
+```
+
 ## 策略模式消除 if-else 的方法
+
+```ts
+private readonly relationRecord: Record<string, <TKey>(id: TKey) => Promise<TargetWithRelation>> = {};
+
+constructor() {
+  this.initRelationRecord();
+}
+
+private initRelationRecord(): void {
+  // 处理 Category
+  this.relationRecord[CategoryEntity.name] = async (id) => {
+    // ...
+    return targetObject;
+  };
+
+  // 处理 File
+  this.relationRecord[FileEntity.name] = async (id) => {
+    // ...
+    return subObjects;
+  };
+}
+
+async delete(trashObject: TrashObject, entityManager: EntityManager): Promise<void> {
+  const targetWithRelation = await this.relationRecord[trashObject.objectType](trashObject.objectId);
+  // ...
+}
+```
+
+<details>
+  <summary>完整代码</summary>
 
 ```ts
 private readonly relationRecord: Record<string, <TKey>(id: TKey) => Promise<TargetWithRelation>> = {};
@@ -180,3 +233,5 @@ private async delete(trashObject: TrashObject, entityManager: EntityManager): Pr
   }
 }
 ```
+
+</details>
