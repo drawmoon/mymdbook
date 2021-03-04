@@ -4,17 +4,17 @@
 
 ## ASP.NET Core Notes
 
-- [ASP.NET Core Notes](AspNetCoreNotes/AspNetCoreNotes.md)
-- [ASP.NET Core Swagger Notes](AspNetCoreNotes/AspNetCoreSwaggerNotes.md)
-- [Entity Framework Core Notes](AspNetCoreNotes/EntityFrameworkCoreNotes.md)
+- [ASP.NET Core Notes](aspnetcore/AspNetCoreNotes.md)
+- [ASP.NET Core Swagger Notes](aspnetcore/AspNetCoreSwaggerNotes.md)
+- [Entity Framework Core Notes](aspnetcore/EntityFrameworkCoreNotes.md)
 
 ## TypeScript Notes
 
-- [TypeScript Notes](TypeScriptNotes/TypeScriptNotes.md)
-- [Nest Notes](TypeScriptNotes/NestNotes.md)
-- [Nest Swagger Notes](TypeScriptNotes/NestSwaggerNotes.md)
-- [TypeOrm Notes](TypeScriptNotes/TypeOrmNotes.md)
-- [CentOS 部署 Nest 项目（Nginx + Nest + MinIO）](TypeScriptNotes/DeployingNestOnCentOS.md)
+- [TypeScript Notes](typescripts/TypeScriptNotes.md)
+- [Nest Notes](typescripts/NestNotes.md)
+- [Nest Swagger Notes](typescripts/NestSwaggerNotes.md)
+- [TypeOrm Notes](typescripts/TypeOrmNotes.md)
+- [CentOS 部署 Nest 项目（Nginx + Nest + MinIO）](typescripts/DeployingNestOnCentOS.md)
 
 ## Other Notes
 
