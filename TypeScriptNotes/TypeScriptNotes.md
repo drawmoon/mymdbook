@@ -148,7 +148,7 @@ private initRelationRecord(): void {
   // 处理 File
   this.relationRecord[FileEntity.name] = async (id) => {
     // ...
-    return subObjects;
+    return targetObject;
   };
 }
 
@@ -204,12 +204,12 @@ private initRelationRecord(): void {
     const file = await this.fileRepository.findOne(id);
 
     if (!file) {
-      return subObjects;
+      return targetObject;
     }
 
     targetObject.target = file;
     targetObject.relations = subObjects;
-    return subObjects;
+    return targetObject;
   };
 }
 
