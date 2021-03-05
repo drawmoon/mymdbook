@@ -110,11 +110,11 @@ return Mapper.mapArray(users, UserDTO, User);
 ## 委托
 
 ```ts
-async convertToHtml(buffer: Buffer, convertImgCallback: (imgBase64Buffer: Buffer) => Promise<string>): Promise<string> {
+async convertToHtml(buffer: Buffer, imageConvert: (imgBase64Buffer: Buffer) => Promise<string>): Promise<string> {
   // ...
   for (const img of doc.images) {
     const imgBase64Buffer = img.read('base64');
-    img.src = await convertImgCallback(imgBase64Buffer);
+    img.src = await imageConvert(imgBase64Buffer);
   }
   // ...
 }
