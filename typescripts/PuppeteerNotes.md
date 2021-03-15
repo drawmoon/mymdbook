@@ -14,3 +14,16 @@ await page.evaluateOnNewDocument(() => {
 
 await page.goto('http://url...', { waitUntil: 'domcontentloaded' });
 ```
+
+## 设置 Cookie
+
+```typescript
+const browser = await puppeteer.launch({ headless: true });
+
+const page = await this.browser.newPage();
+
+// Set Cookie.
+await page.setExtraHTTPHeaders({ ['Cookie']: 'cookie...' });
+
+await page.goto('http://url...', { waitUntil: 'domcontentloaded' });
+```
