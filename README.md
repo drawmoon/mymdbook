@@ -15,6 +15,7 @@
 - [Nest Swagger Notes](typescripts/NestSwaggerNotes.md)
 - [TypeOrm Notes](typescripts/TypeOrmNotes.md)
 - [CentOS 部署 Nest 项目（Nginx + Nest + MinIO）](typescripts/DeployingNestOnCentOS.md)
+- [Puppeteer Notes](typescripts/PuppeteerNotes.md)
 
 ## Other Notes
 
