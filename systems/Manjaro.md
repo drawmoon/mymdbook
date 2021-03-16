@@ -1,11 +1,12 @@
-# Table of contents
-
-- [Manjaro Notes](#manjaro-notes)
-  - [修改软件源为国内源，添加 archlinuxcn 软件源](#修改软件源为国内源添加-archlinuxcn-软件源)
-  - [安装 Google 拼音输入法](#安装-google-拼音输入法)
-  - [安装 Visual Studio Code](#安装-visual-studio-code)
-
 # Manjaro Notes
+
+## Table of contents
+
+- [修改软件源为国内源，添加 archlinuxcn 软件源](#修改软件源为国内源添加-archlinuxcn-软件源)
+- [安装 Google 拼音输入法](#安装-google-拼音输入法)
+- [安装 Docker](#安装-docker)
+- [V2ray Linux Web 客户端](#v2ray-linux-web-客户端)
+- [安装 Visual Studio Code](#安装-visual-studio-code)
 
 ## 修改软件源为国内源，添加 archlinuxcn 软件源
 
@@ -22,22 +23,16 @@ sudo pacman -Syy
 sudo vim /etc/pacman.conf
 ```
 
-```txt
+```conf
 [archlinuxcn]
 SigLevel = Optional TrustedOnly
-Server = Server = https://mirrors.tuna.tsinghua.edu.cn/archlinuxcn/$arch
+Server = https://mirrors.tuna.tsinghua.edu.cn/archlinuxcn/$arch
 ```
 
 更新密钥
 
 ```bash
 sudo pacman -Syy && sudo pacman -S archlinuxcn-keyring
-```
-
-## Vim
-
-```bash
-sudo pacman -S vim
 ```
 
 ## yaourt
@@ -50,13 +45,6 @@ sudo pacman -S yaourt
 
 ```bash
 yaourt mirrorlist # 1 2
-```
-
-## Proxy
-
-```bash
-sudo pacman -S v2ray
-yaourt -S qv2ray
 ```
 
 ## 安装 Google 拼音输入法
@@ -85,20 +73,107 @@ sudo pacman -Rsn $(pacman -Qsq fcitx)
 
 然后重启计算机后重复上面的动作
 
+## 安装 Docker
+
+```bash
+sudo pacman -S docker
+```
+
+启动 Docker 服务
+
+```bash
+sudo systemctl start docker
+
+# 查看 Docker 状态
+sudo systemctl status docker
+```
+
+建立 Docker 用户组
+
+```bash
+sudo groupadd docker
+```
+
+将当前用户加入 Docker 组
+
+```bash
+sudo gpasswd -a ${USER} docker
+```
+
+退出当前终端并重新登录。
+
+### 镜像加速
+
+```bash
+vim /etc/docker/daemon.json
+
+{
+  "registry-mirrors": [
+    "https://docker.io",
+    "https://registry-1.docker.io",
+    "https://registry.hub.docker.com",
+    "https://docker.mirrors.ustc.edu.cn",
+    "https://mirror.gcr.io",
+    "https://hub-mirror.c.163.com",
+    "https://mirror.baidubce.com"
+  ]
+}
+```
+
+重新启动服务
+
+```bash
+sudo systemctl daemon-reload
+sudo systemctl restart docker
+```
+
+检查加速是否生效
+
+```bash
+docker info
+```
+
+## V2ray Linux Web 客户端
+
+### 从软件源安装
+
+```bash
+# 安装打包工具
+sudo pacman -S base-devel
+
+# 克隆项目
+git clone https://aur.archlinux.org/v2raya.git
+# 开始构建项目
+makepkg -si
+```
+
+部署成功后，访问`http://localhost:2017`进入到主界面
+
+### 在 Docker 中运行
+
+```bash
+docker run -d \
+	--restart=always \
+	--privileged \
+	--network=host \
+	--name v2raya \
+	-v /etc/resolv.conf:/etc/resolv.conf \
+	-v /etc/v2raya:/etc/v2raya \
+	mzz2017/v2raya
+```
+
+部署成功后，访问`http://localhost:2017`进入到主界面
+
+## Vim
+
+```bash
+sudo pacman -S vim
+```
+
 ## Git
 
 ```bash
 sudo pacman -S git
-```
-
-## SmartGit
-
-下载[压缩包](https://www.syntevo.com/smartgit/download/)并解压
-
-```bash
-tar xzf <smartgit*.tar.gz>
-cd smartgit/bin
-bash smartgit.sh
 ```
 
 ## 安装 Visual Studio Code
@@ -113,28 +188,28 @@ yaourt -S visual-studio-code-bin
 yaourt -S dotnet-sdk-5.0
 ```
 
-## nodejs
+## Node
 
 ```bash
 sudo pacman -S nodejs
 ```
 
-## npm
+## Npm
 
 ```bash
 sudo pacman -S npm
 ```
 
-## yarn
+## Yarn
 
 ```bash
-sudo pacman -S yarn
+npm install -g yarn
 ```
 
 ## TypeScript
 
 ```bash
-sudo pacman -S typescript
+npm install -g typescript
 ```
 
 ## 截图、贴图
@@ -157,35 +232,7 @@ sudo pacman -S flameshot
 pacman -S remmina freerdp libvncserver telepathy-glib gnome-keyring nxproxy spice-gtk3 xorg-server-xephyr
 ```
 
-## Docker
-
-安装 Docker
-
-```bash
-sudo pacman -S docker
-```
-
-启动 Docker 服务
-
-```bash
-sudo systemctl start docker
-```
-
-建立 Docker 用户组
-
-```bash
-sudo groupadd docker
-```
-
-将当前用户加入 Docker 组
-
-```bash
-sudo gpasswd -a ${USER} docker
-```
-
-退出当前终端并重新登录。
-
-## PostgreSql
+## 在 Docker 中运行 PostgreSql
 
 拉取 Docker 镜像并执行
 

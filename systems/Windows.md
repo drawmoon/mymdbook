@@ -131,6 +131,11 @@ sudo vim /etc/docker/daemon.json
 
 {
   "registry-mirrors": [
+    "https://docker.io",
+    "https://registry-1.docker.io",
+    "https://registry.hub.docker.com",
+    "https://docker.mirrors.ustc.edu.cn",
+    "https://mirror.gcr.io",
     "https://hub-mirror.c.163.com",
     "https://mirror.baidubce.com"
   ]
