@@ -149,6 +149,13 @@ makepkg -si
 
 部署成功后，访问`http://localhost:2017`进入到主界面
 
+启动/停止服务
+
+```bash
+# 开机自启/取消自启/启动服务/停止服务/重启服务/查看状态
+sudo systemctl enable/disable/start/stop/restart/status v2raya
+```
+
 ### 在 Docker 中运行
 
 ```bash
