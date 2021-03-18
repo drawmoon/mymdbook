@@ -52,13 +52,21 @@ docker stop 1b
 
 ## 构建镜像
 
+```bash
+docker build -t myapp .
+
+# . 表示 Dockerfile 所在的位置
+```
+
 ### Dockerfile
 
 ```Dockerfile
 FROM ubuntu:latest                  # 
 WORKDIR /app                        #
 COPY . .                            #
-RUN npm run build                   #
+RUN npm --version \                 #
+  && npm install \
+  && npm run build
 ENTRYPOINT ["node", "dist/main"]    #
 
 # USER root                         #
@@ -66,10 +74,11 @@ ENTRYPOINT ["node", "dist/main"]    #
 # CMD                               #
 ```
 
-```bash
-docker build -t myapp .
+### Docker ignore
 
-# . 表示 Dockerfile 所在的位置
+```conf
+.git
+node_modules
 ```
 
 ## 保存镜像
