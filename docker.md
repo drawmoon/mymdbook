@@ -40,6 +40,8 @@ docker attach 1b
 
 ```bash
 docker start 1b
+
+# 1b 表示容器的 ID
 ```
 
 ### 停止容器
@@ -76,6 +78,8 @@ ENTRYPOINT ["node", "dist/main"]    #
 
 ### Docker ignore
 
+与`Dockerfile`相同的目录位置，创建名称为`.dockerignore`的文件
+
 ```conf
 .git
 node_modules
@@ -85,6 +89,9 @@ node_modules
 
 ```bash
 docker save -o myapp.tar myapp:latest
+
+# or
+docker save myapp:latest > myapp.tar
 ```
 
 ## 载入镜像
