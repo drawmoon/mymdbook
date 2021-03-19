@@ -4,4 +4,5 @@
 
 ## 在线文档
 
-[http://hyuenians.gitee.io/mynotes](http://hyuenians.gitee.io/mynotes)
+- [https://drawmoon.github.io/mynotes](https://drawmoon.github.io/mynotes)
+- [http://hyuenians.gitee.io/mynotes](http://hyuenians.gitee.io/mynotes)
