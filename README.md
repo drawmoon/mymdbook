@@ -4,4 +4,4 @@
 
 ## 在线文档
 
-[mynotes](http://hyuenians.gitee.io/mynotes)
+[http://hyuenians.gitee.io/mynotes](http://hyuenians.gitee.io/mynotes)
