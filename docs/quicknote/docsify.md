@@ -2,7 +2,7 @@
 
 - [初始化项目](#初始化项目)
 - [定制侧边栏](#定制侧边栏)
-- [部署在 Github Pages](#部署在 Github Pages)
+- [部署在 Github Pages](#部署在-github-pages)
 
 ## 初始化项目
 
