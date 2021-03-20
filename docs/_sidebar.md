@@ -9,6 +9,7 @@
   - [部署 NestJs 应用](typescript/deploying-centos.md)
   - [Puppeteer](typescript/puppeteer.md)
 - [Docker](docker.md)
+- [Github CI/CD](github-ci.md)
 - IDE 使用笔记
   - [VSCode 远程编辑 Linux 文件](ides/vscode-remote-ssh.md)
   - [Rider 远程调式 Linux 应用](ides/rider-remote-debug.md)
@@ -20,4 +21,3 @@
   - [CentOS](system/centos.md)
   - [Fedora](system/fedora.md)
 - [快速搭建在线文档](quicknote/docsify.md)
-  
