@@ -1,13 +1,10 @@
-# Table of contents
-
-- [CentOS Notes](#centos-notes)
-  - [查看本机的 IP](#查看本机的-ip)
-  - [安装 NodeJs 与 Node 管理工具](#安装-nodejs)
-  - [安装 Yarn](#安装-yarn)
-  - [安装 .NET](#安装-net)
-  - [安装 Nginx](#安装-nginx)
-
 # CentOS Notes
+
+- [查看本机的 IP](#查看本机的-ip)
+- [安装 NodeJs 与 Node 管理工具](#安装-nodejs-与-node-管理工具)
+- [安装 Yarn](#安装-yarn)
+- [安装 .NET](#安装-net)
+- [安装 Nginx](#安装-nginx)
 
 ## 查看本机的 IP
 
@@ -62,6 +59,14 @@ n stable
 ```
 
 ## 安装 Yarn
+
+### 通过 Npm 安装
+
+```bash
+npm install -g yarn
+```
+
+### 通过软件源安装
 
 添加 Yarn 包存储库
 

@@ -1,7 +1,5 @@
 # Manjaro Notes
 
-## Table of contents
-
 - [修改软件源为国内源，添加 archlinuxcn 软件源](#修改软件源为国内源添加-archlinuxcn-软件源)
 - [安装 Google 拼音输入法](#安装-google-拼音输入法)
 - [安装 Docker](#安装-docker)

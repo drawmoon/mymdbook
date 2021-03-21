@@ -1,72 +1,64 @@
-# Table of contents
-
-- [Ubuntu Notes](#ubuntu-notes)
-  - [安装 Vim](#安装-vim)
-  - [修改源](#修改源)
-  - [安装 Git](#安装-git)
-  - [将 zsh 用作默认 Shell](#将-zsh-用作默认-shell)
-  - [安装 Docker](安装-docker)
-  - [安装 PostgreSql](#安装-postgresql)
-  - [安装 .NET](#安装-net)
-  - [安装 NodeJs](#安装-nodejs)
-  - [安装 TypeScript](#安装-typescript)
-  - [安装 Whistle](#安装-whistle)
-  - [安装 Yarn](#安装-yarn)
-  - [安装 Nginx](#安装-nginx)
-
 # Ubuntu Notes
 
-## 安装 Vim
-
-```bash
-➜  ~ sudo apt install vim
-```
+- [修改源](#修改源)
+- [将 zsh 设置为默认的 Shell](#将-zsh-设置为默认的-shell)
+- [安装 OpenSSH](#安装-openssh)
+- [安装 Vim](#安装-vim)
+- [安装 Git](#安装-git)
+- [安装 Docker](安装-docker)
+- [安装 PostgreSql](#安装-postgresql)
+- [安装 .NET SDK](#安装-net-sdk)
+- [安装 NodeJs](#安装-nodejs)
+- [安装 TypeScript](#安装-typescript)
+- [安装 Whistle](#安装-whistle)
+- [安装 Yarn](#安装-yarn)
+- [安装 Nginx](#安装-nginx)
 
 ## 修改源
 
 ```bash
-# 备份文件
-➜  ~ sudo cp /etc/apt/source.list /etc/apt/source.list.backup
-
 # 修改文件
-➜  ~ sudo vim /etc/apt/source.list
+sudo vim /etc/apt/source.list
+# Or sudo vi /etc/apt/source.list
 
-# 将文件内容修改为以下内容，其中http://cn.archive.ubuntu.com/ubuntu/可以修改为下面服务器列表中的任意一个服务商地址
+# 修改 http://archive.ubuntu.com/ubuntu 为下面服务器列表中的任意一个服务商地址
+# source.list
+
 # See http://help.ubuntu.com/community/UpgradeNotes for how to upgrade to
 # newer versions of the distribution.
-deb http://cn.archive.ubuntu.com/ubuntu/ focal main restricted
-# deb-src http://archive.ubuntu.com/ubuntu/ focal main restricted
+deb http://mirrors.163.com/ubuntu focal main restricted
+# deb-src http://archive.ubuntu.com/ubuntu focal main restricted
 
 ## Major bug fix updates produced after the final release of the
 ## distribution.
-deb http://cn.archive.ubuntu.com/ubuntu/ focal-updates main restricted
-# deb-src http://archive.ubuntu.com/ubuntu/ focal-updates main restricted
+deb http://mirrors.163.com/ubuntu focal-updates main restricted
+# deb-src http://archive.ubuntu.com/ubuntu focal-updates main restricted
 
 ## N.B. software from this repository is ENTIRELY UNSUPPORTED by the Ubuntu
 ## team. Also, please note that software in universe WILL NOT receive any
 ## review or updates from the Ubuntu security team.
-deb http://cn.archive.ubuntu.com/ubuntu/ focal universe
-# deb-src http://archive.ubuntu.com/ubuntu/ focal universe
-deb http://cn.archive.ubuntu.com/ubuntu/ focal-updates universe
-# deb-src http://archive.ubuntu.com/ubuntu/ focal-updates universe
+deb http://mirrors.163.com/ubuntu focal universe
+# deb-src http://archive.ubuntu.com/ubuntu focal universe
+deb http://mirrors.163.com/ubuntu focal-updates universe
+# deb-src http://archive.ubuntu.com/ubuntu focal-updates universe
 
 ## N.B. software from this repository is ENTIRELY UNSUPPORTED by the Ubuntu
 ## team, and may not be under a free licence. Please satisfy yourself as to
 ## your rights to use the software. Also, please note that software in
 ## multiverse WILL NOT receive any review or updates from the Ubuntu
 ## security team.
-deb http://cn.archive.ubuntu.com/ubuntu/ focal multiverse
-# deb-src http://archive.ubuntu.com/ubuntu/ focal multiverse
-deb http://cn.archive.ubuntu.com/ubuntu/ focal-updates multiverse
-# deb-src http://archive.ubuntu.com/ubuntu/ focal-updates multiverse
+deb http://mirrors.163.com/ubuntu focal multiverse
+# deb-src http://archive.ubuntu.com/ubuntu focal multiverse
+deb http://mirrors.163.com/ubuntu focal-updates multiverse
+# deb-src http://archive.ubuntu.com/ubuntu focal-updates multiverse
 
 ## N.B. software from this repository may not have been tested as
 ## extensively as that contained in the main release, although it includes
 ## newer versions of some applications which may provide useful features.
 ## Also, please note that software in backports WILL NOT receive any review
 ## or updates from the Ubuntu security team.
-deb http://cn.archive.ubuntu.com/ubuntu/ focal-backports main restricted universe multiverse
-# deb-src http://archive.ubuntu.com/ubuntu/ focal-backports main restricted universe multiverse
+deb http://mirrors.163.com/ubuntu focal-backports main restricted universe multiverse
+# deb-src http://archive.ubuntu.com/ubuntu focal-backports main restricted universe multiverse
 
 ## Uncomment the following two lines to add software from Canonical's
 ## 'partner' repository.
@@ -75,12 +67,12 @@ deb http://cn.archive.ubuntu.com/ubuntu/ focal-backports main restricted univers
 # deb http://archive.canonical.com/ubuntu focal partner
 # deb-src http://archive.canonical.com/ubuntu focal partner
 
-deb http://security.ubuntu.com/ubuntu/ focal-security main restricted
-# deb-src http://security.ubuntu.com/ubuntu/ focal-security main restricted
-deb http://security.ubuntu.com/ubuntu/ focal-security universe
-# deb-src http://security.ubuntu.com/ubuntu/ focal-security universe
-deb http://security.ubuntu.com/ubuntu/ focal-security multiverse
-# deb-src http://security.ubuntu.com/ubuntu/ focal-security multiverse
+deb http://mirrors.163.com/ubuntu focal-security main restricted
+# deb-src http://archive.ubuntu.com/ubuntu focal-security main restricted
+deb http://mirrors.163.com/ubuntu focal-security universe
+# deb-src http://archive.ubuntu.com/ubuntu focal-security universe
+deb http://mirrors.163.com/ubuntu focal-security multiverse
+# deb-src http://archive.ubuntu.com/ubuntu focal-security multiverse
 ```
 
 服务器列表
@@ -94,56 +86,71 @@ deb http://security.ubuntu.com/ubuntu/ focal-security multiverse
 | 腾讯                | `http://mirrors.cloud.tencent.com/ubuntu/` |
 | 华为                | `http://mirrors.huaweicloud.com/ubuntu/`   |
 
-## 安装 Git
+## 将 zsh 设置为默认的 Shell
 
 ```bash
-➜  ~ sudo apt install git
-```
-
-设置账号的缺省身份标识
-
-```bash
-➜  ~ git config --global user.email "you@example.com"
-➜  ~ git config --global user.name "Your Name"
-```
-
-## 将 zsh 用作默认 Shell
-
-```bash
-➜  ~ sudo apt install zsh
+sudo apt install zsh
 
 # zsh设为默认shell
 
-➜  ~ chsh -s /bin/zsh
+chsh -s /bin/zsh
 
 # 安装oh-my-zsh
-➜  ~ sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 ```
 
 - [Ubuntu 超炫的 ZSH 配置](https://zhuanlan.zhihu.com/p/27052046)
 - [Ubuntu | 安装oh-my-zsh](https://www.jianshu.com/p/ba782b57ae96)
 
-设置代理
+### 设置代理
 
 ```bash
 # 临时代理
-➜  ~ export http_proxy=127.0.0.1:10809
-➜  ~ export https_proxy=127.0.0.1:10809
+export http_proxy=127.0.0.1:10809
+export https_proxy=$http_proxy
 
 # 修改配置文件，使用快捷指令启用
-➜  ~ vim ~/.zshrc
+vim ~/.zshrc
 
 # proxy
 alias setproxy='export http_proxy=127.0.0.1:1087;export https_proxy=$http_proxy'
 alias unsetproxy='unset http_proxy;unset https_proxy'
 
-➜  ~ source ~/.zshrc
+source ~/.zshrc
 ```
 
-手动更新`oh-my-zsh`
+### 更新 oh-my-zsh
 
 ```bash
-➜  ~ upgrade_oh_my_zsh
+upgrade_oh_my_zsh
+```
+
+## 安装 OpenSSH
+
+```bash
+sudo apt-get install openssh-server
+
+# 启动 OpenSSH
+sudo /etc/init.d/ssh start
+```
+
+## 安装 Vim
+
+```bash
+sudo apt install vim
+```
+
+## 安装 Git
+
+```bash
+sudo apt install git
+```
+
+设置账号的缺省身份标识
+
+```bash
+git config --global user.email "you@example.com"
+git config --global user.name "Your Name"
 ```
 
 ## 安装 Docker
@@ -151,15 +158,15 @@ alias unsetproxy='unset http_proxy;unset https_proxy'
 添加软件源
 
 ```bash
-➜  ~ sudo apt-get install \
+sudo apt-get install \
     apt-transport-https \
     ca-certificates \
     curl \
     software-properties-common
 
-➜  ~ curl -fsSL https://mirrors.ustc.edu.cn/docker-ce/linux/ubuntu/gpg | sudo apt-key add -
+curl -fsSL https://mirrors.ustc.edu.cn/docker-ce/linux/ubuntu/gpg | sudo apt-key add -
 
-➜  ~ sudo add-apt-repository \
+sudo add-apt-repository \
     "deb [arch=amd64] https://mirrors.ustc.edu.cn/docker-ce/linux/ubuntu \
     $(lsb_release -cs) \
     stable"
@@ -168,27 +175,27 @@ alias unsetproxy='unset http_proxy;unset https_proxy'
 安装 Docker CE
 
 ```bash
-➜  ~ sudo apt-get install docker-ce
+sudo apt-get install docker-ce
 ```
 
 启用 Docker CE
 
 ```bash
-➜  ~ sudo systemctl enable docker
-➜  ~ sudo systemctl start docker
+sudo systemctl enable docker
+sudo systemctl start docker
 ```
 
 建立 docker 用户组
 
 ```bash
-➜  ~ sudo groupadd docker
-➜  ~ sudo usermod -aG docker $USER
+sudo groupadd docker
+sudo usermod -aG docker $USER
 ```
 
 镜像加速
 
 ```bash
-➜  ~ vim /etc/docker/daemon.json
+vim /etc/docker/daemon.json
 
 {
   "registry-mirrors": [
@@ -201,16 +208,14 @@ alias unsetproxy='unset http_proxy;unset https_proxy'
 重启服务
 
 ```bash
-➜  ~ sudo systemctl daemon-reload
-➜  ~ sudo systemctl restart docker
+sudo systemctl daemon-reload
+sudo systemctl restart docker
 ```
-
-[安装教程](https://yeasy.gitbook.io/docker_practice/install/ubuntu)
 
 [清理 Docker 文件](https://www.cnblogs.com/yogoup/p/12143103.html)
 
 ```bash
-➜  ~ docker system prune
+docker system prune
 ```
 
 ## 安装 PostgreSql
@@ -218,23 +223,23 @@ alias unsetproxy='unset http_proxy;unset https_proxy'
 安装 Docker 镜像版
 
 ```bash
-➜  ~ docker pull postgres:latest
-➜  ~ docker run --name postgres -e POSTGRES_PASSWORD=123456 -p 5432:5432 -d postgres:latest
+docker pull postgres:latest
+docker run --name postgres -e POSTGRES_PASSWORD=123456 -p 5432:5432 -d postgres:latest
 ```
 
 启动 postgres
 
 ```bash
-➜  ~ docker container start postgres
+docker container start postgres
 ```
 
-## 安装 .Net
+## 安装 .Net SDK
 
 ```bash
-➜  ~ wget https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
-➜  ~ sudo dpkg -i packages-microsoft-prod.deb
+wget https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+sudo dpkg -i packages-microsoft-prod.deb
 
-➜  ~ sudo apt-get update; \
+sudo apt-get update; \
   sudo apt-get install -y apt-transport-https && \
   sudo apt-get update && \
   sudo apt-get install -y dotnet-sdk-3.1
@@ -245,8 +250,8 @@ alias unsetproxy='unset http_proxy;unset https_proxy'
 ## 安装 Nodejs
 
 ```bash
-➜  ~ sudo apt install nodejs
-➜  ~ sudo apt install npm
+sudo apt install nodejs
+sudo apt install npm
 ```
 
 安装 NodeJs 管理工具
@@ -258,8 +263,8 @@ npm install -g n
 ## 安装 TypeScript
 
 ```bash
-➜  ~ sudo npm install -g typescript
-➜  ~ tsc -v
+sudo npm install -g typescript
+tsc -v
 ```
 
 [安装教程](https://classic.yarnpkg.com/zh-Hans/docs/install#debian-stable)
@@ -267,7 +272,7 @@ npm install -g n
 ## 安装 Whistle
 
 ```bash
-➜  ~ sudo npm install -g whistle
+sudo npm install -g whistle
 ```
 
 [whistle 教程](https://wproxy.org/whistle/)
@@ -275,12 +280,12 @@ npm install -g n
 ## 安装 Yarn
 
 ```bash
-➜  ~ curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
-➜  ~ echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
 
-➜  ~ sudo apt-get update && sudo apt-get install yarn
+sudo apt-get update && sudo apt-get install yarn
 
-➜  ~ yarn --version
+yarn --version
 ```
 
 ## 安装 Nginx

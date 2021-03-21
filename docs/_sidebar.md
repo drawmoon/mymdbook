@@ -19,5 +19,4 @@
   - [Windows](system/windows.md)
   - [Ubuntu](system/ubuntu.md)
   - [CentOS](system/centos.md)
-  - [Fedora](system/fedora.md)
 - [快速搭建在线文档](quicknote/docsify.md)

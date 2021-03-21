@@ -1,17 +1,14 @@
-# Table of contents
-
-- [Windows 10 Notes](#windows-10-notes)
-  - [Windows 终端](#windows-终端)
-  - [截图、贴图](#截图贴图)
-  - [Dbeaver](#dbeaver)
-  - [Web 调试代理工具](#web-调试代理工具)
-  - [安装 WSL](#安装-wsl)
-  - [在 WSL 中安装 Docker](#在-wsl-中安装-docker)
-  - [安装 Docker 镜像版的 PostgreSql](#安装-docker-镜像版的-postgresql)
-  - [安装 Minikube](#安装-minikube)
-  - [安装 Yarn](#安装-yarn)
-
 # Windows 10 Notes
+
+- [Windows 终端](#windows-终端)
+- [截图、贴图](#截图贴图)
+- [Dbeaver](#dbeaver)
+- [Web 调试代理工具](#web-调试代理工具)
+- [安装 WSL](#安装-wsl)
+- [在 WSL 中安装 Docker](#在-wsl-中安装-docker)
+- [安装 Docker 镜像版的 PostgreSql](#安装-docker-镜像版的-postgresql)
+- [安装 Minikube](#安装-minikube)
+- [安装 Yarn](#安装-yarn)
 
 ## Windows 终端
 
@@ -131,11 +128,6 @@ sudo vim /etc/docker/daemon.json
 
 {
   "registry-mirrors": [
-    "https://docker.io",
-    "https://registry-1.docker.io",
-    "https://registry.hub.docker.com",
-    "https://docker.mirrors.ustc.edu.cn",
-    "https://mirror.gcr.io",
     "https://hub-mirror.c.163.com",
     "https://mirror.baidubce.com"
   ]
