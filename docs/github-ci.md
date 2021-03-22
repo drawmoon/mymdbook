@@ -44,8 +44,9 @@ jobs:
         with:
           # 缓存的路径
           path: ~/.npm
-          # 缓存记录的 Key
+          # 缓存记录的 Key，还原时根据这个 Key 去搜索
           key: ${{ runner.os }}-build-${{ env.cache-name }}
+          # 没有匹配到 Key 时，会根据 Restore—keys 的规则去匹配
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
@@ -55,9 +56,9 @@ jobs:
       - name: install dependencies
         run: npm install
 
-      # 代码格式化
-      - name: format
-        run: npm run format
+      # linter
+      - name: line
+        run: npm run line
 
       # 构建项目
       - name: build
@@ -66,5 +67,4 @@ jobs:
       # 执行测试
       - name: test
         run: npm run test
-
 ```

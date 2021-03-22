@@ -143,5 +143,7 @@ docker rm 1b
 ## 删除镜像
 
 ```bash
-docker rmi myapp
+docker rmi cc
+
+# cc 表示镜像的 ID
 ```
