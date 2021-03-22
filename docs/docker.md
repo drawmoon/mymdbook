@@ -92,6 +92,9 @@ docker save -o myapp.tar myapp:latest
 
 # or
 docker save myapp:latest > myapp.tar
+
+# zip
+docker save myapp:latest | gzip > myapp-image
 ```
 
 ## 载入镜像
