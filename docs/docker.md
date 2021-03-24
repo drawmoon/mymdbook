@@ -11,12 +11,16 @@ docker pull ubuntu:latest
 ### 运行容器，将容器3000端口映射到本地3333端口
 
 ```bash
-docker run -p 3333:3000 --name myubuntu ubuntu:latest
+docker run -p 3333:3000 --name myapp myapp:latest
 
 # 后台运行
-docker run -p 3333:3000 --name myubuntu -d ubuntu:latest
+docker run -p 3333:3000 --name myapp -d myapp:latest
+```
 
-# Ctrl+p Ctrl+q 退出，并且不停止容器运行
+### 运行容器，设置环境
+
+```bash
+docker run -p 3333:3000 -e AUTHORITY=http://localhost:5000 --name myapp myapp:latest
 ```
 
 ### 以交互模式运行容器
