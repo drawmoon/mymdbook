@@ -67,18 +67,22 @@ docker build -t myapp .
 ### Dockerfile
 
 ```Dockerfile
-FROM ubuntu:latest                  # 
-WORKDIR /app                        #
-COPY . .                            #
-RUN npm --version \                 #
+FROM ubuntu:latest                  # 指定基础镜像
+WORKDIR /app                        # 指定工作目录
+COPY . .                            # 复制文件
+RUN npm --version \                 # 构建镜像时运行的命令
   && npm install \
   && npm run build
-ENTRYPOINT ["node", "dist/main"]    #
+ENTRYPOINT ["node", "dist/main"]    # 类似 CMD，与 CMD 不同的是不会被 docker run 中的命令给覆盖，如果想要覆盖必须配合 --entrypoint 参数
 
-# USER root                         #
-# ADD                               #
-# CMD                               #
+# USER                              # 指定执行后续命令的用户和用户组
+# ADD                               # 更高级的复制命令，支持 URL
+# CMD                               # 容器启动时执行的命令
+# EXPOSE                            # 指定暴露的端口
+# ENV                               # 设置环境变量，示例：ENV k1=v1 k2=v2
 ```
+
+> 如果同时设置了`ENTRYPOINT`和`CMD`，当两个参数的值都是数组时，会拼接成一个命令，否则执行`ENTRYPOINT`中的命令
 
 ### Docker ignore
 
