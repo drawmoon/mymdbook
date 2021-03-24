@@ -199,8 +199,7 @@ vim /etc/docker/daemon.json
 
 {
   "registry-mirrors": [
-    "https://hub-mirror.c.163.com",
-    "https://mirror.baidubce.com"
+    "http://f1361db2.m.daocloud.io"
   ]
 }
 ```
