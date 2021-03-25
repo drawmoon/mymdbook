@@ -2,7 +2,7 @@
 
 - [安装 Nginx](#安装-nginx)
 - [部署 MinIO](#部署-minio)
-- [部署 NestJs 项目，或通过 Docker 部署](#部署-nestjs-项目或通过-docker-部署)
+- [部署 NestJs 项目，或通过 Docker 部署](#部署-nestjs-项目，或通过-docker-部署)
 
 ## 安装 Nginx
 

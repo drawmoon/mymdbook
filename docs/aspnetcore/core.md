@@ -6,7 +6,7 @@
 - [字典的命名约定](#字典的命名约定)
 - [将对象序列化为字节数组，与反序列化为对象](#将对象序列化为字节数组与反序列化为对象)
 - [用正则表达式进行字符串替换](#用正则表达式进行字符串替换)
-- [设置 HttPClient 代理](#设置-httpclient-代理)
+- [设置 HttpClient 代理](#设置-httpclient-代理)
 - [中间件管道，Map 与 MapWhen](#中间件管道map-与-mapwhen)
 - [Required 与 BindRequired 混用问题](#required-与-bindrequired-混用问题)
 - [配置 Controller 允许接收空字符串](#配置-controller-允许接收空字符串)
@@ -90,7 +90,7 @@ var str = regex.Replace(input, match => $"{{{match.Groups["tableField"].Value}}}
 Console.WriteLine(str); // 输出结果为 COUNT({1712})
 ```
 
-## 设置 HttPClient 代理
+## 设置 HttpClient 代理
 
 ```csharp
 WebProxy proxy = new("127.0.0.1:8899", false)
