@@ -1,13 +1,10 @@
-# Table of contents
+# 部署 NestJs 应用
 
-- CentOS 部署 NestJs 项目（Nginx + NestJs + MinIO）
-  - [部署 Nginx](#部署-nginx)
-  - [部署 MinIO](#部署-minio)
-  - [部署 NestJs 项目](#部署-nestjs-项目)
+- [安装 Nginx](#安装-nginx)
+- [部署 MinIO](#部署-minio)
+- [部署 NestJs 项目，或通过 Docker 部署](#部署-nestjs-项目或通过-docker-部署)
 
-# CentOS 部署 NestJs 项目（Nginx + NestJs + MinIO）
-
-## 部署 Nginx
+## 安装 Nginx
 
 安装依赖包
 
@@ -85,19 +82,15 @@ nohup ./minio server ./data &
 Nginx 配置 MinIO Browser 代理
 
 ```conf
-# nginx.conf
+vi /usr/local/nginx/conf/nginx.conf
 
+# nginx.conf
 server {
   listen      80;
   server_name localhost;
 
   location /minio {
     proxy_pass  http://127.0.0.1:9000;
-  }
-
-  location / {
-    root  html;
-    index index.html index.htm;
   }
 }
 ```
@@ -108,7 +101,9 @@ server {
 nginx -s reload
 ```
 
-## 部署 NestJs 项目
+## 部署 NestJs 项目，或通过 Docker 部署
+
+### 部署在服务器上
 
 安装依赖包
 
@@ -120,31 +115,60 @@ curl --silent --location https://rpm.nodesource.com/setup_10.x | sudo bash -
 sudo yum install nodejs
 ```
 
-打包 NestJs 项目
+构建 NestJs 项目
 
 ```bash
 npm run build
 ```
 
-打包成功后，将`package.json`拷贝到`dist`文件夹中，一起上传到服务器中
-
-安装项目依赖包，并启动服务
+打包成功后，将`package.json`、`package-lock.json`和`.env`文件拷贝到`dist`文件夹中，一起压缩后上传到服务器中
 
 ```bash
+# 安装项目依赖包
 npm install
-node main
 
-# 后台执行
+# 启动服务
 nohup node main &
 ```
 
-配置 Nginx 代理
+### 通过 Docker 部署
+
+在根目录创建`Dockerfile`
+
+```Dockerfile
+FROM node
+WORKDIR /app
+COPY package*.json ./
+RUN npm --version \
+    && npm install
+COPY dist ./
+COPY .env ./
+ENTRYPOINT ['node', 'main']
+```
+
+构建并推送 Docker 镜像
+
+```bash
+docker build -t app:latest .
+docker login docker.k8s -u admin -p admin
+docker push app:latest
+```
+
+在服务器中拉取并运行镜像
+
+```bash
+docker pull docker.k8s/app:latest
+docker run -p 3000:3000 -d docker.k8s/app:latest
+```
+
+### 配置 Nginx 代理
 
 ```conf
-# nginx.conf
+vi /usr/local/nginx/conf/nginx.conf
 
+# nginx.conf
 server {
-  listen      1082;
+  listen      80;
   server_name localhost;
 
   location /api {
@@ -156,4 +180,10 @@ server {
     index   index.html index.htm;
   }
 }
+```
+
+重新加载 Nginx 配置
+
+```bash
+nginx -s reload
 ```

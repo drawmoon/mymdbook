@@ -1,11 +1,8 @@
-# Table of contents
-
-- [TypeOrm Notes](#typeorm-notes)
-  - [更新树实体的父级实体时，没有更新mpath的问题临时解决方案](更新树实体的父级实体时没有更新mpath的问题临时解决方案)
-
 # TypeOrm Notes
 
-## 更新树实体的父级实体时，没有更新mpath的问题临时解决方案
+- [更新树实体的父级实体时，没有更新mpath的问题临时解决方案](更新树实体的父级实体时没有更新-mpath-的问题临时解决方案)
+
+## 更新树实体的父级实体时，没有更新 mpath 的问题临时解决方案
 
 > ISSUES: [https://github.com/typeorm/typeorm/issues/2418](https://github.com/typeorm/typeorm/issues/2418)
 

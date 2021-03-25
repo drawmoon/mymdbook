@@ -1,11 +1,9 @@
-# Table of contents
-
-- [Nest Notes](#nest-notes)
-  - [处理 form-data 的请求](#处理-form-data-的请求)
-  - [接口执行文件下载操作](#接口执行文件下载操作)
-  - [允许未通过身份验证的用户访问路由](#允许未通过身份验证的用户访问路由)
-
 # Nest Notes
+
+- [处理 form-data 的请求](#处理-form-data-的请求)
+- [接口执行文件下载操作](#接口执行文件下载操作)
+- [允许未通过身份验证的用户访问路由](#允许未通过身份验证的用户访问路由)
+- [在 NestJs 中使用多个环境变量文件（开发、生产）](#在-nestjs-中使用多个环境变量文件（开发、生产）)
 
 ## 处理 form-data 的请求
 
@@ -116,5 +114,30 @@ import { AllowAnonymous } from './guards.decorator';
 @Get()
 get(): string {
   // ...
+}
+```
+
+## 在 NestJs 中使用多个环境变量文件（开发、生产）
+
+安装依赖项
+
+```bash
+npm install --save dotenv
+
+# Or
+yarn add dotenv
+```
+
+创建`.env`、`.env.development`文件，`.env`用于生产环境，`.env.development`用于开发环境
+
+修改`package.json`的`scripts`
+
+```json
+{
+  "scripts": {
+    "start": "node -r dotenv/config \"./node_modules/@nestjs/cli/bin/nest.js\" start dotenv_config_path=.env.development",
+    "start:dev": "node -r dotenv/config \"node_modules/@nestjs/cli/bin/nest.js\" start --watch dotenv_config_path=.env.development",
+    "start:prod": "node -r dotenv/config dist/main.js dotenv_config_path=.env"
+  }
 }
 ```

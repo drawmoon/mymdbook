@@ -1,30 +1,16 @@
-# Table of contents
-
-- [ASP.NET Core Notes](#aspnet-core-notes)
-  - [Foo，Bar，Baz 是什么意思](#foobarbaz-是什么意思)
-  - [可为空的值类型](#可为空的值类型)
-  - [将警告视为错误](#将警告视为错误)
-  - [判断两个集合的元素是否相等](#判断两个集合的元素是否相等)
-  - [字典的命名约定](#字典的命名约定)
-  - [将对象序列化为字节数组，与反序列化为对象](#将对象序列化为字节数组与反序列化为对象)
-  - [用正则表达式进行字符串替换](#用正则表达式进行字符串替换)
-  - [设置 HttPClient 代理](#设置-httpclient-代理)
-  - [中间件管道，Map 与 MapWhen](#中间件管道map-与-mapwhen)
-  - [Required 与 BindRequired 混用问题](#required-与-bindrequired-混用问题)
-  - [配置 Controller 允许接收空字符串](#配置-controller-允许接收空字符串)
-  - [配置 Controller 将空 Body 视为有效输入](#配置-controller-将空-body-视为有效输入)
-  - [xUnit 测试两个集合的元素是否相等](#xunit-判断两个集合的元素是否相等)
-  - [xUnit 测试异常情况](#xUnit-测试异常情况)
-
 # ASP.NET Core Notes
 
-## Foo，Bar，Baz 是什么意思
-
-术语`foobar`，`foo`，`bar`，`baz`和`qux`经常在计算机编程、计算机相关文档中，被用作占位符的名字。当变量、函数或命令本身不太重要的时候，`foobar`，`foo`，`bar`，`baz`和`qux`就被用来充当这些实体的名字，这样做的目的仅仅是阐述一个概念，说明一个想法。
-
-这些术语本身相对与使用的场景来说没有任何意义。
-
-`foobar`经常被单独使用；而当需要多个实体举例的时候，`foo`，`bar`和`baz`则经常被按顺序使用。
+- [可为空的值类型](#可为空的值类型)
+- [将警告视为错误](#将警告视为错误)
+- [判断两个集合的元素是否相等](#判断两个集合的元素是否相等)
+- [字典的命名约定](#字典的命名约定)
+- [将对象序列化为字节数组，与反序列化为对象](#将对象序列化为字节数组与反序列化为对象)
+- [用正则表达式进行字符串替换](#用正则表达式进行字符串替换)
+- [设置 HttPClient 代理](#设置-httpclient-代理)
+- [中间件管道，Map 与 MapWhen](#中间件管道map-与-mapwhen)
+- [Required 与 BindRequired 混用问题](#required-与-bindrequired-混用问题)
+- [配置 Controller 允许接收空字符串](#配置-controller-允许接收空字符串)
+- [配置 Controller 将空 Body 视为有效输入](#配置-controller-将空-body-视为有效输入)
 
 ## 可为空的值类型
 
@@ -209,29 +195,4 @@ public void ConfigureServices(IServiceCollection services)
         options.AllowEmptyInputInBodyModelBinding = true;
     });
 }
-```
-
-## xUnit 测试两个集合的元素是否相等
-
-```csharp
-List<string> foo = new(){ "A", "B" };
-List<string> bar = new(){ "A" };
-
-// 是否全部包含
-Assert.All(foo, p => Assert.Contains(p, bar));
-
-// 是否全部不包含
-Assert.All(foo, p => Assert.DoseNotContains(p, bar));
-```
-
-## xUnit 测试异常情况
-
-```csharp
-var exception = await Assert.ThrowsAsync<AppException>(async () =>
-{
-    await tableFieldService.Update(filed);
-});
-
-Assert.Equal("存在重复的表字段名称", exception.Message);
-Assert.Equal(200400, exception.ErrorCode);
 ```

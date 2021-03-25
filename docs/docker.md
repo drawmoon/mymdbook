@@ -32,14 +32,6 @@ docker run -it ubuntu:latest /bin/bash
 docker run -it --entrypoint /bin/bash myapp
 ```
 
-### 连接到正在运行的容器
-
-```bash
-docker attach 1b
-
-# 1b 表示容器的 ID
-```
-
 ### 启动容器
 
 ```bash
@@ -52,6 +44,22 @@ docker start 1b
 
 ```bash
 docker stop 1b
+
+# 1b 表示容器的 ID
+```
+
+### 连接到正在运行的容器
+
+```bash
+docker attach 1b
+
+# 1b 表示容器的 ID
+```
+
+### 进入容器内部
+
+```bash
+docker exec -it 1b /bin/bash
 
 # 1b 表示容器的 ID
 ```
