@@ -158,7 +158,7 @@ docker container start postgres
 Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All
 ```
 
-[安装 Minikube](https://kubernetes.io/zh/docs/tasks/tools/install-minikube/)
+[安装 Minikube](https://minikube.sigs.k8s.io/docs/start/)
 
 ```bash
 minikube start --iso-url='https://kubernetes.oss-cn-hangzhou.aliyuncs.com/minikube/iso/minikube-v1.13.0.iso' --image-repository=registry.cn-hangzhou.aliyuncs.com/google_containers
