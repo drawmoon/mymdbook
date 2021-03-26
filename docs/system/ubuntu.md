@@ -3,8 +3,6 @@
 - [修改源](#修改源)
 - [将 zsh 设置为默认的 Shell](#将-zsh-设置为默认的-shell)
 - [安装 OpenSSH](#安装-openssh)
-- [安装 Vim](#安装-vim)
-- [安装 Git](#安装-git)
 - [安装 Docker](安装-docker)
 - [安装 PostgreSql](#安装-postgresql)
 - [安装 .NET SDK](#安装-net-sdk)
@@ -17,48 +15,43 @@
 ## 修改源
 
 ```bash
+# 安装 vim
+sudo apt install vim
+# 或用 vi 进行编辑 sudo vi /etc/apt/source.list
+
 # 修改文件
 sudo vim /etc/apt/source.list
-# Or sudo vi /etc/apt/source.list
 
 # 修改 http://archive.ubuntu.com/ubuntu 为下面服务器列表中的任意一个服务商地址
 # source.list
 
-# See http://help.ubuntu.com/community/UpgradeNotes for how to upgrade to
-# newer versions of the distribution.
-deb http://mirrors.163.com/ubuntu focal main restricted
-# deb-src http://archive.ubuntu.com/ubuntu focal main restricted
-
-## Major bug fix updates produced after the final release of the
-## distribution.
-deb http://mirrors.163.com/ubuntu focal-updates main restricted
-# deb-src http://archive.ubuntu.com/ubuntu focal-updates main restricted
+# deb-src http://archive.ubuntu.com/ubuntu/ focal-updates main restricted
 
 ## N.B. software from this repository is ENTIRELY UNSUPPORTED by the Ubuntu
 ## team. Also, please note that software in universe WILL NOT receive any
 ## review or updates from the Ubuntu security team.
-deb http://mirrors.163.com/ubuntu focal universe
-# deb-src http://archive.ubuntu.com/ubuntu focal universe
-deb http://mirrors.163.com/ubuntu focal-updates universe
-# deb-src http://archive.ubuntu.com/ubuntu focal-updates universe
+deb http://mirrors.163.com/ubuntu/ focal universe
+# deb-src http://archive.ubuntu.com/ubuntu/ focal universe
+deb http://mirrors.163.com/ubuntu/ focal-updates universe
+# deb-src http://archive.ubuntu.com/ubuntu/ focal-updates universe
 
 ## N.B. software from this repository is ENTIRELY UNSUPPORTED by the Ubuntu
 ## team, and may not be under a free licence. Please satisfy yourself as to
 ## your rights to use the software. Also, please note that software in
 ## multiverse WILL NOT receive any review or updates from the Ubuntu
 ## security team.
-deb http://mirrors.163.com/ubuntu focal multiverse
-# deb-src http://archive.ubuntu.com/ubuntu focal multiverse
-deb http://mirrors.163.com/ubuntu focal-updates multiverse
-# deb-src http://archive.ubuntu.com/ubuntu focal-updates multiverse
+deb http://mirrors.163.com/ubuntu/ focal multiverse
+# deb-src http://archive.ubuntu.com/ubuntu/ focal multiverse
+deb http://mirrors.163.com/ubuntu/ focal-updates multiverse
+# deb-src http://archive.ubuntu.com/ubuntu/ focal-updates multiverse
 
 ## N.B. software from this repository may not have been tested as
 ## extensively as that contained in the main release, although it includes
 ## newer versions of some applications which may provide useful features.
 ## Also, please note that software in backports WILL NOT receive any review
 ## or updates from the Ubuntu security team.
-deb http://mirrors.163.com/ubuntu focal-backports main restricted universe multiverse
-# deb-src http://archive.ubuntu.com/ubuntu focal-backports main restricted universe multiverse
+deb http://mirrors.163.com/ubuntu/ focal-backports main restricted universe multiverse
+# deb-src http://archive.ubuntu.com/ubuntu/ focal-backports main restricted universe multiverse
 
 ## Uncomment the following two lines to add software from Canonical's
 ## 'partner' repository.
@@ -67,12 +60,13 @@ deb http://mirrors.163.com/ubuntu focal-backports main restricted universe multi
 # deb http://archive.canonical.com/ubuntu focal partner
 # deb-src http://archive.canonical.com/ubuntu focal partner
 
-deb http://mirrors.163.com/ubuntu focal-security main restricted
-# deb-src http://archive.ubuntu.com/ubuntu focal-security main restricted
-deb http://mirrors.163.com/ubuntu focal-security universe
-# deb-src http://archive.ubuntu.com/ubuntu focal-security universe
-deb http://mirrors.163.com/ubuntu focal-security multiverse
-# deb-src http://archive.ubuntu.com/ubuntu focal-security multiverse
+deb http://security.ubuntu.com/ubuntu/ focal-security main restricted
+# deb-src http://security.ubuntu.com/ubuntu/ focal-security main restricted
+deb http://security.ubuntu.com/ubuntu/ focal-security universe
+# deb-src http://security.ubuntu.com/ubuntu/ focal-security universe
+deb http://security.ubuntu.com/ubuntu/ focal-security multiverse
+# deb-src http://security.ubuntu.com/ubuntu/ focal-security multiverse
+
 ```
 
 服务器列表
@@ -94,6 +88,9 @@ sudo apt install zsh
 # zsh设为默认shell
 
 chsh -s /bin/zsh
+
+# 安装 git、curl
+sudo apt install git curl
 
 # 安装oh-my-zsh
 sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
@@ -132,18 +129,6 @@ sudo apt-get install openssh-server
 
 # 启动 OpenSSH
 sudo /etc/init.d/ssh start
-```
-
-## 安装 Vim
-
-```bash
-sudo apt install vim
-```
-
-## 安装 Git
-
-```bash
-sudo apt install git
 ```
 
 设置账号的缺省身份标识
