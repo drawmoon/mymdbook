@@ -2,7 +2,6 @@
 
 - [修改软件源为国内源，添加 archlinuxcn 软件源](#修改软件源为国内源添加-archlinuxcn-软件源)
 - [安装 Google 拼音输入法](#安装-google-拼音输入法)
-- [安装 Docker](#安装-docker)
 - [V2ray Linux Web 客户端](#v2ray-linux-web-客户端)
 - [安装 Visual Studio Code](#安装-visual-studio-code)
 
@@ -70,60 +69,6 @@ sudo pacman -Rsn $(pacman -Qsq fcitx)
 ```
 
 然后重启计算机后重复上面的动作
-
-## 安装 Docker
-
-```bash
-sudo pacman -S docker
-```
-
-启动 Docker 服务
-
-```bash
-sudo systemctl start docker
-
-# 查看 Docker 状态
-sudo systemctl status docker
-```
-
-建立 Docker 用户组
-
-```bash
-sudo groupadd docker
-```
-
-将当前用户加入 Docker 组
-
-```bash
-sudo gpasswd -a ${USER} docker
-```
-
-退出当前终端并重新登录。
-
-### 镜像加速
-
-```bash
-vim /etc/docker/daemon.json
-
-{
-  "registry-mirrors": [
-    "http://f1361db2.m.daocloud.io"
-  ]
-}
-```
-
-重新启动服务
-
-```bash
-sudo systemctl daemon-reload
-sudo systemctl restart docker
-```
-
-检查加速是否生效
-
-```bash
-docker info
-```
 
 ## V2ray Linux Web 客户端
 
@@ -217,7 +162,7 @@ npm install -g typescript
 sudo pacman -S flameshot
 ```
 
-打开“设置”-“键盘快捷键”设置快捷键
+打开`设置 > 键盘快捷键`设置快捷键
 
 ```txt
 名称：flameshot
@@ -244,10 +189,4 @@ docker run --name postgres -e POSTGRES_PASSWORD=123456 -p 5432:5432 -d postgres:
 
 ```bash
 docker container start postgres
-```
-
-## Whistle
-
-```bash
-npm i -g whistle
 ```

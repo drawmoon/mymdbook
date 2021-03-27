@@ -1,12 +1,12 @@
 # Github CI/CD
 
-查看第三方提供的 [Actions](https://github.com/marketplace?type=actions)
+官方文档[关于 Github Actions 持续集成](https://docs.github.com/cn/actions/guides/about-continuous-integration)，查看所有的 [Github Actions](https://github.com/marketplace?type=actions)
 
-创建`project/.github/workflows/ci.yml`文件，Github 会自动执行`workflows`目录下的`yml`文件
+以下是在 GitHub 项目中创建一个简单的 CI 工作流程示例
+
+在项目根目录创建`.github/workflows/ci.yml`文件，Github 会自动执行`workflows`目录下的`yml`文件
 
 ```yaml
-# 简单的工作流配置示例
-
 # 工作流名称
 name: ci
 

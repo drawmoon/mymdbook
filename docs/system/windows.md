@@ -3,7 +3,6 @@
 - [Windows 终端](#windows-终端)
 - [截图、贴图](#截图贴图)
 - [Dbeaver](#dbeaver)
-- [Web 调试代理工具](#web-调试代理工具)
 - [安装 WSL](#安装-wsl)
 - [在 WSL 中安装 Docker](#在-wsl-中安装-docker)
 - [安装 Docker 镜像版的 PostgreSql](#安装-docker-镜像版的-postgresql)
@@ -30,22 +29,6 @@ ID: aliyun-maven-repo
 Name: 阿里云仓库
 URL: https://maven.aliyun.com/repository/public/
 ```
-
-## Web 调试代理工具
-
-```bash
-npm install -g whistle
-```
-
-Example
-
-```conf
-http://report.net/api/1.0/file http://localhost:3000/api/1.0/file
-
-http://report.net http://localhost:5000
-```
-
-[whistle 教程](https://wproxy.org/whistle/)
 
 ## 安装 WSL
 

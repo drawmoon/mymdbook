@@ -1,15 +1,16 @@
 # macOS Notes
 
-- [Homebrew](#homebrew)
+- [MacOS 下的软件包的管理器](#macos-下的软件包的管理器)
 - [将 zsh 设置为默认的 Shell](#将-zsh-设置为默认的-shell)
-- [iTerm2](#iterm2)
 - [配置 oh-my-zsh](#配置-oh-my-zsh)
 - [适用于 oh-my-zsh 的自动建议插件](#适用于-oh-my-zsh-的自动建议插件)
 - [适用于 oh-my-zsh 的语法高亮显示插件](#适用于-oh-my-zsh-的语法高亮显示插件)
 - [在终端中配置全局代理](#在终端中配置全局代理)
-- [Web 调试代理工具](#web-调试代理工具)
+- [MacOS 下的终端神器](#macos-下的终端神器)
 
-## Homebrew
+## MacOS 下的软件包的管理器
+
+> Homebrew - macOS（或 Linux）缺失的软件包的管理器
 
 在终端中输入命令执行安装
 
@@ -32,11 +33,13 @@ git remote set-url origin git://mirrors.ustc.edu.cn/homebrew-core.git
 
 执行`chsh -s /bin/zsh`切换为 zsh。
 
-## iTerm2
-
-[Download](https://www.iterm2.com/index.html)
-
 ## 配置 [oh-my-zsh](https://github.com/ohmyzsh/ohmyzsh)
+
+安装 Git
+
+```bash
+brew install git
+```
 
 执行以下命令自动安装 oh-my-zsh
 
@@ -103,57 +106,8 @@ setproxy
 unsetproxy
 ```
 
-## Web 调试代理工具
+## MacOS 下的终端神器
 
-```bash
-npm install -g whistle
-```
+> iTerm2 是 Terminal 的替代品，是 iTerm 的后继产品。它适用于装有 macOS 10.14 或更高版本的 Mac。 iTerm2 将终端带入了您从未想过一直想要的功能，使其进入了现代时代。
 
-Example
-
-```conf
-http://report.net/api/1.0/file http://localhost:3000/api/1.0/file
-
-http://report.net http://localhost:5000
-```
-
-[whistle 教程](https://wproxy.org/whistle/)
-
-## Git
-
-利用`Homebrew`安装。
-
-```bash
-brew install git
-```
-
-## Nodejs
-
-[官网](https://nodejs.org/)
-
-## Yarn
-
-利用`Homebrew`安装。
-
-```bash
-brew install yarn
-```
-
-## Docker
-
-利用`Homebrew`安装。
-
-```bash
-brew cask install docker
-```
-
-[安装教程](https://yeasy.gitbook.io/docker_practice/install/mac) \
-[清理 Docker 文件](https://www.cnblogs.com/yogoup/p/12143103.html)
-
-```bash
-docker system prune
-```
-
-## 截图、贴图
-
-[官网](https://zh.snipaste.com)
+[Download iTerm2](https://www.iterm2.com/index.html)

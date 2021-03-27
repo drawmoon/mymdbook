@@ -3,12 +3,10 @@
 - [修改源](#修改源)
 - [将 zsh 设置为默认的 Shell](#将-zsh-设置为默认的-shell)
 - [安装 OpenSSH](#安装-openssh)
-- [安装 Docker](安装-docker)
 - [安装 PostgreSql](#安装-postgresql)
 - [安装 .NET SDK](#安装-net-sdk)
 - [安装 NodeJs](#安装-nodejs)
 - [安装 TypeScript](#安装-typescript)
-- [安装 Whistle](#安装-whistle)
 - [安装 Yarn](#安装-yarn)
 - [安装 Nginx](#安装-nginx)
 
@@ -131,77 +129,6 @@ sudo apt-get install openssh-server
 sudo /etc/init.d/ssh start
 ```
 
-设置账号的缺省身份标识
-
-```bash
-git config --global user.email "you@example.com"
-git config --global user.name "Your Name"
-```
-
-## 安装 Docker
-
-添加软件源
-
-```bash
-sudo apt-get install \
-    apt-transport-https \
-    ca-certificates \
-    curl \
-    software-properties-common
-
-curl -fsSL https://mirrors.ustc.edu.cn/docker-ce/linux/ubuntu/gpg | sudo apt-key add -
-
-sudo add-apt-repository \
-    "deb [arch=amd64] https://mirrors.ustc.edu.cn/docker-ce/linux/ubuntu \
-    $(lsb_release -cs) \
-    stable"
-```
-
-安装 Docker CE
-
-```bash
-sudo apt-get install docker-ce
-```
-
-启用 Docker CE
-
-```bash
-sudo systemctl enable docker
-sudo systemctl start docker
-```
-
-建立 docker 用户组
-
-```bash
-sudo groupadd docker
-sudo usermod -aG docker $USER
-```
-
-镜像加速
-
-```bash
-vim /etc/docker/daemon.json
-
-{
-  "registry-mirrors": [
-    "http://f1361db2.m.daocloud.io"
-  ]
-}
-```
-
-重启服务
-
-```bash
-sudo systemctl daemon-reload
-sudo systemctl restart docker
-```
-
-[清理 Docker 文件](https://www.cnblogs.com/yogoup/p/12143103.html)
-
-```bash
-docker system prune
-```
-
 ## 安装 PostgreSql
 
 安装 Docker 镜像版
@@ -252,14 +179,6 @@ tsc -v
 ```
 
 [安装教程](https://classic.yarnpkg.com/zh-Hans/docs/install#debian-stable)
-
-## 安装 Whistle
-
-```bash
-sudo npm install -g whistle
-```
-
-[whistle 教程](https://wproxy.org/whistle/)
 
 ## 安装 Yarn
 
