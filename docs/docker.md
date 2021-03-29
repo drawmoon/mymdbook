@@ -279,3 +279,15 @@ docker commit -m "install zsh" 9555 drsh/ubuntu:zsh
 docker login -u drsh -p 123456
 docker push drsh/ubuntu:zsh
 ```
+
+### 查看 Docker 的磁盘使用
+
+```bash
+docker system df
+```
+
+### 清理磁盘，删除关闭的容器、无用的数据卷和网络
+
+```bash
+docker system prune
+```
