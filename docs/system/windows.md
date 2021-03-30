@@ -1,34 +1,29 @@
 # Windows 10 Notes
 
-- [Windows 终端](#windows-终端)
-- [截图、贴图](#截图贴图)
-- [Dbeaver](#dbeaver)
+- [Windows 10 下的终端神奇](#windows-10-下的终端神奇)
+- [截图与贴图工具](#截图与贴图工具)
 - [安装 WSL](#安装-wsl)
 - [在 WSL 中安装 Docker](#在-wsl-中安装-docker)
-- [安装 Docker 镜像版的 PostgreSql](#安装-docker-镜像版的-postgresql)
 - [安装 Minikube](#安装-minikube)
-- [安装 Yarn](#安装-yarn)
+- [利用 Npm 安装 Yarn](#利用-npm-安装-yarn)
 
-## Windows 终端
+## Windows 10 下的终端神奇
 
-- [Windows Terminal](https://www.microsoft.com/zh-cn/p/windows-terminal/9n0dx20hk701?activetab=pivot:overviewtab)
-- [MobaXterm](https://mobaxterm.mobatek.net/)
+### Windows Terminal
 
-## 截图、贴图
+> Windows Terminal 程序是一款新式、快速、高效、强大且高效的终端应用程序，适用于命令行工具和命令提示符，PowerShell 和 WSL 等 Shell 用户。主要功能包括多个选项卡、窗格、Unicode、和 UTF-8 字符支持，GPU 加速文本渲染引擎以及自定义主题、样式和配置。
 
-[官网](https://zh.snipaste.com/)
+[Download Windows Terminal](https://www.microsoft.com/zh-cn/p/windows-terminal/9n0dx20hk701?activetab=pivot:overviewtab)
 
-## Dbeaver
+### MobaXterm
 
-[阿里云云效 Maven](https://maven.aliyun.com/mvn/guide)
+> Enhanced terminal for Windows with X11 server, tabbed SSH client, network tools and much more.
 
-窗口 > 首选项 > 连接 > 驱动 > Maven
+[Download MobaXterm](https://mobaxterm.mobatek.net/)
 
-```txt
-ID: aliyun-maven-repo
-Name: 阿里云仓库
-URL: https://maven.aliyun.com/repository/public/
-```
+## 截图与贴图工具
+
+[Download Snipaste](https://zh.snipaste.com/)
 
 ## 安装 WSL
 
@@ -116,21 +111,6 @@ sudo vim /etc/docker/daemon.json
 }
 ```
 
-## 安装 Docker 镜像版的 PostgreSql
-
-拉取 PostgreSql 镜像
-
-```bash
-docker pull postgres:latest
-```
-
-启动 Postgres
-
-```bash
-docker run --name postgres -e POSTGRES_PASSWORD=123456 -p 5432:5432 -d postgres:latest
-docker container start postgres
-```
-
 ## 安装 Minikube
 
 启用 Hyper-V
@@ -147,7 +127,7 @@ Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All
 minikube start --iso-url='https://kubernetes.oss-cn-hangzhou.aliyuncs.com/minikube/iso/minikube-v1.13.0.iso' --image-repository=registry.cn-hangzhou.aliyuncs.com/google_containers
 ```
 
-## 安装 Yarn
+## 利用 Npm 安装 Yarn
 
 ```bash
 npm install -g yarn
@@ -157,4 +137,31 @@ npm install -g yarn
 
 ```bash
 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+```
+
+## Dbeaver
+
+[阿里云云效 Maven](https://maven.aliyun.com/mvn/guide)
+
+窗口 > 首选项 > 连接 > 驱动 > Maven
+
+```txt
+ID: aliyun-maven-repo
+Name: 阿里云仓库
+URL: https://maven.aliyun.com/repository/public/
+```
+
+## 安装 Docker 镜像版的 PostgreSql
+
+拉取 PostgreSql 镜像
+
+```bash
+docker pull postgres:latest
+```
+
+启动 Postgres
+
+```bash
+docker run --name postgres -e POSTGRES_PASSWORD=123456 -p 5432:5432 -d postgres:latest
+docker container start postgres
 ```

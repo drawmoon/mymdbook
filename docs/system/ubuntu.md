@@ -2,12 +2,10 @@
 
 - [修改源](#修改源)
 - [将 zsh 设置为默认的 Shell](#将-zsh-设置为默认的-shell)
-- [安装 OpenSSH](#安装-openssh)
-- [安装 PostgreSql](#安装-postgresql)
+- [安装 Postgres](#安装-postgres)
 - [安装 .NET SDK](#安装-net-sdk)
 - [安装 NodeJs](#安装-nodejs)
-- [安装 TypeScript](#安装-typescript)
-- [安装 Yarn](#安装-yarn)
+- [利用 Npm 安装 Yarn](#利用-npm-安装-yarn)
 - [安装 Nginx](#安装-nginx)
 
 ## 修改源
@@ -69,11 +67,11 @@ deb http://security.ubuntu.com/ubuntu/ focal-security multiverse
 
 服务器列表
 
-| 服务商              | 地址                                     |
-| ------------------- | ---------------------------------------- |
+| 服务商              | 地址                                       |
+| ------------------- | ------------------------------------------ |
 | Ubuntu 官方         | `http://archive.ubuntu.com/ubuntu/`        |
 | Ubuntu 官方（中国） | `http://cn.archive.ubuntu.com/ubuntu/`     |
-| 网易（广东广州）    | `http://mirrors.163.com/ubuntu/`          |
+| 网易（广东广州）    | `http://mirrors.163.com/ubuntu/`           |
 | 阿里云              | `http://mirrors.aliyun.com/ubuntu/`        |
 | 腾讯                | `http://mirrors.cloud.tencent.com/ubuntu/` |
 | 华为                | `http://mirrors.huaweicloud.com/ubuntu/`   |
@@ -83,35 +81,36 @@ deb http://security.ubuntu.com/ubuntu/ focal-security multiverse
 ```bash
 sudo apt install zsh
 
-# zsh设为默认shell
-
+# 将 zsh 设为默认 shell
 chsh -s /bin/zsh
 
 # 安装 git、curl
 sudo apt install git curl
 
-# 安装oh-my-zsh
+# 安装 oh-my-zsh
 sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 ```
 
 - [Ubuntu 超炫的 ZSH 配置](https://zhuanlan.zhihu.com/p/27052046)
-- [Ubuntu | 安装oh-my-zsh](https://www.jianshu.com/p/ba782b57ae96)
+- [Ubuntu | 安装 oh-my-zsh](https://www.jianshu.com/p/ba782b57ae96)
 
 ### 设置代理
 
 ```bash
-# 临时代理
-export http_proxy=127.0.0.1:10809
-export https_proxy=$http_proxy
-
 # 修改配置文件，使用快捷指令启用
 vim ~/.zshrc
 
 # proxy
-alias setproxy='export http_proxy=127.0.0.1:1087;export https_proxy=$http_proxy'
+alias setproxy='export http_proxy=127.0.0.1:10809;export https_proxy=$http_proxy'
 alias unsetproxy='unset http_proxy;unset https_proxy'
 
 source ~/.zshrc
+
+# 启用代理
+setproxy
+
+# 禁用代理
+unsetproxy
 ```
 
 ### 更新 oh-my-zsh
@@ -120,25 +119,16 @@ source ~/.zshrc
 upgrade_oh_my_zsh
 ```
 
-## 安装 OpenSSH
+## 安装 Postgres
 
-```bash
-sudo apt-get install openssh-server
-
-# 启动 OpenSSH
-sudo /etc/init.d/ssh start
-```
-
-## 安装 PostgreSql
-
-安装 Docker 镜像版
+拉取并运行 Postgres Docker 镜像
 
 ```bash
 docker pull postgres:latest
 docker run --name postgres -e POSTGRES_PASSWORD=123456 -p 5432:5432 -d postgres:latest
 ```
 
-启动 postgres
+启动 Postgres
 
 ```bash
 docker container start postgres
@@ -171,24 +161,10 @@ sudo apt install npm
 npm install -g n
 ```
 
-## 安装 TypeScript
+## 利用 Npm 安装 Yarn
 
 ```bash
-sudo npm install -g typescript
-tsc -v
-```
-
-[安装教程](https://classic.yarnpkg.com/zh-Hans/docs/install#debian-stable)
-
-## 安装 Yarn
-
-```bash
-curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
-echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
-
-sudo apt-get update && sudo apt-get install yarn
-
-yarn --version
+sudo npm install -g yarn
 ```
 
 ## 安装 Nginx
