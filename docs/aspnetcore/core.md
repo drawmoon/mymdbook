@@ -2,6 +2,8 @@
 
 - [可为空的值类型](#可为空的值类型)
 - [将警告视为错误](#将警告视为错误)
+- [多个项目的全局设置](#多个项目的全局设置)
+- [中央包版本控制](#中央包版本控制)
 - [判断两个集合的元素是否相等](#判断两个集合的元素是否相等)
 - [字典的命名约定](#字典的命名约定)
 - [将对象序列化为字节数组，与反序列化为对象](#将对象序列化为字节数组与反序列化为对象)
@@ -14,13 +16,11 @@
 
 ## 可为空的值类型
 
-> 设置所有参考类型都不可为`null`，如果需要某个参考类型可以为`null`，必须显式声明为可空类型，否则会编译警告。
+设置所有参考类型都不可为`null`，如果需要某个参考类型可以为`null`，必须显式声明为可空类型，否则会编译警告。
 
 ```xml
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <TargetFrameworks>net5.0</TargetFrameworks>
-        <!-- 启用可空性程序 -->
         <Nullable>enable</Nullable>
     </PropertyGroup>
 </Project>
@@ -28,14 +28,63 @@
 
 ## 将警告视为错误
 
+在项目编译中，将所有警告消息报告为错误。比如，编译器提示某个方法可以标记为`static`时，编译项目则会报错，并且编译失败。
+
 ```xml
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <TargetFrameworks>net5.0</TargetFrameworks>
-        <!-- 启用将警告视为错误 -->
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     </PropertyGroup>
 </Project>
+```
+
+## 多个项目的全局设置
+
+在项目目录下创建`Directory.Build.props`文件
+
+```xml
+<Project>
+    <PropertyGroup>
+        <!-- 设置目标框架 -->
+        <TargetFramework>net5.0</TargetFramework>
+        <!-- 设置语言版本 -->
+        <LangVersion>latest</LangVersion>
+        <!-- 可为空的值类型 -->
+        <Nullable>enable</Nullable>
+        <!-- 将警告视为错误 -->
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    </PropertyGroup>
+</Project>
+```
+
+## 中央包版本控制
+
+在`csproj`或`Directory.Build.props`中开启此项功能
+
+```xml
+<Project>
+    <ItemGroup>
+        <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+    </ItemGroup>
+</Project>
+```
+
+在项目目录下创建`Directory.Packages.props`文件
+
+```xml
+<Project>
+    <ItemGroup>
+        <PackageVersion Include="Newtonsoft.Json" Version="12.0.3" />
+    </ItemGroup>
+</Project>
+```
+
+在`csproj`中引用依赖包
+
+```xml
+<ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" />
+</ItemGroup>
 ```
 
 ## 判断两个集合的元素是否相等
@@ -73,7 +122,7 @@ using(MemoryStream memoryStream = new())
 using(MemoryStream memoryStream = new(bytes))
 {
     DataContractSerializer serializer = new(tyoeof(T));
-    
+
     var result = (TResult)serializer.ReadObject(memoryStream);
 }
 ```
