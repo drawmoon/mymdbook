@@ -4,8 +4,7 @@
 - [将 zsh 设置为默认的 Shell](#将-zsh-设置为默认的-shell)
 - [安装 Postgres](#安装-postgres)
 - [安装 .NET SDK](#安装-net-sdk)
-- [安装 NodeJs](#安装-nodejs)
-- [利用 Npm 安装 Yarn](#利用-npm-安装-yarn)
+- [用 Npm 安装 Yarn](#利用-npm-安装-yarn)
 - [安装 Nginx](#安装-nginx)
 
 ## 修改源
@@ -148,20 +147,7 @@ sudo apt-get update; \
 
 [安装教程](https://docs.microsoft.com/zh-cn/dotnet/core/install/linux-ubuntu)
 
-## 安装 Nodejs
-
-```bash
-sudo apt install nodejs
-sudo apt install npm
-```
-
-安装 NodeJs 管理工具
-
-```bash
-npm install -g n
-```
-
-## 利用 Npm 安装 Yarn
+## 用 Npm 安装 Yarn
 
 ```bash
 sudo npm install -g yarn

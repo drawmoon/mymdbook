@@ -1,13 +1,10 @@
-# Table of contents
-
-- [Nest Swagger Notes](#nest-swagger-notes)
-  - [描述 query 参数为数组](#描述-query-参数为数组)
-  - [描述 form-data 参数为数组](#描述-form-data-参数为数组)
-  - [描述文件上传](#描述文件上传)
-  - [描述多个文件上传](#描述多个文件上传)
-  - [描述指定文件上传](#描述指定文件上传)
-
 # Nest Swagger Notes
+
+- [描述 query 参数为数组](#描述-query-参数为数组)
+- [描述 form-data 参数为数组](#描述-form-data-参数为数组)
+- [描述文件上传](#描述文件上传)
+- [描述多个文件上传](#描述多个文件上传)
+- [描述指定文件上传](#描述指定文件上传)
 
 ## 描述 query 参数为数组
 

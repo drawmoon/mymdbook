@@ -3,6 +3,7 @@
 - [修改软件源为国内源，添加 archlinuxcn 软件源](#修改软件源为国内源添加-archlinuxcn-软件源)
 - [安装 Google 拼音输入法](#安装-google-拼音输入法)
 - [V2ray Linux Web 客户端](#v2ray-linux-web-客户端)
+- [截图与贴图工具](#截图与贴图工具)
 - [安装 Visual Studio Code](#安装-visual-studio-code)
 
 ## 修改软件源为国内源，添加 archlinuxcn 软件源
@@ -132,18 +133,6 @@ yaourt -S visual-studio-code-bin
 yaourt -S dotnet-sdk-5.0
 ```
 
-## Node
-
-```bash
-sudo pacman -S nodejs
-```
-
-## Npm
-
-```bash
-sudo pacman -S npm
-```
-
 ## Yarn
 
 ```bash
@@ -156,7 +145,7 @@ npm install -g yarn
 npm install -g typescript
 ```
 
-## 截图、贴图
+## 截图与贴图工具
 
 ```bash
 sudo pacman -S flameshot

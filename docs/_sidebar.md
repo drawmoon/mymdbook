@@ -11,6 +11,7 @@
     - [部署 NestJs 应用](typescript/nestjs-deploying-centos.md)
   - [Puppeteer](typescript/puppeteer.md)
   - [用 ESLint、Prettier 规范 TypeScript 代码](typescript/typescript-eslint-prettier.md)
+- [Npm](npm.md)
 - [Web 调试代理工具](whistle.md)
 - [Docker](docker.md)
 - [Kubernetes](/)
@@ -23,4 +24,4 @@
   - [Windows](system/windows.md)
   - [Manjaro](system/manjaro.md)
   - [Ubuntu](system/ubuntu.md)
-- [快速搭建在线文档](quicknote/docsify.md)
+- [快速搭建在线文档](docsify.md)

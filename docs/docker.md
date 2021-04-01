@@ -286,7 +286,9 @@ docker push drsh/ubuntu:zsh
 docker system df
 ```
 
-### 清理磁盘，删除关闭的容器、无用的数据卷和网络
+### 清理磁盘
+
+删除关闭的容器、无用的数据卷、网络和构建缓存
 
 ```bash
 docker system prune

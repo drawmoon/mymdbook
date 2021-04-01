@@ -5,7 +5,7 @@
 - [安装 WSL](#安装-wsl)
 - [在 WSL 中安装 Docker](#在-wsl-中安装-docker)
 - [安装 Minikube](#安装-minikube)
-- [利用 Npm 安装 Yarn](#利用-npm-安装-yarn)
+- [用 Npm 安装 Yarn](#利用-npm-安装-yarn)
 
 ## Windows 10 下的终端神奇
 
@@ -127,7 +127,7 @@ Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All
 minikube start --iso-url='https://kubernetes.oss-cn-hangzhou.aliyuncs.com/minikube/iso/minikube-v1.13.0.iso' --image-repository=registry.cn-hangzhou.aliyuncs.com/google_containers
 ```
 
-## 利用 Npm 安装 Yarn
+## 用 Npm 安装 Yarn
 
 ```bash
 npm install -g yarn
