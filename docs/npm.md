@@ -4,6 +4,7 @@
 - [查看全局安装依赖包](#查看全局安装依赖包)
 - [安装 NodeJs 管理工具](#安装-nodejs-管理工具)
 - [安装 Npm 依赖包升级工具](#安装-npm-依赖包升级工具)
+- [升级 Npm](#升级-npm)
 - [卸载 Npm](#卸载-npm)
 
 ## 安装 Npm
@@ -54,6 +55,15 @@ npm-check -u
 >( ) typescript devDep  4.0.6  ❯  4.2.3  https://www.typescriptlang.org/
 
  Space to select. Enter to start upgrading. Control-C to cancel.
+```
+
+## 升级 Npm
+
+```bash
+npm install -g npm
+
+# Or
+npm install -g npm@7.8.0
 ```
 
 ## 卸载 Npm
