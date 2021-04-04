@@ -2,6 +2,7 @@
 
 - [初始化项目](#初始化项目)
 - [定制侧边栏](#定制侧边栏)
+- [本地预览](#本地预览)
 - [部署在 Github Pages](#部署在-github-pages)
 
 ## 初始化项目
@@ -22,7 +23,7 @@ docsify init ./docs
 
 ## 定制侧边栏
 
-设置`loadSidebar`为`true`
+编辑`index.html`文件，设置`loadSidebar`为`true`
 
 ```html
 <!-- index.html -->
@@ -44,6 +45,14 @@ docsify init ./docs
 - [介绍](intro.md)
   - [快速入门](quickstart.md)
 ```
+
+## 本地预览
+
+```bash
+docsify serve docs
+```
+
+在浏览器访问`http://localhost:3000`即可查看界面效果
 
 ## 部署在 Github Pages
 
