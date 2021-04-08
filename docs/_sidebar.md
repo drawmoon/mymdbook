@@ -3,6 +3,7 @@
   - [Swagger/Redoc 风格的 API 文档](aspnetcore/swagger.md)
   - [EntityFramework Core](aspnetcore/entity-framework-core.md)
   - [xUnit](aspnetcore/xunit.md)
+  - [指定 Internal 成员对外部程序集可见](aspnetcore/assembly-visible-to-specified-assembly.md)
 - [TypeScript](typescript/typescript.md)
   - [AutoMapper 对象与对象自动映射](typescript/typescript-automapper.md)
   - [NestJs](typescript/nestjs.md)
