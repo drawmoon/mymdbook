@@ -13,6 +13,7 @@
 - [Required 与 BindRequired 混用问题](#required-与-bindrequired-混用问题)
 - [配置 Controller 允许接收空字符串](#配置-controller-允许接收空字符串)
 - [配置 Controller 将空 Body 视为有效输入](#配置-controller-将空-body-视为有效输入)
+- [Switch 使用条件表达式](#switch-使用条件表达式)
 
 ## 启用可为空的类型检查
 
@@ -244,4 +245,43 @@ public void ConfigureServices(IServiceCollection services)
         options.AllowEmptyInputInBodyModelBinding = true;
     });
 }
+```
+
+## Switch 使用条件表达式
+
+在 C# 8.0 及以后的版本中语法
+
+```c#
+var s = "abc";
+
+var c = s switch
+{
+    var s1 when s1.StartsWith("a") => "a",
+    var s2 when s2.Contains("b") => "b",
+    var s3 when s3.EndsWith("c") => "c"
+};
+
+Console.WriteLine(c);
+```
+
+在 C# 7.0 及以后的版本中语法
+
+```c#
+var s = "abc";
+var c = "";
+
+switch (s)
+{
+    case var s1 when s1.StartsWith("a"):
+        c = "a";
+        break;
+    case var s2 when s2.Contains("b"):
+        c = "b";
+        break;
+    case var s3 when s3.EndsWith("c"):
+        c = "c";
+        break;
+}
+
+Console.WriteLine(c);
 ```
