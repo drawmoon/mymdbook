@@ -1,17 +1,14 @@
-﻿using AspNetCoreGraphQL.Models;
-using GraphQL.Types;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using GraphQL.Types;
+using GraphQLDemo.Models;
 
-namespace AspNetCoreGraphQL.GraphQL
+namespace GraphQLDemo.GraphQL
 {
     public class PastryGraphType : InterfaceGraphType<Pastry>
     {
         public PastryGraphType()
         {
             Name = nameof(Pastry);
+            Description = "";
 
             Field<StringGraphType>(nameof(Pastry.Tag));
 

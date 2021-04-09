@@ -1,22 +1,14 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AspNetCoreGraphQL.GraphQL.Core;
-using AspNetCoreGraphQL.GraphQL.Mutation;
-using GraphQL;
-using GraphQL.NewtonsoftJson;
-using GraphQL.Types;
-using AspNetCoreGraphQL.GraphQL.Query;
+using GraphQLDemo.GraphQL.Core;
+using GraphQLDemo.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using System;
 
-namespace AspNetCoreGraphQL
+namespace GraphQLDemo
 {
     public class Startup
     {
@@ -30,21 +22,14 @@ namespace AspNetCoreGraphQL
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // TODO: 报错
-            services.AddSingleton<GraphQL.OrderGraphType>();
-            services.AddSingleton<GraphQL.OrderDetailGraphType>();
-            services.AddSingleton<GraphQL.PastryGraphType>();
+            // 添加 in-memory 数据库
+            var databaseName = Guid.NewGuid().ToString();
+            services
+                .AddEntityFrameworkInMemoryDatabase()
+                .AddDbContext<AppDbContext>((sp, options) => options.UseInMemoryDatabase(databaseName).UseInternalServiceProvider(sp));
 
-            #region GraphQL
-
-            services.AddSingleton<IDocumentExecuter, DocumentExecuter>();
-            services.AddSingleton<IDocumentWriter, DocumentWriter>();
-            services.AddSingleton<ISchema, GraphQLSchema>();
-
-            services.AddSingleton<GraphQuery>();
-            services.AddSingleton<GraphQLMutation>();
-
-            #endregion
+            // 添加 GraphQL
+            services.AddGraphQLService();
 
             // TODO: 修改Read方式
             services.Configure<Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerOptions>(options =>
@@ -74,19 +59,14 @@ namespace AspNetCoreGraphQL
                 endpoints.MapControllers();
             });
 
-            #region GraphQL
+            // 启用 GraphQL
+            app.UseGraphQLService();
 
-            app.UseMiddleware<GraphQLMiddleware>(new GraphQLSettings
+            // 初始化示例数据
+            using (var scope = app.ApplicationServices.CreateScope())
             {
-                Path = "/api/graphql",
-                BuildUserContext = ctx => new GraphQLUserContext
-                {
-                    User = ctx.User
-                },
-                EnableMetrics = true
-            });
-
-            #endregion
+                DataGenerator.InitSampleData(scope.ServiceProvider);
+            }
         }
     }
 }

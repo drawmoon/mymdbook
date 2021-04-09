@@ -1,0 +1,22 @@
+[
+  {
+    "name": "xiaol",
+    "email": "xiaol@mail.com",
+    "lockoutEnabled": false
+  },
+  {
+    "name": "dalao",
+    "email": "dalao@mail.com",
+    "lockoutEnabled": false
+  },
+  {
+    "name": "chonya",
+    "email": "chonya@mail.com",
+    "lockoutEnabled": false
+  },
+  {
+    "name": "jinitaimei",
+    "email": "jinitaimei@mail.com",
+    "lockoutEnabled": true
+  }
+]
