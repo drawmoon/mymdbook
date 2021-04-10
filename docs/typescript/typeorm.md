@@ -14,6 +14,7 @@ npm install --save typeorm pg
 新建`db.providers.ts`文件，与数据库建立连接
 
 ```typescript
+// db.providers.ts
 import { createConnection } from 'typeorm';
 
 export const databaseProviders = [
@@ -37,6 +38,7 @@ export const databaseProviders = [
 新建`db.module.ts`文件，使数据库提供程序可以被其他模块导入
 
 ```typescript
+// db.module.ts
 import { Module } from '@nestjs/common';
 
 @Module({
@@ -46,13 +48,14 @@ import { Module } from '@nestjs/common';
 export class DatabaseModule {}
 ```
 
-新建一个`User`实体
+新建用户实体，
 
 ```typescript
+// user.entity.ts
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity()
-export class User {
+@Entity('user')
+export class UserEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -61,23 +64,35 @@ export class User {
 }
 ```
 
-在用户模块中导入数据库提供程序，并创建一个`UserRepository`添加到 IOC 容器中
+新建`repository.providers.ts`文件
 
 ```typescript
+// repository.providers.ts
+import { UserEntity } from './user.entity';
+
+export const repositoryProviders = [
+  {
+    provide: 'USER_REPOSITORY',
+    useFactory: (connection: Connection) =>
+      connection.getRepository(UserEntity),
+    inject: ['DATABASE_CONNECTION'],
+  },
+];
+```
+
+在用户模块中导入数据库提供程序和`repositoryProvides`
+
+```typescript
+// user.module.ts
 import { Module } from '@nestjs/common';
 import { DatabaseModule } from '../db/db.module';
-import { USerService } from './user.service';
+import { UserService } from './user.service';
 
 @Module({
   imports: [DatabaseModule],
   providers: [
-    {
-      provide: 'USER_REPOSITORY',
-      useFactory: (connection: Connection) =>
-        connection.getRepository(User),
-      inject: ['DATABASE_CONNECTION'],
-    },
-    PhotoService,
+    ...repositoryProviders,
+    UserService,
   ],
 })
 export class UserModule {}
@@ -86,6 +101,7 @@ export class UserModule {}
 在`UserService`中使用`UserRepository`
 
 ```typescript
+// user.service.ts
 import { Injectable, Inject } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { UserEntity } from './user.entity';
