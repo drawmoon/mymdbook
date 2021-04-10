@@ -9,10 +9,14 @@
 
 下面将创建一个基于 OData 的`ASP.NET Core API`项目，创建 OData 模型，使用 OData 的查询选项，例如`按需查询`、`扩展查询`、`过滤查询`等。
 
+[本文示例项目地址](https://github.com/drawmoon/mynotes/tree/master/examples/WebApi/src/ODataDemo)
+
 ### 安装 Nuget 程序包
 
 - `Microsoft.AspNetCore.OData`
 - `Microsoft.OData.ModelBuilder`
+- `Microsoft.EntityFrameworkCore`
+- `Microsoft.EntityFrameworkCore.InMemory`
 
 ### 创建实体和数据库上下文
 
@@ -70,6 +74,21 @@ public class AppDbContext : DbContext
             .HasOne(o => o.User)
             .WithMany(u => u.Orders);
     }
+}
+```
+
+将数据库上下文添加到容器中
+
+```c#
+public void ConfigureServices(IServiceCollection services)
+{
+    // 添加 in-memory 数据库
+    var databaseName = Guid.NewGuid().ToString();
+    services
+        .AddEntityFrameworkInMemoryDatabase()
+        .AddDbContext<AppDbContext>((sp, options) => options.UseInMemoryDatabase(databaseName).UseInternalServiceProvider(sp));
+
+    services.AddControllers();
 }
 ```
 
