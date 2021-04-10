@@ -1,9 +1,5 @@
 ﻿using Microsoft.OData.Edm;
 using Microsoft.OData.ModelBuilder;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ODataDemo.Models
 {
@@ -17,9 +13,25 @@ namespace ODataDemo.Models
             users
                 .HasReadRestrictions()
                 .HasPermissions(p =>
-                    p.HasSchemeName("Schema").HasScopes(s => s.HasRestrictedProperties("User.Read")))
+                    p.HasSchemeName("Schema").HasScopes(s => s.HasScope("User.Read")))
                 .HasReadByKeyRestrictions(r =>
-                    r.HasPermissions(p => p.HasSchemeName("Schema").HasScopes(s => s.HasRestrictedProperties("User.ReadByKey"))));
+                    r.HasPermissions(p => p.HasSchemeName("Schema").HasScopes(s => s.HasScope("User.ReadByKey"))));
+
+            users
+                .HasInsertRestrictions()
+                .HasPermissions(p =>
+                    p.HasSchemeName("Schema").HasScopes(s => s.HasScope("User.Create")));
+
+            users
+                .HasUpdateRestrictions()
+                .HasPermissions(p =>
+                    p.HasSchemeName("Schema").HasScopes(s => s.HasScope("User.Update")));
+
+            users.HasDeleteRestrictions()
+                .HasPermissions(p =>
+                    p.HasSchemeName("Schema").HasScopes(s => s.HasScope("User.Delete")));
+
+            builder.EntitySet<Order>("Orders");
 
             return builder.GetEdmModel();
         }

@@ -18,11 +18,11 @@ namespace GraphQLDemo.Models
 
             modelBuilder.Entity<Order>()
                 .HasMany(o => o.OrderDetails)
-                .WithOne();
+                .WithOne(od => od.Order);
 
             modelBuilder.Entity<OrderDetail>()
-                .HasOne(o => o.Order)
-                .WithMany();
+                .HasOne(od => od.Order)
+                .WithMany(o => o.OrderDetails);
         }
     }
 }

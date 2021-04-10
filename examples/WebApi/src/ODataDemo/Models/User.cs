@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace ODataDemo.Models
 {
@@ -14,5 +11,7 @@ namespace ODataDemo.Models
         public string Email { get; set; }
 
         public bool LockoutEnabled { get; set; }
+
+        public virtual ICollection<Order> Orders { get; set; }
     }
 }
