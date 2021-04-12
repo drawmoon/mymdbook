@@ -6,7 +6,7 @@
 - [中央包版本控制](#中央包版本控制)
 - [判断两个集合的元素是否相等](#判断两个集合的元素是否相等)
 - [字典的命名约定](#字典的命名约定)
-- [将对象序列化为字节数组，与反序列化为对象](#将对象序列化为字节数组与反序列化为对象)
+- [对象与流之间的序列化与反序列化](#对象与流之间的序列化与反序列化)
 - [用正则表达式进行字符串替换](#用正则表达式进行字符串替换)
 - [设置 HttpClient 代理](#设置-httpclient-代理)
 - [中间件管道，Map 与 MapWhen](#中间件管道map-与-mapwhen)
@@ -106,25 +106,23 @@ if (foo.All(bar.Contains))
 Dictionary<string, List<string>> provincesByCountry = new();
 ```
 
-## 将对象序列化为字节数组，与反序列化为对象
+## 对象与流之间的序列化与反序列化
 
 ```csharp
-// 将对象序列化为字节数组
-using(MemoryStream memoryStream = new())
-{
-    DataContractSerializer serializer = new(tyoeof(T));
+using System.Runtime.Serialization.Json;
 
+public async ValueTask<Stream> Object2Stream(object value) {
+    await using(MemoryStream memoryStream = new());
+
+    DataContractJsonSerializer serializer = new(value.GetType());
     serializer.WriteObject(memoryStream, value);
-
-    var bytes = memoryStream.GetBuffer();
+    serializer.Position = 0;
+    await serializer.FlushAsync();
 }
 
-// 将字节数组反序列化为对象
-using(MemoryStream memoryStream = new(bytes))
-{
-    DataContractSerializer serializer = new(tyoeof(T));
-
-    var result = (TResult)serializer.ReadObject(memoryStream);
+public T Stream2Object<T>(Stream stream) {
+    DataContractJsonSerializer serializer = new(tyoeof(T));
+    var result = (TResult)serializer.ReadObject(stream);
 }
 ```
 
