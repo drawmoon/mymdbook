@@ -59,8 +59,8 @@ jobs:
         run: npm install
 
       # linter
-      - name: line
-        run: npm run line
+      - name: lint
+        run: npm run lint
 
       # 构建项目
       - name: build
