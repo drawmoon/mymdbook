@@ -8,7 +8,7 @@
 - [TypeScript](typescript/typescript.md)
   - [AutoMapper 对象与对象自动映射](typescript/typescript-automapper.md)
   - [NestJs](typescript/nestjs.md)
-    - [Swagger](typescript/swagger.md)
+    - [Swagger](typescript/nestjs-swagger.md)
     - [TypeOrm](typescript/typeorm.md)
     - [部署 NestJs 应用](typescript/nestjs-deploying-centos.md)
   - [Puppeteer](typescript/puppeteer.md)
