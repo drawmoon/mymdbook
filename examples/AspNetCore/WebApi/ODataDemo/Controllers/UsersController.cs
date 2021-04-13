@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ODataDemo.Models;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ODataDemo.Controllers
@@ -38,6 +39,20 @@ namespace ODataDemo.Controllers
             }
 
             return Ok(user);
+        }
+
+        [HttpGet("{id}/orders")]
+        [EnableQuery]
+        public async Task<IActionResult> GetOrders([FromRoute] int id)
+        {
+            var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == id);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(_dbContext.Orders.Where(o => o.UserId == id));
         }
 
         [HttpPost]
