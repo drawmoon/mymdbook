@@ -18,13 +18,13 @@ namespace MinioDemo
                 
                 Console.WriteLine("1. Set and Get Object");
                 // Put Object
-                minioService.Set("test&user/a1/user.json", new User
+                minioService.SetJsonObject("test&user/a1/user.json", new User
                 {
                     Id = Guid.NewGuid().ToString(),
                     Name = "xl"
                 });
                 // Get Object
-                var user = minioService.Get<User>("test&user/a1/user.json");
+                var user = minioService.GetJsonObject<User>("test&user/a1/user.json");
                 Console.WriteLine($"{user.Id}  {user.Name}");
                 // Remove File
                 minioService.Remove("test&user/a1/user.json");
@@ -52,12 +52,5 @@ namespace MinioDemo
                 throw;
             }
         }
-    }
-    
-    public class User
-    {
-        public string Id { get; set; }
-
-        public string Name { get; set; }
     }
 }
