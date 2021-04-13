@@ -52,8 +52,8 @@ namespace ODataDemo
 
                 // 在 OData 6.0.0 及以上的版本中默认无法使用这些功能，需要在此处指定启用
                 endpoints.Select().Expand().Filter().Count().OrderBy();
-                // 配置 OData 的路由前缀，用 http://*:5000/odata/[controller] 访问 OData 控制器。
-                endpoints.MapODataRoute("odata", "odata", AppEdmModel.GetModel());
+                // 配置 OData 的路由前缀，用 http://*:5000/api/[controller] 访问 OData 控制器。
+                endpoints.MapODataRoute("api", "api", AppEdmModel.GetModel());
             });
 
             // 初始化示例数据
