@@ -21,9 +21,10 @@
 - [GitLab CI/CD](/)
 - [VSCode 远程编辑 Linux 文件](ides/vscode-remote-ssh.md)
 - [Rider 远程调式 Linux 应用](ides/rider-remote-debug.md)
+- [快速搭建在线文档](docsify.md)
+- [Linux 下管理 Postgres](manage-postgres-on-linux.md)
 - 操作系统笔记
   - [MacOS](system/macos.md)
   - [Windows](system/windows.md)
   - [Manjaro](system/manjaro.md)
   - [Ubuntu](system/ubuntu.md)
-- [快速搭建在线文档](docsify.md)
