@@ -12,12 +12,15 @@
 # 工作流名称
 name: ci
 
-# 工作流执行条件，push 或 push_request 到 main 分支时触发执行工作流
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+# 工作流执行条件，push 或 push_request 时触发执行工作流
+on: [ push, pull_request ]
+
+# 或限制分支
+# on:
+#   push:
+#     branches: [ main ]
+#   pull_request:
+#     branches: [ main ]
 
 # 定义工作流作业，可以定义多个作业
 jobs:
@@ -59,8 +62,8 @@ jobs:
         run: npm install
 
       # linter
-      - name: line
-        run: npm run line
+      - name: lint
+        run: npm run lint
 
       # 构建项目
       - name: build
