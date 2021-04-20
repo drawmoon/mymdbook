@@ -29,3 +29,13 @@ http://report.net/api/1/file http://localhost:3000/api/1/file
 
 http://report.net http://localhost:5000
 ```
+
+## 通配符匹配
+
+将 `api/1/file/{id}/picture` 转发到 `api/1/file/{id}/chart`，请求的 url 为 `http://report.net/api/1/file/718/picture/window/100?filename=test.png`
+
+```conf
+^http://report.net/api/1/file/*/picture/*** http://localhost:3000/api/1/file/$1/chart/$2
+```
+
+其中 `^` 表示以...开头，`$1 = 718`，`$2 = window/100?filename=test.png`
