@@ -36,7 +36,7 @@ namespace MinioDemo
         public void Set(string key, string fileName) =>
             SetAsync(key, fileName).AsTask().GetAwaiter().GetResult();
         
-        public async ValueTask<Stream> GetAsync(string key)
+        public async Task<Stream> GetAsync(string key)
         {
             MemoryStream stream = new();
             var (bucketName, objectName) = GetObjectArgs(key);
@@ -50,7 +50,7 @@ namespace MinioDemo
         }
 
         public Stream Get(string key) =>
-            GetAsync(key).AsTask().ConfigureAwait(false).GetAwaiter().GetResult();
+            GetAsync(key).ConfigureAwait(false).GetAwaiter().GetResult();
         
         public async ValueTask SetAsync(string key, Stream stream, string contentType = null)
         {

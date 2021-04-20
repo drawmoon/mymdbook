@@ -13,7 +13,7 @@ namespace MinioDemo
         
         void Set(string key, string fileName);
         
-        ValueTask<Stream> GetAsync(string key);
+        Task<Stream> GetAsync(string key);
 
         Stream Get(string key);
 

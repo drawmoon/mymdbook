@@ -6,7 +6,7 @@ namespace MinioDemo
 {
     public static class MinioServiceExtensions
     {
-        public static async ValueTask<T> GetJsonObjectAsync<T>(this IMinioService minioService, string key)
+        public static async Task<T> GetJsonObjectAsync<T>(this IMinioService minioService, string key)
         {
             var stream = await minioService.GetAsync(key);
             DataContractJsonSerializer serializer = new(typeof(T));
@@ -14,7 +14,7 @@ namespace MinioDemo
         }
 
         public static T GetJsonObject<T>(this IMinioService minioService, string key) =>
-            GetJsonObjectAsync<T>(minioService, key).AsTask().ConfigureAwait(false).GetAwaiter().GetResult();
+            GetJsonObjectAsync<T>(minioService, key).ConfigureAwait(false).GetAwaiter().GetResult();
         
         public static async ValueTask SetJsonObjectAsync(this IMinioService minioService, string key, object value)
         {
