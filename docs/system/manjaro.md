@@ -4,7 +4,10 @@
 - [安装 Google 拼音输入法](#安装-google-拼音输入法)
 - [V2ray Linux Web 客户端](#v2ray-linux-web-客户端)
 - [截图与贴图工具](#截图与贴图工具)
+- [远程桌面](#远程桌面)
 - [安装 Visual Studio Code](#安装-visual-studio-code)
+- [安装 DBeaver](#安装-dbeaver)
+- [.NET SDK 5.0](#net-sdk)
 
 ## 修改软件源为国内源，添加 archlinuxcn 软件源
 
@@ -109,42 +112,6 @@ docker run -d \
 
 部署成功后，访问`http://localhost:2017`进入到主界面
 
-## Vim
-
-```bash
-sudo pacman -S vim
-```
-
-## Git
-
-```bash
-sudo pacman -S git
-```
-
-## 安装 Visual Studio Code
-
-```bash
-yaourt -S visual-studio-code-bin
-```
-
-## dotnet sdk
-
-```bash
-yaourt -S dotnet-sdk-5.0
-```
-
-## Yarn
-
-```bash
-npm install -g yarn
-```
-
-## TypeScript
-
-```bash
-npm install -g typescript
-```
-
 ## 截图与贴图工具
 
 ```bash
@@ -162,20 +129,48 @@ sudo pacman -S flameshot
 ## 远程桌面
 
 ```bash
-pacman -S remmina freerdp libvncserver telepathy-glib gnome-keyring nxproxy spice-gtk3 xorg-server-xephyr
+pacman -S remmina \
+	freerdp \
+	libvncserver \
+	telepathy-glib \
+	gnome-keyring \
+	nxproxy \
+	spice-gtk3 \
+	xorg-server-xephyr
 ```
 
-## 在 Docker 中运行 PostgreSql
-
-拉取 Docker 镜像并执行
+## 安装 Visual Studio Code
 
 ```bash
-docker pull postgres:latest
-docker run --name postgres -e POSTGRES_PASSWORD=123456 -p 5432:5432 -d postgres:latest
+yaourt -S visual-studio-code-bin
 ```
 
-启动 Postgres
+## 安装 DBeaver
 
 ```bash
-docker container start postgres
+sudo pacman -S dbeaver
+```
+
+## .NET SDK
+
+```bash
+yaourt -S dotnet-sdk-5.0
+```
+
+## Vim
+
+```bash
+sudo pacman -S vim
+```
+
+## Git
+
+```bash
+sudo pacman -S git
+```
+
+## Yarn
+
+```bash
+npm install -g yarn
 ```
