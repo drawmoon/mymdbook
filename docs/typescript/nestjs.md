@@ -245,8 +245,7 @@ get(): string {
     "start": "node -r dotenv/config \"./node_modules/@nestjs/cli/bin/nest.js\" start dotenv_config_path=.env.development",
     "start:prod": "node -r dotenv/config dist/main.js dotenv_config_path=.env",
 	"start:dev": "node --watch -r dotenv/config \"node_modules/@nestjs/cli/bin/nest.js\" start dotenv_config_path=.env.development",
-	"start:debug": "node --debug -r dotenv/config \"node_modules/@nestjs/cli/bin/nest.js\" start dotenv_config_path=.env",
-	"start:inspect": "node --inspect -r dotenv/config \"node_modules/@nestjs/cli/bin/nest.js\" start dotenv_config_path=.env"
+	"start:inspect": "node --inspect=127.0.0.1:9229 -r dotenv/config \"node_modules/@nestjs/cli/bin/nest.js\" start dotenv_config_path=.env"
   }
 }
 ```
