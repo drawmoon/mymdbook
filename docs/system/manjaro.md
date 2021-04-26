@@ -101,13 +101,13 @@ sudo systemctl enable/disable/start/stop/restart/status v2raya
 
 ```bash
 docker run -d \
-	--restart=always \
-	--privileged \
-	--network=host \
-	--name v2raya \
-	-v /etc/resolv.conf:/etc/resolv.conf \
-	-v /etc/v2raya:/etc/v2raya \
-	mzz2017/v2raya
+ --restart=always \
+ --privileged \
+ --network=host \
+ --name v2raya \
+ -v /etc/resolv.conf:/etc/resolv.conf \
+ -v /etc/v2raya:/etc/v2raya \
+ mzz2017/v2raya
 ```
 
 部署成功后，访问`http://localhost:2017`进入到主界面
@@ -130,13 +130,13 @@ sudo pacman -S flameshot
 
 ```bash
 pacman -S remmina \
-	freerdp \
-	libvncserver \
-	telepathy-glib \
-	gnome-keyring \
-	nxproxy \
-	spice-gtk3 \
-	xorg-server-xephyr
+ freerdp \
+ libvncserver \
+ telepathy-glib \
+ gnome-keyring \
+ nxproxy \
+ spice-gtk3 \
+ xorg-server-xephyr
 ```
 
 ## 安装 Visual Studio Code
@@ -149,6 +149,16 @@ yaourt -S visual-studio-code-bin
 
 ```bash
 sudo pacman -S dbeaver
+```
+
+国内的 DBeaver 驱动仓库，[阿里云云效 Maven](https://maven.aliyun.com/mvn/guide)
+
+窗口 > 首选项 > 连接 > 驱动 > Maven
+
+```txt
+ID: aliyun-maven-repo
+Name: 阿里云仓库
+URL: https://maven.aliyun.com/repository/public/
 ```
 
 ## .NET SDK

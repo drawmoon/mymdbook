@@ -1,31 +1,16 @@
 # Windows 10 Notes
 
-- [Windows 10 下的终端神奇](#windows-10-下的终端神奇)
+- [美化 PowerShell](#美化-powershell)
+  - [自动补全](#自动补全)
+  - [语法高亮显示](#语法高亮显示)
+- [WSL](#wsl)
+  - [systemctl](#systemctl)
+  - [zsh](#zsh)
+  - [WSL GUI](#wsl-gui)
+  - [WSL 使用 Windows 的代理](#wsl-使用-windows-的代理)
 - [截图与贴图工具](#截图与贴图工具)
-- [安装 WSL](#安装-wsl)
-- [在 WSL 中安装 Docker](#在-wsl-中安装-docker)
-- [安装 Minikube](#安装-minikube)
-- [用 Npm 安装 Yarn](#利用-npm-安装-yarn)
 
-## Windows 10 下的终端神奇
-
-### Windows Terminal
-
-> Windows Terminal 程序是一款新式、快速、高效、强大且高效的终端应用程序，适用于命令行工具和命令提示符，PowerShell 和 WSL 等 Shell 用户。主要功能包括多个选项卡、窗格、Unicode、和 UTF-8 字符支持，GPU 加速文本渲染引擎以及自定义主题、样式和配置。
-
-[Download Windows Terminal](https://www.microsoft.com/zh-cn/p/windows-terminal/9n0dx20hk701?activetab=pivot:overviewtab)
-
-### MobaXterm
-
-> Enhanced terminal for Windows with X11 server, tabbed SSH client, network tools and much more.
-
-[Download MobaXterm](https://mobaxterm.mobatek.net/)
-
-## 截图与贴图工具
-
-[Download Snipaste](https://zh.snipaste.com/)
-
-## 安装 WSL
+## WSL
 
 安装适用于 Linux 的 Windows 的子系统，安装 WSL2 之前，必须启用`虚拟机平台`
 
@@ -42,6 +27,24 @@ wsl --set-default-version 2
 ```
 
 在 Microsoft Store 中安装 [Ubuntu 20.04 LTS](https://www.microsoft.com/zh-cn/p/ubuntu-2004-lts/9n6svws3rx71#activetab=pivot:overviewtab)
+
+### systemctl
+
+### zsh
+
+### WSL GUI
+
+### WSL 使用 Windows 的代理
+
+如果代理客户端使用的是 v2rayN，首先需要配置 v2rayN ☑ 允许来自局域网的连接。
+
+```bash
+export hostip=$(cat /etc/resolv.conf |grep -oP '(?<=nameserver\ ).*')
+export https_proxy="http://${hostip}:10809"
+export http_proxy="http://${hostip}:10809"
+```
+
+### 补充
 
 查看 WSL 的分发运行状态
 
@@ -61,77 +64,11 @@ WSL 访问 Windows 文件
 cd /mnt/c/Windows
 ```
 
-WSL 使用 Windows 的代理
+## 截图与贴图工具
 
-如果代理客户端使用的是 v2rayN，首先需要配置 v2rayN ☑ 允许来自局域网的连接。
+[Download Snipaste](https://zh.snipaste.com/)
 
-```bash
-export hostip=$(cat /etc/resolv.conf |grep -oP '(?<=nameserver\ ).*')
-export https_proxy="http://${hostip}:10809"
-export http_proxy="http://${hostip}:10809"
-```
-
-## 在 WSL 中安装 Docker
-
-安装 Docker
-
-```bash
-curl -fsSL https://get.docker.com -o get-docker.sh
-sudo sh get-docker.sh
-```
-
-启用 Docker，由于 WSL2 不支持 `systemctl`，所以用`service`替代
-
-```bash
-sudo service docker start
-```
-
-检查 Docker 进程是否启动
-
-```bash
-service docker status
-```
-
-建立 docker 用户组
-
-```bash
-sudo groupadd docker
-sudo usermod -aG docker $USER
-```
-
-镜像加速
-
-```bash
-sudo vim /etc/docker/daemon.json
-
-{
-  "registry-mirrors": [
-    "http://f1361db2.m.daocloud.io"
-  ]
-}
-```
-
-## 安装 Minikube
-
-启用 Hyper-V
-
-以超级管理员身份运行`PowerShell`，并执行命令
-
-```bash
-Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All
-```
-
-[安装 Minikube](https://minikube.sigs.k8s.io/docs/start/)
-
-```bash
-minikube start --iso-url='https://kubernetes.oss-cn-hangzhou.aliyuncs.com/minikube/iso/minikube-v1.13.0.iso' --image-repository=registry.cn-hangzhou.aliyuncs.com/google_containers
-```
-
-## 用 Npm 安装 Yarn
-
-```bash
-npm install -g yarn
-```
+## 安装 Yarn
 
 更改 PowerShell 执行策略
 
@@ -139,29 +76,6 @@ npm install -g yarn
 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 ```
 
-## Dbeaver
-
-[阿里云云效 Maven](https://maven.aliyun.com/mvn/guide)
-
-窗口 > 首选项 > 连接 > 驱动 > Maven
-
-```txt
-ID: aliyun-maven-repo
-Name: 阿里云仓库
-URL: https://maven.aliyun.com/repository/public/
-```
-
-## 安装 Docker 镜像版的 PostgreSql
-
-拉取 PostgreSql 镜像
-
 ```bash
-docker pull postgres:latest
-```
-
-启动 Postgres
-
-```bash
-docker run --name postgres -e POSTGRES_PASSWORD=123456 -p 5432:5432 -d postgres:latest
-docker container start postgres
+npm install -g yarn
 ```
