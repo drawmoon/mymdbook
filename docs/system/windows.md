@@ -28,7 +28,37 @@ wsl --set-default-version 2
 
 在 Microsoft Store 中安装 [Ubuntu 20.04 LTS](https://www.microsoft.com/zh-cn/p/ubuntu-2004-lts/9n6svws3rx71#activetab=pivot:overviewtab)
 
-### systemctl
+### [systemctl](https://github.com/DamionGans/ubuntu-wsl2-systemd-script)
+
+安装 Git
+
+```bash
+sudo apt install git
+```
+
+克隆仓库，并执行脚本
+
+```bash
+git clone https://github.com/DamionGans/ubuntu-wsl2-systemd-script.git
+cd ubuntu-wsl2-systemd-script/
+bash ubuntu-wsl2-systemd-script.sh
+```
+
+脚本执行完成后重启 WSL
+
+```bash
+#停止LxssManager服务
+net stop LxssManager
+
+#启动LxssManager服务
+net start LxssManager
+```
+
+验证 systemctl 是否工作
+
+```bash
+systemctl
+```
 
 ### zsh
 
@@ -42,26 +72,6 @@ wsl --set-default-version 2
 export hostip=$(cat /etc/resolv.conf |grep -oP '(?<=nameserver\ ).*')
 export https_proxy="http://${hostip}:10809"
 export http_proxy="http://${hostip}:10809"
-```
-
-### 补充
-
-查看 WSL 的分发运行状态
-
-```bash
-wsl -l -v
-```
-
-手动切换分发的版本
-
-```bash
-wsl --set-version <Name> 2
-```
-
-WSL 访问 Windows 文件
-
-```bash
-cd /mnt/c/Windows
 ```
 
 ## 截图与贴图工具
