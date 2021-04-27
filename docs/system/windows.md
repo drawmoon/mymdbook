@@ -19,7 +19,48 @@ $PSVersionTable
 
 下载最新版的 [PowerShell](https://github.com/PowerShell/PowerShell/releases)，下载 [Windows Terminal](https://www.microsoft.com/zh-cn/p/windows-terminal/9n0dx20hk701?activetab=pivot:overviewtab)
 
-设置 Windows Terminal 的默认 Shell 为最新版的 PowerShell，设置 -> 启动 -> 默认配置文件，选择 PowerShell
+设置 Windows Terminal 的默认 Shell 为最新版的 PowerShell，按`CTRL + ,`进入设置 -> 启动 -> 默认配置文件，选择 PowerShell
+
+安装 oh-my-posh
+
+```bash
+Install-Module oh-my-posh -Scope AllUsers
+```
+
+下载 [Meslo LGM NF](https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/Meslo.zip) 字体，按`CTRL + ,`进入设置 -> 打开 JSON 文件，设置默认字体
+
+```json
+{
+    "profiles":
+    {
+        "defaults":
+        {
+            "fontFace": "MesloLGM NF"
+        }
+    }
+}
+```
+
+获取所有主题
+
+```bash
+Get-PoshThemes
+```
+
+使用记事本编辑 Profile
+
+```bash
+notepad $Profile
+```
+
+添加以下内容
+
+```bash
+# oh-my-posh
+Import-Module oh-my-posh
+# 设置主题为 aliens
+Set-PoshPrompt -Theme aliens
+```
 
 ## [自动补全、语法高亮显示](https://github.com/PowerShell/PSReadLine)
 
@@ -32,13 +73,7 @@ Install-Module -Name PSReadLine -AllowPrerelease -Force
 安装 posh-git
 
 ```bash
-Install-Module posh-git -Scope CurrentUser
-```
-
-安装 oh-my-posh
-
-```bash
-Install-Module oh-my-posh -Scope CurrentUser
+Install-Module posh-git -Scope AllUsers
 ```
 
 使用记事本编辑 Profile
@@ -51,6 +86,7 @@ notepad $Profile
 
 ```bash
 # PSReadLine
+Import-Module PSReadLine
 # 设置预测文本来源为历史记录
 Set-PSReadLineOption -PredictionSource History
 # 设置 Tab 键补全
@@ -66,9 +102,6 @@ Set-PSReadLineKeyHandler -Key DownArrow -Function HistorySearchForward
 
 # posh-git
 Import-Module posh-git
-
-# oh-my-posh
-Import-Module oh-my-posh
 ```
 
 ## WSL
