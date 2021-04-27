@@ -1,25 +1,40 @@
 # Ubuntu Notes
 
 - [修改源](#修改源)
-- [将 zsh 设置为默认的 Shell](#将-zsh-设置为默认的-shell)
-- [安装 Postgres](#安装-postgres)
-- [安装 .NET SDK](#安装-net-sdk)
+- [zsh](#zsh)
+  - [oh-my-zsh](#oh-my-zsh)
+  - [更新 oh-my-zsh](#更新-oh-my-zsh)
+  - [设置代理](#设置代理)
+- [安装 NodeJs](#安装-nodejs)
 - [用 Npm 安装 Yarn](#利用-npm-安装-yarn)
 - [安装 Nginx](#安装-nginx)
 
 ## 修改源
 
+服务器列表
+
+| 服务商              | 地址                                       |
+| ------------------- | ------------------------------------------ |
+| Ubuntu 官方         | `http://archive.ubuntu.com/ubuntu/`        |
+| Ubuntu 官方（中国） | `http://cn.archive.ubuntu.com/ubuntu/`     |
+| 网易（广东广州）    | `http://mirrors.163.com/ubuntu/`           |
+| 阿里云              | `http://mirrors.aliyun.com/ubuntu/`        |
+| 腾讯                | `http://mirrors.cloud.tencent.com/ubuntu/` |
+| 华为                | `http://mirrors.huaweicloud.com/ubuntu/`   |
+
 ```bash
-# 安装 vim
+# 安装 vim，或使用 vi
 sudo apt install vim
-# 或用 vi 进行编辑 sudo vi /etc/apt/source.list
 
 # 修改文件
 sudo vim /etc/apt/source.list
 
-# 修改 http://archive.ubuntu.com/ubuntu 为下面服务器列表中的任意一个服务商地址
-# source.list
+# 按 i 键进入编辑模式，编辑完成后按 Esc 键退出编辑模式，按 : 键，然后输入 wq 回车保存并退出
+```
 
+示例
+
+```bash
 # deb-src http://archive.ubuntu.com/ubuntu/ focal-updates main restricted
 
 ## N.B. software from this repository is ENTIRELY UNSUPPORTED by the Ubuntu
@@ -61,28 +76,22 @@ deb http://security.ubuntu.com/ubuntu/ focal-security universe
 # deb-src http://security.ubuntu.com/ubuntu/ focal-security universe
 deb http://security.ubuntu.com/ubuntu/ focal-security multiverse
 # deb-src http://security.ubuntu.com/ubuntu/ focal-security multiverse
-
 ```
 
-服务器列表
+## zsh
 
-| 服务商              | 地址                                       |
-| ------------------- | ------------------------------------------ |
-| Ubuntu 官方         | `http://archive.ubuntu.com/ubuntu/`        |
-| Ubuntu 官方（中国） | `http://cn.archive.ubuntu.com/ubuntu/`     |
-| 网易（广东广州）    | `http://mirrors.163.com/ubuntu/`           |
-| 阿里云              | `http://mirrors.aliyun.com/ubuntu/`        |
-| 腾讯                | `http://mirrors.cloud.tencent.com/ubuntu/` |
-| 华为                | `http://mirrors.huaweicloud.com/ubuntu/`   |
-
-## 将 zsh 设置为默认的 Shell
+安装`zsh`，并设置为默认的`shell`
 
 ```bash
 sudo apt install zsh
 
 # 将 zsh 设为默认 shell
 chsh -s /bin/zsh
+```
 
+### oh-my-zsh
+
+```bash
 # 安装 git、curl
 sudo apt install git curl
 
@@ -93,11 +102,17 @@ sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/i
 - [Ubuntu 超炫的 ZSH 配置](https://zhuanlan.zhihu.com/p/27052046)
 - [Ubuntu | 安装 oh-my-zsh](https://www.jianshu.com/p/ba782b57ae96)
 
+### 更新 oh-my-zsh
+
+```bash
+upgrade_oh_my_zsh
+```
+
 ### 设置代理
 
 ```bash
 # 修改配置文件，使用快捷指令启用
-vim ~/.zshrc
+sudo vim ~/.zshrc
 
 # proxy
 alias setproxy='export http_proxy=127.0.0.1:10809;export https_proxy=$http_proxy'
@@ -112,40 +127,31 @@ setproxy
 unsetproxy
 ```
 
-### 更新 oh-my-zsh
+## 安装 NodeJs
+
+下载[Linux 二进制文件](https://nodejs.org/en/download/)
 
 ```bash
-upgrade_oh_my_zsh
+VERSION=v14.16.1
+DISTRO=linux-x64
+sudo mkdir -p /usr/local/lib/nodejs
+sudo tar -xJvf node-$VERSION-$DISTRO.tar.xz -C /usr/local/lib/nodejs
 ```
 
-## 安装 Postgres
-
-拉取并运行 Postgres Docker 镜像
+设置环境变量
 
 ```bash
-docker pull postgres:latest
-docker run --name postgres -e POSTGRES_PASSWORD=123456 -p 5432:5432 -d postgres:latest
+sudo vim ~/.zshrc
+
+# 添加到末尾
+
+# Nodejs
+VERSION=v14.16.1
+DISTRO=linux-x64
+export PATH=/usr/local/lib/nodejs/node-$VERSION-$DISTRO/bin:$PATH
 ```
 
-启动 Postgres
-
-```bash
-docker container start postgres
-```
-
-## 安装 .Net SDK
-
-```bash
-wget https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
-sudo dpkg -i packages-microsoft-prod.deb
-
-sudo apt-get update; \
-  sudo apt-get install -y apt-transport-https && \
-  sudo apt-get update && \
-  sudo apt-get install -y dotnet-sdk-3.1
-```
-
-[安装教程](https://docs.microsoft.com/zh-cn/dotnet/core/install/linux-ubuntu)
+保存后执行`source ~/.zshrc`刷新`.zshrc`
 
 ## 用 Npm 安装 Yarn
 
