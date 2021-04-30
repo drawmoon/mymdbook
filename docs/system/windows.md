@@ -205,6 +205,12 @@ vim ~/.zshrc
 plugins=(git zsh-syntax-highlighting)
 ```
 
+刷新配置
+
+```bash
+source ~/.zshrc
+```
+
 ### [历史记录](https://github.com/zsh-users/zsh-autosuggestions)
 
 将仓库克隆到`plugins`目录
@@ -223,6 +229,12 @@ vim ~/.zshrc
 
 ```conf
 plugins=(git zsh-autosuggestions)
+```
+
+刷新配置
+
+```bash
+source ~/.zshrc
 ```
 
 ### 自动补全
