@@ -1,11 +1,13 @@
 # Nest Swagger Notes
 
 - [初始化 Swagger](#初始化-swagger)
-- [描述 query 参数为数组](#描述-query-参数为数组)
-- [描述 form-data 参数为数组](#描述-form-data-参数为数组)
-- [描述文件上传](#描述文件上传)
-- [描述多个文件上传](#描述多个文件上传)
-- [描述指定文件上传](#描述指定文件上传)
+- [描述接口参数](#描述接口参数)
+  - [数组类型的 query 参数](#数组类型的-query-参数)
+  - [数组的 form-data 参数](#数组的-form-data-参数)
+- [文件上传](#文件上传)
+  - [上传单个文件](#上传单个文件)
+  - [上传多个文件](#上传多个文件)
+  - [上传指定文件](#上传指定文件)
 
 ## 初始化 Swagger
 
@@ -44,7 +46,9 @@ import { ApiTags } from "@nestjs/swagger";
 export class TodoController {}
 ```
 
-## 描述 query 参数为数组
+## 描述接口参数
+
+## 数组类型的 query 参数
 
 ```typescript
 export class TodoController {
@@ -68,7 +72,7 @@ export class TodoController {
 }
 ```
 
-## 描述 form-data 参数为数组
+## 数组的 form-data 参数
 
 ```typescript
 export class UserBatchDeleteDto {
@@ -98,7 +102,15 @@ export class TodoController {
 }
 ```
 
-## 描述文件上传
+## 文件上传
+
+安装依赖
+
+```bash
+npm install -D @types/multer
+```
+
+### 上传单个文件
 
 ```typescript
 export class TodoController {
@@ -121,7 +133,7 @@ export class TodoController {
 }
 ```
 
-## 描述多个文件上传
+### 上传多个文件
 
 ```typescript
 export class TodoController {
@@ -147,7 +159,7 @@ export class TodoController {
 }
 ```
 
-## 描述指定文件上传
+### 上传指定文件
 
 ```typescript
 export class TodoController {
