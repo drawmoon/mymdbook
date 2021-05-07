@@ -29,6 +29,8 @@ public class User
 
     public string Name { get; set; }
 
+    public int Age { get; set; }
+
     public string Email { get; set; }
 
     public bool LockoutEnabled { get; set; }
@@ -46,6 +48,20 @@ public class Order
 
     [ForeignKey(nameof(UserId))]
     public virtual User User { get; set; }
+
+    public virtual ICollection<OrderDetail> OrderDetails { get; set; }
+}
+
+public class OrderDetail
+{
+    public int Id { get; set; }
+
+    public string Name { get; set; }
+
+    public int OrderId { get; set; }
+
+    [ForeignKey(nameof(OrderId))]
+    public virtual Order Order { get; set; }
 }
 ```
 
@@ -73,6 +89,14 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Order>()
             .HasOne(o => o.User)
             .WithMany(u => u.Orders);
+
+        modelBuilder.Entity<Order>()
+            .HasMany(o => o.OrderDetails)
+            .WithOne(od => od.Order);
+
+        modelBuilder.Entity<OrderDetail>()
+            .HasOne(od => od.Order)
+            .WithMany(o => o.OrderDetails);
     }
 }
 ```
@@ -130,6 +154,10 @@ namespace ODataDemo.Models
             users.HasDeleteRestrictions()
                 .HasPermissions(p =>
                     p.HasSchemeName("Schema").HasScopes(s => s.HasScope("User.Delete")));
+
+            builder.EntitySet<Order>("Orders");
+
+            builder.EntitySet<OrderDetail>("OrderDetails");
 
             return builder.GetEdmModel();
         }
@@ -193,369 +221,54 @@ public class UsersController : ODataController
 
 ### 按需查询 $select
 
-OData 支持请求获取一个复杂对象中指定的属性，在接口传递`$select`参数实现。下面的请求是获取用户信息，但只需要获取`Id`和`Name`属性
+OData 支持请求获取一个复杂对象中指定的属性，在接口传递`$select`参数实现。
 
-```r
-GET http://localhost:5000/odata/users?$Select=Id,Name
-
-# 响应的数据
-{
-  "@odata.context": "http://localhost:5000/odata/$metadata#Users(Id,Name)",
-  "value": [
-    {
-      "Id": 1,
-      "Name": "xiaol"
-    },
-    {
-      "Id": 2,
-      "Name": "dalao"
-    },
-    {
-      "Id": 3,
-      "Name": "chonya"
-    },
-    {
-      "Id": 4,
-      "Name": "jinitaimei"
-    }
-  ]
-}
-```
+| 描述 | 示例 |
+| --- | --- |
+| 获取用户信息，返回结果只包含`Id`和`Name`字段 | /odata/users?$Select=Id,Name |
 
 ### 过滤查询 $filter
 
 OData 支持过滤请求的资源的集合，在接口传递`$filter`参数实现。OData 定义了一组逻辑运算符，结果为`true`或`false`，逻辑运算符不支持集合、实体和复杂类型的操作数。
 
-#### Equals
-
-判断左右表达式是否相等，相等返回`true`，否则返回`false`。下面的请求是过滤`LockoutEnabled = true`的用户
-
-```r
-GET http://localhost:5000/odata/users?$Filter=LockoutEnabled eq false
-
-# 响应的数据
-{
-  "@odata.context": "http://localhost:5000/odata/$metadata#Users",
-  "value": [
-    {
-      "Id": 1,
-      "Name": "xiaol",
-      "Email": "xiaol@mail.com",
-      "LockoutEnabled": false
-    },
-    {
-      "Id": 2,
-      "Name": "dalao",
-      "Email": "dalao@mail.com",
-      "LockoutEnabled": false
-    },
-    {
-      "Id": 3,
-      "Name": "chonya",
-      "Email": "chonya@mail.com",
-      "LockoutEnabled": false
-    }
-  ]
-}
-```
-
-#### Not Equals
-
-判断左右表达式是否不相等，不相等返回`true`，否则返回`false`。下面的请求是过滤`LockoutEnabled != true`的用户
-
-```r
-GET http://localhost:5000/odata/users?$Filter=LockoutEnabled ne true
-
-# 响应数据
-{
-  "@odata.context": "http://localhost:5000/odata/$metadata#Users",
-  "value": [
-    {
-      "Id": 1,
-      "Name": "xiaol",
-      "Email": "xiaol@mail.com",
-      "LockoutEnabled": false
-    },
-    {
-      "Id": 2,
-      "Name": "dalao",
-      "Email": "dalao@mail.com",
-      "LockoutEnabled": false
-    },
-    {
-      "Id": 3,
-      "Name": "chonya",
-      "Email": "chonya@mail.com",
-      "LockoutEnabled": false
-    }
-  ]
-}
-```
-
-#### Contains
-
-判断某个属性的值是否包含指定字符串。下面的请求是过滤用户名包含`xiao`的用户
-
-```r
-GET http://localhost:5000/odata/users?$Filter=contains(Name, 'xiao')
-
-# 响应数据
-{
-  "@odata.context": "http://localhost:5000/odata/$metadata#Users",
-  "value": [
-    {
-      "Id": 1,
-      "Name": "xiaol",
-      "Email": "xiaol@mail.com",
-      "LockoutEnabled": false
-    }
-  ]
-}
-```
-
-#### And
-
-左右表达式都必须满足条件，则`and`运算的结果为`true`，否则为`false`。下面是获取用户列表，并且`LockoutEnabled`等于`false`
-
-```r
-GET http://localhost:5000/odata/users?$Filter=Name eq 'xiaol' and LockoutEnabled eq false
-
-# 响应数据
-{
-  "@odata.context": "http://localhost:5000/odata/$metadata#Users",
-  "value": [
-    {
-        "Id": 1,
-        "Name": "xiaol",
-        "Email": "xiaol@mail.com",
-        "LockoutEnabled": false
-    }
-  ]
-}
-```
-
-#### Or
-
-左右表达式任意一个满足条件，则`or`运算的结果为`true`，否则为`false`。下面是获取用户列表，或者`LockoutEnabled`等于`true`
-
-```r
-GET http://localhost:5000/odata/users?$Filter=Name eq 'xiaol' or LockoutEnabled eq true
-
-# 响应数据
-{
-  "@odata.context": "http://localhost:5000/odata/$metadata#Users",
-  "value": [
-    {
-        "Id": 1,
-        "Name": "xiaol",
-        "Email": "xiaol@mail.com",
-        "LockoutEnabled": false
-    },
-    {
-        "Id": 4,
-        "Name": "jinitaimei",
-        "Email": "jinitaimei@mail.com",
-        "LockoutEnabled": true
-    }
-  ]
-}
-```
-
-#### Not
-
-取反，如果表达式返回的是`false`，则`not`运算返回为`true`。下面是获取用户名称不以`xiao`开头的用户列表
-
-```r
-GET http://localhost:5000/odata/users?$Filter=not startswith(Name, 'xiao')
-
-# 响应数据
-{
-  "@odata.context": "http://localhost:5000/odata/$metadata#Users",
-  "value": [
-    {
-        "Id": 2,
-        "Name": "dalao",
-        "Email": "dalao@mail.com",
-        "LockoutEnabled": false
-    },
-    {
-        "Id": 3,
-        "Name": "chonya",
-        "Email": "chonya@mail.com",
-        "LockoutEnabled": false
-    },
-    {
-        "Id": 4,
-        "Name": "jinitaimei",
-        "Email": "jinitaimei@mail.com",
-        "LockoutEnabled": true
-    }
-  ]
-}
-```
-
-#### In
-
-```r
-GET http://localhost:5000/odata/users?$Filter=Id in (1, 2)
-
-# 响应数据
-{
-  "@odata.context": "http://localhost:5000/odata/$metadata#Users",
-  "value": [
-    {
-        "Id": 1,
-        "Name": "xiaol",
-        "Email": "xiaol@mail.com",
-        "LockoutEnabled": false
-    },
-    {
-        "Id": 2,
-        "Name": "dalao",
-        "Email": "dalao@mail.com",
-        "LockoutEnabled": false
-    }
-  ]
-}
-```
+| 运算符 | 描述 | 示例 |
+| --- | --- | --- |
+| eq | Equals，判断左右表达式是否相等。获取用户列表，查询`LockoutEnabled = true`的用户 | /odata/users?$Filter=LockoutEnabled eq false |
+| ne | Not Equals，判断左右表达式是否不相等。获取用户列表，查询`LockoutEnabled != true`的用户 | /odata/users?$Filter=LockoutEnabled ne true |
+| contains | 判断某个属性的值是否包含指定字符串。获取用户列表，查询用户名包含`xiao`的用户 | /odata/users?$Filter=contains(Name, 'xiao') |
+| gt | Greater than，大于。获取用户列表，查询年龄大于 20 的用户 | /odata/users?$filter=Age gt 20 |
+| ge | Greater than or equal，大于或等于。获取用户列表，查询年龄大于或等于 20 的用户 | /odata/users?$filter=Age ge 20 |
+| lt | Less than，小于。获取用户列表，查询年龄小于 20 的用户 | /odata/users?$filter=Age lt 20 |
+| le | Less than or equal，小于或等于。获取用户列表，查询年龄小于或等于 20 的用户 | /odata/users?$filter=Age le 20 |
+| and | 左右表达式都必须满足条件。获取用户列表，用户名等于`xiaol`，并且`LockoutEnabled`等于`false` | /odata/users?$Filter=Name eq 'xiaol' and LockoutEnabled eq false |
+| or | 左右表达式任意一个满足条件。获取用户列表，用户名等于`xiaol`，或者用户名等于`chonya` | /odata/users?$Filter=Name eq 'xiaol' or Name eq 'chonya' |
+| not | 取反。获取用户列表，用户名不以`xiao`开头的用户列表 | /odata/users?$Filter=not startswith(Name, 'xiao') |
+| in | 判断是否存在指定的集合中。获取用户列表，用户名等于`xiaol`、`chonya`的用户 | /odata/users?$Filter=Name in ('xiaol', 'chonya') |
 
 ### 扩展查询 $expand
 
-OData 支持检索资源包含的相关资源，在接口传递`$expand`参数实现。下面是请求获取用户列表，包含用户的订单信息
+OData 支持检索资源包含的相关资源，在接口传递`$expand`参数实现。
 
-```r
-GET http://localhost:5000/odata/users?$Expand=Orders
-
-# 响应数据
-{
-  "@odata.context": "http://localhost:5000/odata/$metadata#Users(Orders())",
-  "value": [
-    {
-      "Id": 1,
-      "Name": "xiaol",
-      "Email": "xiaol@mail.com",
-      "LockoutEnabled": false,
-      "Orders": [
-        {
-          "Id": 1,
-          "Name": "order1",
-          "UserId": 1
-        },
-        {
-          "Id": 2,
-          "Name": "order2",
-          "UserId": 1
-        },
-        {
-          "Id": 3,
-          "Name": "order3",
-          "UserId": 1
-        }
-      ]
-    },
-    {
-      "Id": 2,
-      "Name": "dalao",
-      "Email": "dalao@mail.com",
-      "LockoutEnabled": false,
-      "Orders": []
-    },
-    {
-      "Id": 3,
-      "Name": "chonya",
-      "Email": "chonya@mail.com",
-      "LockoutEnabled": false,
-      "Orders": []
-    },
-    {
-      "Id": 4,
-      "Name": "jinitaimei",
-      "Email": "jinitaimei@mail.com",
-      "LockoutEnabled": true,
-      "Orders": []
-    }
-  ]
-}
-```
+| 描述 | 示例 |
+| --- | --- |
+| 获取用户列表，包含用户的订单信息 | /odata/users?$Expand=Orders |
+| 获取用户列表，包含用户的订单信息、订单明细 | /odata/users?$expand=Orders($expand=OrderDetails) |
 
 ### 查询集合的总数 $count
 
-OData 支持请求获取资源的计数。下面是获取用户列表的总数
+OData 支持请求获取资源的计数。
 
-```r
-http://localhost:5000/odata/users?$count=true
-
-# 响应数据
-{
-  "@odata.context": "http://localhost:5000/odata/$metadata#Users",
-  "@odata.count": 4,
-  "value": [
-    {
-      "Id": 1,
-      "Name": "xiaol",
-      "Email": "xiaol@mail.com",
-      "LockoutEnabled": false
-    },
-    {
-      "Id": 2,
-      "Name": "dalao",
-      "Email": "dalao@mail.com",
-      "LockoutEnabled": false
-    },
-    {
-      "Id": 3,
-      "Name": "chonya",
-      "Email": "chonya@mail.com",
-      "LockoutEnabled": false
-    },
-    {
-      "Id": 4,
-      "Name": "jinitaimei",
-      "Email": "jinitaimei@mail.com",
-      "LockoutEnabled": true
-    }
-  ]
-}
-```
+| 描述 | 示例 |
+| --- | --- |
+| 获取用户列表的总数 | /odata/users?$count=true |
 
 ### 查询排序 $orderby
 
-OData 支持请求获取排序的资源。下面是获取用户列表并根据用户名称排序
+OData 支持请求获取排序的资源。
 
-```r
-GET http://localhost:5000/odata/users?$OrderBy=Name desc
-
-# 响应数据
-{
-  "@odata.context": "http://localhost:5000/odata/$metadata#Users",
-  "value": [
-    {
-        "Id": 1,
-        "Name": "xiaol",
-        "Email": "xiaol@mail.com",
-        "LockoutEnabled": false
-    },
-    {
-        "Id": 4,
-        "Name": "jinitaimei",
-        "Email": "jinitaimei@mail.com",
-        "LockoutEnabled": true
-    },
-    {
-        "Id": 2,
-        "Name": "dalao",
-        "Email": "dalao@mail.com",
-        "LockoutEnabled": false
-    },
-    {
-        "Id": 3,
-        "Name": "chonya",
-        "Email": "chonya@mail.com",
-        "LockoutEnabled": false
-    }
-  ]
-}
-```
+| 描述 | 示例 |
+| --- | --- |
+| 获取用户列表并根据用户名称排序 | /odata/users?$OrderBy=Name desc |
 
 ### 使用 Swagger 配置 OData
 

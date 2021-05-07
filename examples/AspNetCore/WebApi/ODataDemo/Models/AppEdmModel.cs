@@ -33,6 +33,8 @@ namespace ODataDemo.Models
 
             builder.EntitySet<Order>("Orders");
 
+            builder.EntitySet<OrderDetail>("OrderDetails");
+
             return builder.GetEdmModel();
         }
     }

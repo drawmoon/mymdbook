@@ -1,11 +1,23 @@
 [
   {
     "name": "xiaol",
+    "age": 29,
     "email": "xiaol@mail.com",
     "lockoutEnabled": false,
     "orders": [
       {
-        "name": "order1"
+        "name": "order1",
+        "orderDetails": [
+          {
+            "name": "orderDetail1"
+          },
+          {
+            "name": "orderDetail2"
+          },
+          {
+            "name": "orderDetail3"
+          }
+        ]
       },
       {
         "name": "order2"
@@ -17,16 +29,19 @@
   },
   {
     "name": "dalao",
+    "age": 45,
     "email": "dalao@mail.com",
     "lockoutEnabled": false
   },
   {
     "name": "chonya",
+    "age": 16,
     "email": "chonya@mail.com",
     "lockoutEnabled": false
   },
   {
     "name": "jinitaimei",
+    "age": 7,
     "email": "jinitaimei@mail.com",
     "lockoutEnabled": true
   }

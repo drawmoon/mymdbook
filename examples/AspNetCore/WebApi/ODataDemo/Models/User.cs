@@ -8,6 +8,8 @@ namespace ODataDemo.Models
 
         public string Name { get; set; }
 
+        public int Age { get; set; }
+
         public string Email { get; set; }
 
         public bool LockoutEnabled { get; set; }

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ODataDemo.Models
 {
@@ -12,5 +13,7 @@ namespace ODataDemo.Models
 
         [ForeignKey(nameof(UserId))]
         public virtual User User { get; set; }
+        
+        public virtual ICollection<OrderDetail> OrderDetails { get; set; }
     }
 }
