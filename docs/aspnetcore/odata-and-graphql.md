@@ -233,17 +233,17 @@ OData 支持过滤请求的资源的集合，在接口传递`$filter`参数实�
 
 | 运算符 | 运算符说明 | 示例 | 描述 |
 | --- | --- | --- | --- |
-| eq | Equals，判断左右表达式是否相等 | /odata/users?$Filter=LockoutEnabled eq false | 获取用户列表，查询`LockoutEnabled = true`的用户 |
-| ne | Not Equals，判断左右表达式是否不相等 | /odata/users?$Filter=LockoutEnabled ne true | 获取用户列表，查询`LockoutEnabled != true`的用户 |
-| contains | 判断某个属性的值是否包含指定字符串 | /odata/users?$Filter=contains(Name, 'xiao') | 获取用户列表，查询用户名包含`xiao`的用户 |
-| gt | Greater than，大于 | /odata/users?$filter=Age gt 20 | 获取用户列表，查询年龄大于 20 的用户 |
-| ge | Greater than or equal，大于或等于 | /odata/users?$filter=Age ge 20 | 获取用户列表，查询年龄大于或等于 20 的用户 |
-| lt | Less than，小于 | /odata/users?$filter=Age lt 20 | 获取用户列表，查询年龄小于 20 的用户 |
-| le | Less than or equal，小于或等于 | /odata/users?$filter=Age le 20 | 获取用户列表，查询年龄小于或等于 20 的用户 |
-| and | 左右表达式都必须满足条件 | /odata/users?$Filter=Name eq 'xiaol' and LockoutEnabled eq false | 获取用户列表，用户名等于`xiaol`，并且`LockoutEnabled`等于`false` |
-| or | 左右表达式任意一个满足条件 | /odata/users?$Filter=Name eq 'xiaol' or Name eq 'chonya' | 获取用户列表，用户名等于`xiaol`，或者用户名等于`chonya` |
-| not | 取反 | /odata/users?$Filter=not startswith(Name, 'xiao') | 获取用户列表，用户名不以`xiao`开头的用户列表 |
-| in | 判断是否存在指定的集合中 | /odata/users?$Filter=Name in ('xiaol', 'chonya') | 获取用户列表，用户名等于`xiaol`、`chonya`的用户 |
+| eq | 判断左右表达式是否相等 | /odata/users?$Filter=LockoutEnabled eq false | 查询`LockoutEnabled = true`的用户列表 |
+| ne | 判断左右表达式是否不相等 | /odata/users?$Filter=LockoutEnabled ne true | 查询`LockoutEnabled != true`的用户列表 |
+| contains | 判断某个属性的值是否包含指定字符串 | /odata/users?$Filter=contains(Name, 'xiao') | 查询用户名包含`xiao`的用户列表 |
+| gt | 大于 | /odata/users?$filter=Age gt 20 | 查询年龄大于 20 的用户列表 |
+| ge | 大于或等于 | /odata/users?$filter=Age ge 20 | 查询年龄大于或等于 20 的用户列表 |
+| lt | 小于 | /odata/users?$filter=Age lt 20 | 查询年龄小于 20 的用户列表 |
+| le | 小于或等于 | /odata/users?$filter=Age le 20 | 查询年龄小于或等于 20 的用户列表 |
+| and | 左右表达式都必须满足条件 | /odata/users?$Filter=Name eq 'xiaol' and LockoutEnabled eq false | 查询用户名等于`xiaol`，并且`LockoutEnabled`等于`false`的用户列表 |
+| or | 左右表达式任意一个满足条件 | /odata/users?$Filter=Name eq 'xiaol' or Name eq 'chonya' | 查询用户名等于`xiaol`，或者用户名等于`chonya`的用户列表 |
+| not | 取反 | /odata/users?$Filter=not startswith(Name, 'xiao') | 查询用户名不以`xiao`开头的用户列表 |
+| in | 判断是否存在指定的集合中 | /odata/users?$Filter=Name in ('xiaol', 'chonya') | 查询用户名等于`xiaol`、`chonya`的用户列表 |
 
 ### 扩展查询 $expand
 
