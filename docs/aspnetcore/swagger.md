@@ -43,6 +43,14 @@ public class ConfigureSwaggerOptions : IConfigureOptions<SwaggerGenOptions>
             Version = "v1"
         });
 
+        // 描述 API 的身份验证
+        options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+        {
+            Name = "Authorization",
+            Type = SecuritySchemeType.ApiKey,
+            Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\""
+        });
+
         // 加载注释文件
         var files = new DirectoryInfo(AppContext.BaseDirectory).EnumerateFiles()
             .Where(f => f.Extension.Equals(".xml", StringComparison.OrdinalIgnoreCase));
