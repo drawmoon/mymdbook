@@ -223,52 +223,52 @@ public class UsersController : ODataController
 
 OData 支持请求获取一个复杂对象中指定的属性，在接口传递`$select`参数实现。
 
-| 描述 | 示例 |
+| 示例 | 描述 |
 | --- | --- |
-| 获取用户信息，返回结果只包含`Id`和`Name`字段 | /odata/users?$Select=Id,Name |
+| /odata/users?$Select=Id,Name | 获取用户信息，返回结果只包含`Id`和`Name`字段 |
 
 ### 过滤查询 $filter
 
 OData 支持过滤请求的资源的集合，在接口传递`$filter`参数实现。OData 定义了一组逻辑运算符，结果为`true`或`false`，逻辑运算符不支持集合、实体和复杂类型的操作数。
 
-| 运算符 | 描述 | 示例 |
-| --- | --- | --- |
-| eq | Equals，判断左右表达式是否相等。获取用户列表，查询`LockoutEnabled = true`的用户 | /odata/users?$Filter=LockoutEnabled eq false |
-| ne | Not Equals，判断左右表达式是否不相等。获取用户列表，查询`LockoutEnabled != true`的用户 | /odata/users?$Filter=LockoutEnabled ne true |
-| contains | 判断某个属性的值是否包含指定字符串。获取用户列表，查询用户名包含`xiao`的用户 | /odata/users?$Filter=contains(Name, 'xiao') |
-| gt | Greater than，大于。获取用户列表，查询年龄大于 20 的用户 | /odata/users?$filter=Age gt 20 |
-| ge | Greater than or equal，大于或等于。获取用户列表，查询年龄大于或等于 20 的用户 | /odata/users?$filter=Age ge 20 |
-| lt | Less than，小于。获取用户列表，查询年龄小于 20 的用户 | /odata/users?$filter=Age lt 20 |
-| le | Less than or equal，小于或等于。获取用户列表，查询年龄小于或等于 20 的用户 | /odata/users?$filter=Age le 20 |
-| and | 左右表达式都必须满足条件。获取用户列表，用户名等于`xiaol`，并且`LockoutEnabled`等于`false` | /odata/users?$Filter=Name eq 'xiaol' and LockoutEnabled eq false |
-| or | 左右表达式任意一个满足条件。获取用户列表，用户名等于`xiaol`，或者用户名等于`chonya` | /odata/users?$Filter=Name eq 'xiaol' or Name eq 'chonya' |
-| not | 取反。获取用户列表，用户名不以`xiao`开头的用户列表 | /odata/users?$Filter=not startswith(Name, 'xiao') |
-| in | 判断是否存在指定的集合中。获取用户列表，用户名等于`xiaol`、`chonya`的用户 | /odata/users?$Filter=Name in ('xiaol', 'chonya') |
+| 运算符 | 运算符说明 | 示例 | 描述 |
+| --- | --- | --- | --- |
+| eq | Equals，判断左右表达式是否相等 | /odata/users?$Filter=LockoutEnabled eq false | 获取用户列表，查询`LockoutEnabled = true`的用户 |
+| ne | Not Equals，判断左右表达式是否不相等 | /odata/users?$Filter=LockoutEnabled ne true | 获取用户列表，查询`LockoutEnabled != true`的用户 |
+| contains | 判断某个属性的值是否包含指定字符串 | /odata/users?$Filter=contains(Name, 'xiao') | 获取用户列表，查询用户名包含`xiao`的用户 |
+| gt | Greater than，大于 | /odata/users?$filter=Age gt 20 | 获取用户列表，查询年龄大于 20 的用户 |
+| ge | Greater than or equal，大于或等于 | /odata/users?$filter=Age ge 20 | 获取用户列表，查询年龄大于或等于 20 的用户 |
+| lt | Less than，小于 | /odata/users?$filter=Age lt 20 | 获取用户列表，查询年龄小于 20 的用户 |
+| le | Less than or equal，小于或等于 | /odata/users?$filter=Age le 20 | 获取用户列表，查询年龄小于或等于 20 的用户 |
+| and | 左右表达式都必须满足条件 | /odata/users?$Filter=Name eq 'xiaol' and LockoutEnabled eq false | 获取用户列表，用户名等于`xiaol`，并且`LockoutEnabled`等于`false` |
+| or | 左右表达式任意一个满足条件 | /odata/users?$Filter=Name eq 'xiaol' or Name eq 'chonya' | 获取用户列表，用户名等于`xiaol`，或者用户名等于`chonya` |
+| not | 取反 | /odata/users?$Filter=not startswith(Name, 'xiao') | 获取用户列表，用户名不以`xiao`开头的用户列表 |
+| in | 判断是否存在指定的集合中 | /odata/users?$Filter=Name in ('xiaol', 'chonya') | 获取用户列表，用户名等于`xiaol`、`chonya`的用户 |
 
 ### 扩展查询 $expand
 
 OData 支持检索资源包含的相关资源，在接口传递`$expand`参数实现。
 
-| 描述 | 示例 |
+| 示例 | 描述 |
 | --- | --- |
-| 获取用户列表，包含用户的订单信息 | /odata/users?$Expand=Orders |
-| 获取用户列表，包含用户的订单信息、订单明细 | /odata/users?$expand=Orders($expand=OrderDetails) |
+| /odata/users?$Expand=Orders | 获取用户列表，包含用户的订单信息 |
+| /odata/users?$Expand=Orders($expand=OrderDetails) | 获取用户列表，包含用户的订单信息、订单明细 |
 
 ### 查询集合的总数 $count
 
 OData 支持请求获取资源的计数。
 
-| 描述 | 示例 |
+| 示例 | 描述 |
 | --- | --- |
-| 获取用户列表的总数 | /odata/users?$count=true |
+| /odata/users?$count=true | 获取用户列表的总数 |
 
 ### 查询排序 $orderby
 
 OData 支持请求获取排序的资源。
 
-| 描述 | 示例 |
+| 示例 | 描述 |
 | --- | --- |
-| 获取用户列表并根据用户名称排序 | /odata/users?$OrderBy=Name desc |
+| /odata/users?$OrderBy=Name desc | 获取用户列表并根据用户名称排序 |
 
 ### 使用 Swagger 配置 OData
 
