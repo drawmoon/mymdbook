@@ -1,6 +1,6 @@
 ﻿{
   "profiles": {
-    "AspNetCoreSwagger": {
+    "SwaggerDemo": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "api-docs",

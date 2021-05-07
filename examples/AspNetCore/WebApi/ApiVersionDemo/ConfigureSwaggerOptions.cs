@@ -5,6 +5,7 @@ using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -24,6 +25,14 @@ namespace ApiVersionDemo
             foreach (var description in _provider.ApiVersionDescriptions)
             {
                 options.SwaggerDoc(description.GroupName, CreateInfoForApiVersion(description));
+            }
+            
+            // 加载注释文件
+            var files = new DirectoryInfo(AppContext.BaseDirectory).EnumerateFiles()
+                .Where(f => f.Extension.Equals(".xml", StringComparison.OrdinalIgnoreCase));
+            foreach (var fileInfo in files)
+            {
+                options.IncludeXmlComments(fileInfo.FullName);
             }
         }
 

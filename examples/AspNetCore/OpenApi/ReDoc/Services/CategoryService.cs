@@ -1,8 +1,8 @@
 using System.Threading.Tasks;
-using AspNetCoreRedoc.Entities;
-using AspNetCoreRedoc.Services.Interfaces;
+using RedocDemo.Entities;
+using RedocDemo.Services.Interfaces;
 
-namespace AspNetCoreRedoc.Services
+namespace RedocDemo.Services
 {
     public class CategoryService : ICategoryService
     {

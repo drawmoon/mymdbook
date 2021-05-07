@@ -1,17 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
@@ -45,16 +37,8 @@ namespace ApiVersionDemo
 
             // Swagger 文档配置
             services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
-
-            services.AddSwaggerGen(options =>
-            {
-                // 添加 xml 注释文档
-                var files = new DirectoryInfo(AppContext.BaseDirectory).EnumerateFiles().Where(f => f.Extension.Equals(".xml", StringComparison.OrdinalIgnoreCase));
-                foreach (var fileInfo in files)
-                {
-                    options.IncludeXmlComments(fileInfo.FullName);
-                }
-            });
+            // 注册 Swagger 生成器
+            services.AddSwaggerGen();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -66,6 +50,18 @@ namespace ApiVersionDemo
             }
 
             app.UseHttpsRedirection();
+            
+            // 启用 Swagger 中间件，用于生成 JSON 端点
+            app.UseSwagger();
+            // 启用 ReDoc UI
+            app.UseSwaggerUI(options =>
+            {
+                options.RoutePrefix = "api-docs";
+                foreach (var description in provider.ApiVersionDescriptions)
+                {
+                    options.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json", description.GroupName);
+                }
+            });
 
             app.UseRouting();
 
@@ -74,16 +70,6 @@ namespace ApiVersionDemo
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-            });
-
-            app.UseSwagger();
-            app.UseSwaggerUI(options =>
-            {
-                options.RoutePrefix = "api-docs";
-                foreach (var description in provider.ApiVersionDescriptions)
-                {
-                    options.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json", description.GroupName);
-                }
             });
         }
     }

@@ -1,6 +1,6 @@
 using System;
 
-namespace AspNetCoreRedoc.Entities
+namespace RedocDemo.Entities
 {
     public class Category
     {

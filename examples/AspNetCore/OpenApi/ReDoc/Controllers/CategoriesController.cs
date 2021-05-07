@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mime;
 using System.Threading.Tasks;
-using AspNetCoreRedoc.Entities;
-using AspNetCoreRedoc.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using RedocDemo.Entities;
+using RedocDemo.Services.Interfaces;
 
-namespace AspNetCoreRedoc.Controllers
+namespace RedocDemo.Controllers
 {
     [Produces(MediaTypeNames.Application.Json)]
-    [ApiExplorerSettings(GroupName = "1.0")]
+    [ApiExplorerSettings(GroupName = "v1")]
     [Route("api/v1/[controller]")]
     [ApiController]
     public class CategoriesController : ControllerBase

@@ -1,8 +1,8 @@
 using System.Threading.Tasks;
-using AspNetCoreSwagger.Entities;
-using AspNetCoreSwagger.Services.Interfaces;
+using SwaggerDemo.Entities;
+using SwaggerDemo.Services.Interfaces;
 
-namespace AspNetCoreSwagger.Services
+namespace SwaggerDemo.Services
 {
     public class CategoryService : ICategoryService
     {

@@ -7,7 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace AspNetCoreRedoc
+namespace RedocDemo
 {
     public class Program
     {

@@ -1,56 +1,17 @@
-# Table of contents
+# Swagger/Redoc
 
-- [ASP.NET Core Swagger Notes](#ASP.NET-Core-Swagger-Notes)
-  - [介绍](#介绍)
-  - [添加并配置 Swagger](#添加并配置-Swagger)
-  - [启用 Swagger-UI](#启用-Swagger-UI)
-  - [启用 ReDoc-UI](#启用-ReDoc-UI)
+> Swagger、Redoc 是基于 OpenAPI 规范的工具，例如生成 RESTful API 文档、API 调用等。
 
-# ASP.NET Core Swagger Notes
+安装依赖
 
-## 介绍
-
-Swagger 是基于 OpenAPI 规范的工具，例如生成 RESTful API 文档、API 调用等。
-
-## 添加并配置 Swagger
-
-注册 Swagger 生成器
-
-```csharp
-public class Startup
-{
-  public void ConfigureServices(IServiceCollection services)
-  {
-    services.AddSwaggerGen(options => {
-      // 这里可以定义一个或多个文档，比如v1、v2等等
-      options.SwaggerDoc("v1", new OpenApiInfo
-      {
-          Title = "API Doc",
-          Version = "v1"
-      });
-    });
-  }
-}
+```bash
+dotnet add package Swashbuckle.AspNetCore --version 6.1.4
 ```
 
-启用 Swagger
+配置控制器分组，`GroupName`与`SwaggerDoc`中的`name`对应
 
-```csharp
-public class Startup
-{
-  public void Configure(IApplicationBuilder app, IHostingEnvironment env)
-  {
-    // 启用 Swagger 中间件，用于生成 JSON 端点
-    app.UseSwagger();
-  }
-}
-```
-
-配置 Controller
-
-```csharp
-// 指定控制器分组
-[ApiExplorerSettings(GroupName = "v1")]
+```c#
+[ApiExplorerSettings(GroupName = "v1")] // 指定控制器分组名称
 [Route("api/v1/[controller]")]
 [ApiController]
 public class CategoriesController : ControllerBase
@@ -59,9 +20,7 @@ public class CategoriesController : ControllerBase
 }
 ```
 
-### API 文档注释
-
-编辑项目文件，启用`GenerateDocumentationFile`，并忽略 1591 警告码。
+编辑项目文件，启用 XML 注释，并忽略 1591 警告码
 
 ```xml
 <PropertyGroup>
@@ -70,73 +29,87 @@ public class CategoriesController : ControllerBase
 </PropertyGroup>
 ```
 
-```csharp
-services.AddSwaggerGen(options =>
+新建`ConfigureSwaggerOptions`类，配置 Swagger 文档信息
+
+```c#
+public class ConfigureSwaggerOptions : IConfigureOptions<SwaggerGenOptions>
 {
-  // 指定注释文件的路径
-  var files = new DirectoryInfo(AppContext.BaseDirectory).EnumerateFiles()
-    .Where(f => f.Extension.Equals(".xml", StringComparison.OrdinalIgnoreCase));
-  foreach (var fileInfo in files)
-  {
-      options.IncludeXmlComments(fileInfo.FullName);
-  }
-});
-```
+    public void Configure(SwaggerGenOptions options)
+    {
+        // 这里可以定义一个或多个文档，比如v1、v2等等
+        options.SwaggerDoc("v1", new OpenApiInfo
+        {
+            Title = "API Doc",
+            Version = "v1"
+        });
 
-### 描述 API 的身份验证
-
-```csharp
-services.AddSwaggerGen(options => 
-{
-  options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
-  {
-      Name = "Authorization",
-      Type = SecuritySchemeType.ApiKey,
-      Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\""
-  });
-});
-```
-
-### 类型映射
-
-```csharp
-services.AddSwaggerGen(options => {
-  options.MapType<ContentType>(() => new Schema
-  {
-      Type = "Enum",
-      Enum = typeof(ContentType).GetEnumValues().Cast<ContentType>().Select(t => (object)$"{t}={(int)t}").ToList(),
-      Description = "内容类型"
-  });
-});
-```
-
-## 启用 Swagger-UI
-
-```csharp
-public class startup
-{
-  public void Configure(IApplicationBuilder app, IHostingEnvironment env)
-  {
-    // Swagger 资源，包括 html、js、css 等
-    app.UseSwaggerUI(options => {
-      // 定义 Swagger 的 JSON 端点
-      options.SwaggerEndpoint("/swagger/v1/swagger.json", "Sample API V1");
-
-      // API 文档的路由前缀
-      options.RoutePrefix = "api-docs";
-    });
-  }
+        // 加载注释文件
+        var files = new DirectoryInfo(AppContext.BaseDirectory).EnumerateFiles()
+            .Where(f => f.Extension.Equals(".xml", StringComparison.OrdinalIgnoreCase));
+        foreach (var fileInfo in files)
+        {
+            options.IncludeXmlComments(fileInfo.FullName);
+        }
+    }
 }
 ```
 
-## 启用 ReDoc-UI
+注册 Swagger 生成器
 
-```csharp
+```c#
+public void ConfigureServices(IServiceCollection services)
+{
+    // Swagger 文档配置
+    services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
+    // 注册 Swagger 生成器
+    services.AddSwaggerGen();
+
+    services.AddControllers();
+}
+```
+
+启用 Swagger、Swagger UI
+
+```c#
+public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+{
+    // 启用 Swagger 中间件，用于生成 JSON 端点
+    app.UseSwagger();
+    // 启用 Swagger UI
+    app.UseSwaggerUI(options =>
+    {
+        options.SwaggerEndpoint("/swagger/v1/swagger.json", "API Doc");
+        
+        options.RoutePrefix = "api-docs";
+    });
+
+    app.UseRouting();
+
+    app.UseEndpoints(endpoints =>
+    {
+        endpoints.MapControllers();
+    });
+}
+```
+
+启用 ReDoc UI
+
+安装依赖
+
+```bash
+dotnet add package Swashbuckle.AspNetCore.ReDoc --version 6.1.4
+```
+
+启用 Swagger、ReDoc UI
+
+```c#
 public class startup
 {
   public void Configure(IApplicationBuilder app, IHostingEnvironment env)
   {
-    // ReDoc 资源，包括 html、js、css 等
+    // 启用 Swagger 中间件，用于生成 JSON 端点
+    app.UseSwagger();
+    // 启用 ReDoc UI
     app.UseReDoc(options =>
     {
       // 定义 Swagger 的 JSON 端点

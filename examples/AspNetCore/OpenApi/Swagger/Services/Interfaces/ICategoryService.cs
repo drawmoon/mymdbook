@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
-using AspNetCoreSwagger.Entities;
+using SwaggerDemo.Entities;
 
-namespace AspNetCoreSwagger.Services.Interfaces
+namespace SwaggerDemo.Services.Interfaces
 {
     public interface ICategoryService
     {

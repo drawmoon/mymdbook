@@ -1,18 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Mime;
+﻿using System.Net.Mime;
 using System.Threading.Tasks;
-using AspNetCoreSwagger.Entities;
-using AspNetCoreSwagger.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using SwaggerDemo.Entities;
+using SwaggerDemo.Services.Interfaces;
 
-namespace AspNetCoreSwagger.Controllers
+namespace SwaggerDemo.Controllers
 {
     [Produces(MediaTypeNames.Application.Json)]
-    [ApiExplorerSettings(GroupName = "1.0")]
+    [ApiExplorerSettings(GroupName = "v1")]
     [Route("api/v1/[controller]")]
     [ApiController]
     public class CategoriesController : ControllerBase

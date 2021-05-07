@@ -1,6 +1,6 @@
 using System;
 
-namespace AspNetCoreSwagger.Entities
+namespace SwaggerDemo.Entities
 {
     public class Category
     {

@@ -1,18 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Microsoft.OpenApi.Models;
+using Microsoft.Extensions.Options;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace AspNetCoreRedoc
+namespace RedocDemo
 {
     public class Startup
     {
@@ -26,25 +20,10 @@ namespace AspNetCoreRedoc
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            #region Swagger 配置
-
-            services.AddSwaggerGen(options =>
-            {
-                options.SwaggerDoc("v1", new OpenApiInfo
-                {
-                    Title = "API Doc",
-                    Version = "v1"
-                });
-
-                var files = new DirectoryInfo(AppContext.BaseDirectory).EnumerateFiles()
-                    .Where(f => f.Extension.Equals(".xml", StringComparison.OrdinalIgnoreCase));
-                foreach (var fileInfo in files)
-                {
-                    options.IncludeXmlComments(fileInfo.FullName);
-                }
-            });
-
-            #endregion
+            // Swagger 文档配置
+            services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
+            // 注册 Swagger 生成器
+            services.AddSwaggerGen();
 
             services.AddControllers();
         }
@@ -56,6 +35,17 @@ namespace AspNetCoreRedoc
             {
                 app.UseDeveloperExceptionPage();
             }
+            
+            // 启用 Swagger 中间件，用于生成 JSON 端点
+            app.UseSwagger();
+            // 启用 ReDoc
+            app.UseReDoc(options =>
+            {
+                options.RoutePrefix = "api-docs";
+
+                options.DocumentTitle = "API Doc";
+                options.SpecUrl = "/swagger/v1/swagger.json";
+            });
 
             app.UseRouting();
 
@@ -65,20 +55,6 @@ namespace AspNetCoreRedoc
             {
                 endpoints.MapControllers();
             });
-
-            #region Swagger 配置
-
-            app.UseSwagger();
-            
-            app.UseReDoc(options =>
-            {
-                options.RoutePrefix = "api-docs";
-
-                options.DocumentTitle = "API Doc";
-                options.SpecUrl = "/swagger/v1/swagger.json";
-            });
-
-            #endregion
         }
     }
 }

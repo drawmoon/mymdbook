@@ -1,6 +1,6 @@
 ﻿{
   "profiles": {
-    "AspNetCoreRedoc": {
+    "RedocDemo": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "api-docs",
