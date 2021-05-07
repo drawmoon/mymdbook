@@ -7,6 +7,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ODataDemo.Models;
 using System;
+using Microsoft.Extensions.Options;
+using OData.Swagger.Services;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace ODataDemo
 {
@@ -30,6 +33,15 @@ namespace ODataDemo
 
             // 添加 OData。
             services.AddOData();
+            
+            // Swagger 文档配置
+            services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
+            // 注册 Swagger 生成器
+            services.AddSwaggerGen();
+            
+            // 在 ASP.NET Core 3.1 和 5.0 中使用 Swagger 配置 OData
+            // https://github.com/KishorNaik/Sol_OData_Swagger_Support
+            services.AddOdataSwaggerSupport();
 
             services.AddControllers();
         }
@@ -41,6 +53,17 @@ namespace ODataDemo
             {
                 app.UseDeveloperExceptionPage();
             }
+            
+            // 启用 Swagger 中间件，用于生成 JSON 端点
+            app.UseSwagger();
+            // 启用 Swagger UI
+            app.UseSwaggerUI(options =>
+            {
+                options.SwaggerEndpoint("/swagger/v1/swagger.json", "API Doc");
+        
+                options.RoutePrefix = "api-docs";
+            });
+
 
             app.UseRouting();
 

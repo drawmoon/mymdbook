@@ -556,3 +556,26 @@ GET http://localhost:5000/odata/users?$OrderBy=Name desc
   ]
 }
 ```
+
+### 使用 Swagger 配置 OData
+
+安装 NuGet 程序包
+
+- `OData.Swagger`
+
+在`ConfigureServices`中注册服务
+
+```c#
+public void ConfigureServices(IServiceCollection services)
+{
+    services.AddOData();
+    
+    services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
+    services.AddSwaggerGen();
+    
+    // 使用 Swagger 配置 OData
+    services.AddOdataSwaggerSupport();
+
+    services.AddControllers();
+}
+```

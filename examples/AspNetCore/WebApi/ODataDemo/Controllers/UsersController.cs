@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace ODataDemo.Controllers
 {
+    [ApiExplorerSettings(GroupName = "v1")]
     [Route("api/[controller]")]
     [ApiController]
     public class UsersController : ODataController
