@@ -2,7 +2,7 @@
 
 - [安装 Nginx](#安装-nginx)
 - [部署 MinIO](#部署-minio)
-- [部署 NestJs 项目，或通过 Docker 部署](#部署-nestjs-项目，或通过-docker-部署)
+- [部署 NestJs 项目](#部署-nestjs-项目)
 
 ## 安装 Nginx
 
@@ -70,6 +70,8 @@ nginx -v
 
 ## 部署 MinIO
 
+下载 [MinIo](https://min.io/download#/linux)
+
 ```bash
 export MINIO_ROOT_USER=AKIAIOSFODNN7EXAMPLE
 export MINIO_ROOT_PASSWORD=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
@@ -101,19 +103,35 @@ server {
 nginx -s reload
 ```
 
-## 部署 NestJs 项目，或通过 Docker 部署
+## 部署 NestJs 项目
 
 ### 部署在服务器上
 
-安装依赖包
+安装 Nodejs
+
+下载[Linux 二进制文件](https://nodejs.org/en/download/)
 
 ```bash
-# 添加 Nodesource 包存储库
-curl --silent --location https://rpm.nodesource.com/setup_10.x | sudo bash -
-
-# 安装 Node
-sudo yum install nodejs
+VERSION=v14.16.1
+DISTRO=linux-x64
+sudo mkdir -p /usr/local/lib/nodejs
+sudo tar -xJvf node-$VERSION-$DISTRO.tar.xz -C /usr/local/lib/nodejs
 ```
+
+设置环境变量
+
+```bash
+sudo vim ~/.profile
+
+# 添加到末尾
+
+# Nodejs
+VERSION=v14.16.1
+DISTRO=linux-x64
+export PATH=/usr/local/lib/nodejs/node-$VERSION-$DISTRO/bin:$PATH
+```
+
+保存后执行`source ~/.profile`刷新`.profile`
 
 构建 NestJs 项目
 
