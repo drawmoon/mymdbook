@@ -16,6 +16,7 @@
 - [Npm](npm.md)
 - [Web 调试代理工具](whistle.md)
 - [Docker](docker.md)
+- [Docker Compose](docker-compose.md)
 - [Kubernetes](/)
 - [Github CI/CD](github-ci.md)
 - [GitLab CI/CD](/)
