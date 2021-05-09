@@ -100,6 +100,8 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 }
 ```
 
+![Swagger 效果图](../images/swagger.png)
+
 启用 ReDoc UI
 
 安装依赖
@@ -132,3 +134,5 @@ public class startup
   }
 }
 ```
+
+![ReDoc 效果图](../images/redoc.png)
