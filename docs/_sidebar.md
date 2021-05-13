@@ -10,7 +10,7 @@
   - [NestJs](typescript/nestjs.md)
     - [Swagger](typescript/nestjs-swagger.md)
     - [TypeOrm](typescript/typeorm.md)
-    - [部署 NestJs 应用](typescript/nestjs-deploying-centos.md)
+    - [Nestjs app 集成部署笔记](typescript/nestjs-deploying-centos.md)
   - [Puppeteer](typescript/puppeteer.md)
   - [用 ESLint、Prettier 规范 TypeScript 代码](typescript/typescript-eslint-prettier.md)
 - [Nodejs & Npm](npm.md)
