@@ -1,27 +1,38 @@
-# Npm Notes
+# Nodejs & Npm
 
-- [安装 Npm](#安装-npm)
+- [安装 Nodejs](#安装-nodejs)
 - [查看全局安装依赖包](#查看全局安装依赖包)
 - [安装 NodeJs 管理工具](#安装-nodejs-管理工具)
 - [安装 Npm 依赖包升级工具](#安装-npm-依赖包升级工具)
 - [升级 Npm](#升级-npm)
 - [卸载 Npm](#卸载-npm)
 
-## 安装 Npm
+## 安装 Nodejs
 
-### Ubuntu
-
-```bash
-sudo apt install nodejs
-sudo apt install npm
-```
-
-### Manjaro
+下载[Linux 二进制文件](https://nodejs.org/en/download/)
 
 ```bash
-sudo pacman -S nodejs
-sudo pacman -S npm
+VERSION=v14.16.1
+DISTRO=linux-x64
+sudo mkdir -p /usr/local/lib/nodejs
+sudo tar -xJvf node-$VERSION-$DISTRO.tar.xz -C /usr/local/lib/nodejs
 ```
+
+设置系统环境变量
+
+```bash
+sudo vim /etc/profile.d/node.sh
+```
+
+将以下内容添加至文件中
+
+```sh
+VERSION=v14.16.1
+DISTRO=linux-x64
+export PATH=/usr/local/lib/nodejs/node-$VERSION-$DISTRO/bin:$PATH
+```
+
+保存后执行`source /etc/profile`刷新系统环境变量
 
 ## 查看全局安装依赖包
 

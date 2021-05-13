@@ -42,30 +42,29 @@ make
 make install
 ```
 
+将 Nginx 添加到全局变量中
+
+```bash
+ln -s /usr/local/nginx/sbin/nginx /usr/local/bin/
+```
+
 启动 Nginx
 
 ```bash
-cd /usr/local/nginx/sbin/
-./nginx
+nginx
 ```
 
 验证 Nginx 是否成功启动
 
 ```bash
+# 测试
+nginx -v
+
 # 查看 Nginx 进程
 ps -ef | grep nginx # 如果显示了 Nginx 的进程，说明已经成功启动
 
 # 请求 80 端口
 curl http://127.0.0.1 # 如果看到了 Welcome to nginx!，说明已经成功启动
-```
-
-将 Nginx 添加到全局变量中
-
-```bash
-ln -s /usr/local/nginx/sbin/nginx /usr/local/bin/
-
-# 测试
-nginx -v
 ```
 
 ## 部署 MinIO
@@ -118,20 +117,21 @@ sudo mkdir -p /usr/local/lib/nodejs
 sudo tar -xJvf node-$VERSION-$DISTRO.tar.xz -C /usr/local/lib/nodejs
 ```
 
-设置环境变量
+设置系统环境变量
 
 ```bash
-sudo vim ~/.profile
+sudo vim /etc/profile.d/node.sh
+```
 
-# 添加到末尾
+将以下内容添加至文件中
 
-# Nodejs
+```sh
 VERSION=v14.16.1
 DISTRO=linux-x64
 export PATH=/usr/local/lib/nodejs/node-$VERSION-$DISTRO/bin:$PATH
 ```
 
-保存后执行`source ~/.profile`刷新`.profile`
+保存后执行`source /etc/profile`刷新系统环境变量
 
 构建 NestJs 项目
 

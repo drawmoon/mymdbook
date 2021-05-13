@@ -8,8 +8,6 @@
   - [自动补全](#自动补全)
   - [更新 oh-my-zsh](#更新-oh-my-zsh)
   - [设置代理](#设置代理)
-- [安装 NodeJs](#安装-nodejs)
-- [用 Npm 安装 Yarn](#利用-npm-安装-yarn)
 - [安装 Nginx](#安装-nginx)
 
 ## 修改源
@@ -209,38 +207,6 @@ setproxy
 
 # 禁用代理
 unsetproxy
-```
-
-## 安装 NodeJs
-
-下载[Linux 二进制文件](https://nodejs.org/en/download/)
-
-```bash
-VERSION=v14.16.1
-DISTRO=linux-x64
-sudo mkdir -p /usr/local/lib/nodejs
-sudo tar -xJvf node-$VERSION-$DISTRO.tar.xz -C /usr/local/lib/nodejs
-```
-
-设置环境变量
-
-```bash
-sudo vim ~/.zshrc
-
-# 添加到末尾
-
-# Nodejs
-VERSION=v14.16.1
-DISTRO=linux-x64
-export PATH=/usr/local/lib/nodejs/node-$VERSION-$DISTRO/bin:$PATH
-```
-
-保存后执行`source ~/.zshrc`刷新`.zshrc`
-
-## 用 Npm 安装 Yarn
-
-```bash
-sudo npm install -g yarn
 ```
 
 ## 安装 Nginx
