@@ -8,7 +8,6 @@
   - [自动补全](#自动补全)
   - [更新 oh-my-zsh](#更新-oh-my-zsh)
   - [设置代理](#设置代理)
-- [安装 Nginx](#安装-nginx)
 
 ## 修改源
 
@@ -207,60 +206,4 @@ setproxy
 
 # 禁用代理
 unsetproxy
-```
-
-## 安装 Nginx
-
-安装依赖包
-
-```bash
-sudo apt install gcc libpcre3-dev zlib1g-dev openssl libssl-dev make
-```
-
-- `gcc`: C 语言编译器
-- `libpcre3-dev`: 正则表达式库
-- `zlib1g-dev`: 数据压缩库
-- `openssl`: TLS/SSL 加密库
-- `make`: 解释 Makefile 的命令工具
-
-下载 [Nginx](https://nginx.org/en/download.html)，选择 Stable version
-
-解压 Nginx 压缩包
-
-```bash
-tar -zxvf nginx-1.18.0.tar.gz
-```
-
-执行 Nginx 默认配置
-
-```bash
-cd nginx-1.18.0/
-./configure
-```
-
-执行编译、安装
-
-```bash
-# 编译
-make
-
-# 安装
-sudo make install
-```
-
-启动 Nginx
-
-```bash
-cd /usr/local/nginx/sbin/
-sudo ./nginx
-```
-
-验证 Nginx 是否成功启动
-
-```bash
-# 查看 Nginx 进程
-ps -ef | grep nginx # 如果显示了 Nginx 的进程，说明已经成功启动
-
-# 请求 80 端口
-curl http://127.0.0.1 # 如果看到了 Welcome to nginx!，说明已经成功启动
 ```

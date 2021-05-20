@@ -15,6 +15,7 @@
   - [用 ESLint、Prettier 规范 TypeScript 代码](typescript/typescript-eslint-prettier.md)
 - [Nodejs & Npm](npm.md)
 - [Web 调试代理工具](whistle.md)
+- [Nginx](nginx.md)
 - [Docker](docker.md)
 - [Docker Compose](docker-compose.md)
 - [Kubernetes](/)
