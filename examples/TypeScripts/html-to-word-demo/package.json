@@ -31,6 +31,7 @@
   "dependencies": {
     "canvas": "^2.8.0",
     "html-docx-js-typescript": "^0.1.5",
+    "html-to-docx": "^1.1.34",
     "jsdom": "^16.5.3"
   }
 }
