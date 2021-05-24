@@ -117,54 +117,11 @@ async function saveDocx(): Promise<void> {
   const html = htmlTemplate.replace('{htmlContent}', doc.body.innerHTML);
 
   const data = await asBlob(html);
+  // const data = await HTMLtoDOCX(html, null, {
+  //   table: { row: { cantSplit: true } },
+  // });
   const filename = path.join(process.cwd(), 'dist', 'file.docx');
   fs.writeFileSync(filename, data as Buffer);
 }
-
-// async function saveDocx(): Promise<void> {
-//   const htmlString = fs.readFileSync(
-//     path.join(process.cwd(), 'assets', 'content.html'),
-//     {
-//       encoding: 'utf-8',
-//     },
-//   );
-
-//   const dom = new JSDOM(htmlString);
-//   const doc = dom.window.document;
-
-//   console.log('Converting image to base64');
-
-//   for (const img of doc.querySelectorAll('img')) {
-//     const imgPath = path.join(process.cwd(), img.src);
-
-//     const svg = await loadImage(imgPath);
-//     console.log(`The image is width: ${svg.width} height: ${svg.height}`);
-
-//     if (svg.width > targetWidth || svg.height > targetHeight) {
-//       const { width, height } = imgZoom(svg.width, svg.height);
-
-//       console.log(
-//         `The image exceeds the specified width and height. Being zoomed, width: ${width}, height: ${height}`,
-//       );
-
-//       const canvas = createCanvas(width, height);
-//       const context = canvas.getContext('2d');
-//       context.drawImage(svg, 0, 0, width, height);
-
-//       img.src = canvas.toDataURL('image/png');
-//     } else {
-//       const imgBase64 = fs.readFileSync(imgPath, { encoding: 'base64' });
-//       img.src = `data:image/png;base64,${imgBase64}`;
-//     }
-//   }
-
-//   const html = htmlTemplate.replace('{htmlContent}', doc.body.innerHTML);
-
-//   const data = await HTMLtoDOCX(html, null, {
-//     table: { row: { cantSplit: true } },
-//   });
-//   const filename = path.join(process.cwd(), 'dist', 'file.docx');
-//   fs.writeFileSync(filename, data as Buffer);
-// }
 
 saveDocx().then();
