@@ -1,0 +1,42 @@
+# 在 NestJs 应用中执行文件下载操作
+
+新建`http-utilities.ts`文件，声明`download`方法
+
+```typescript
+import { Response } from "express";
+import { Readable } from "stream";
+
+export function download(
+  res: Response,
+  buffer: Buffer,
+  filename: string
+): void {
+  const stream = new Readable();
+  stream.push(buffer);
+  stream.push(null);
+
+  res.set({
+    "Content-Type": "application/octet-stream",
+    "Content-Length": buffer.length,
+    "Content-Disposition": `attachment; filename="${encodeURI(filename)}"`, // 指定下载的文件名称
+  });
+
+  stream.pipe(res);
+}
+```
+
+在控制器方法中调用`download`方法，让浏览器执行文件下载
+
+```typescript
+import { Get, Res } from "@nestjs/common";
+import { Response } from "express";
+import { download } from "../shared/lib/http-utilities";
+
+export class FileController {
+  @Get("docx")
+  exportDocx(@Res() res: Response): void {
+    const buffer = this.fileService.getFile();
+    download(res, buffer, "example.docx");
+  }
+}
+```

@@ -1,0 +1,26 @@
+{
+  "name": "mynotes",
+  "version": "0.0.1",
+  "description": ":tada::pencil::rocket: 此仓库的目的是记录在开发过程中遇到的问题与解决方案或笔记，也包括在开发过程中尝试解决问题时写的 Demo。",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs",
+    "example": "examples"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/drawmoon/notes.git"
+  },
+  "author": "",
+  "license": "AGPL-3.0",
+  "bugs": {
+    "url": "https://github.com/drawmoon/notes/issues"
+  },
+  "homepage": "https://github.com/drawmoon/notes#readme",
+  "dependencies": {
+    "docsify-darklight-theme": "^3.1.4"
+  }
+}

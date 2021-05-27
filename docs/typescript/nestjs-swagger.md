@@ -1,4 +1,4 @@
-# Nest Swagger Notes
+# Nest Swagger
 
 - [初始化 Swagger](#初始化-swagger)
 - [描述接口参数](#描述接口参数)

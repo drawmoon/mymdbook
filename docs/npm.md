@@ -9,6 +9,15 @@
 
 ## 安装 Nodejs
 
+### Ubuntu
+
+```bash
+apt-update install nodejs
+apt-update install npm
+```
+
+### 通过二进制文件安装
+
 下载[Linux 二进制文件](https://nodejs.org/en/download/)
 
 ```bash

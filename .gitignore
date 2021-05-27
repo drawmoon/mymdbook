@@ -7,3 +7,5 @@ obj/
 .DS_Store
 
 tmp/
+
+node_modules/

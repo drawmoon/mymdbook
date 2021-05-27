@@ -1,4 +1,4 @@
-# Puppeteer Notes
+# Puppeteer
 
 ## 设置 localStorage
 
