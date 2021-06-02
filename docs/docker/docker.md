@@ -23,6 +23,11 @@ docker run -it ubuntu:latest /bin/bash
 
 # 覆盖 Dockerfile 中的 ENTRYPOINT 运行容器
 docker run -it --entrypoint /bin/bash myapp
+
+# 文件映射
+docker run --name myapp -v /home/me/desc.txt:/app myapp:latest
+# Windows 文件映射
+docker run --name myapp -v //D/desc.txt:/app myapp:latest
 ```
 
 ## 查看容器运行日志
