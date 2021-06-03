@@ -4,6 +4,15 @@
 
 `nginx.conf`文件编码问题导致，更改为`UTF-8`即可
 
+## Nginx 403 Forbidden
+
+```conf
+user  root; # 修改 Nginx 用户
+worker_processes  1;
+
+http {
+```
+
 ## The character [_] is never valid in a domain name
 
 ```txt

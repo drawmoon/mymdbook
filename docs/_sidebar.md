@@ -21,6 +21,7 @@
   - [Puppeteer](typescript/puppeteer.md)
 - **Nginx**
   - [Nginx 安装](nginx/nginx-install.md)
+  - [Nginx 使用笔记](nginx/nginx.md)
   - [Nginx 镜像使用笔记](nginx/nginx-docker.md)
   - [Nginx 常见问题](nginx/nginx-q.md)
 - **Docker**

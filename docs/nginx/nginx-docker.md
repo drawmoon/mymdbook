@@ -1,12 +1,19 @@
 # Nginx 镜像使用笔记
 
 - [挂载外部的配置文件](#挂载外部的配置文件)
+- [挂载外部静态 HTML 文件](#挂载外部静态-html-文件)
 - [为多个容器配置反向代理](#为多个容器配置反向代理)
 
 ## 挂载外部的配置文件
 
 ```bash
 docker run --name nginx -v /home/conf/nginx/nginx.conf:/etc/nginx/nginx.conf:ro -p 80:80 -d nginx
+```
+
+## 挂载外部静态 HTML 文件
+
+```bash
+docker run --name nginx -v /app/html:/usr/share/nginx/html:ro -p 80:80 -d nginx
 ```
 
 ## 为多个容器配置反向代理
