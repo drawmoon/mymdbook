@@ -52,8 +52,8 @@ notepad $Profile
 ```conf
 # oh-my-posh
 Import-Module oh-my-posh
-# 设置主题为 aliens
-Set-PoshPrompt -Theme aliens
+# 设置主题为 stelbent.minimal
+Set-PoshPrompt -Theme stelbent.minimal
 ```
 
 ## [自动补全、语法高亮显示](https://github.com/PowerShell/PSReadLine)
