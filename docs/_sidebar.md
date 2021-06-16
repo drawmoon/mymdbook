@@ -37,6 +37,7 @@
 - [Nodejs & Npm](npm.md)
 - [Web 调试代理工具](whistle.md)
 - [Linux 下管理 Postgres](manage-postgres-on-linux.md)
+- [Windows10 使用 V2ray 配置代理](v2ray-windows.md)
 - [macOS 终端美化、智能提示](system/macos-zsh.md)
 - [Windows 10 终端美化、智能提示](system/windows-terminal.md)
 - [Windows 10 WSL](system/windows-wsl.md)

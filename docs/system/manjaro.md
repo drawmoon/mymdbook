@@ -2,7 +2,6 @@
 
 - [修改软件源为国内源，添加 archlinuxcn 软件源](#修改软件源为国内源添加-archlinuxcn-软件源)
 - [安装 Google 拼音输入法](#安装-google-拼音输入法)
-- [V2ray Linux Web 客户端](#v2ray-linux-web-客户端)
 - [截图与贴图工具](#截图与贴图工具)
 - [远程桌面](#远程桌面)
 - [安装 Visual Studio Code](#安装-visual-studio-code)
@@ -74,44 +73,6 @@ sudo pacman -Rsn $(pacman -Qsq fcitx)
 
 然后重启计算机后重复上面的动作
 
-## V2ray Linux Web 客户端
-
-### 从软件源安装
-
-```bash
-# 安装打包工具
-sudo pacman -S base-devel
-
-# 克隆项目
-git clone https://aur.archlinux.org/v2raya.git
-# 开始构建项目
-makepkg -si
-```
-
-部署成功后，访问`http://localhost:2017`进入到主界面
-
-启动/停止服务
-
-```bash
-# 开机自启/取消自启/启动服务/停止服务/重启服务/查看状态
-sudo systemctl enable/disable/start/stop/restart/status v2raya
-```
-
-### 在 Docker 中运行
-
-```bash
-docker run -d \
- --restart=always \
- --privileged \
- --network=host \
- --name v2raya \
- -v /etc/resolv.conf:/etc/resolv.conf \
- -v /etc/v2raya:/etc/v2raya \
- mzz2017/v2raya
-```
-
-部署成功后，访问`http://localhost:2017`进入到主界面
-
 ## 截图与贴图工具
 
 ```bash
@@ -165,22 +126,4 @@ URL: https://maven.aliyun.com/repository/public/
 
 ```bash
 yaourt -S dotnet-sdk-5.0
-```
-
-## Vim
-
-```bash
-sudo pacman -S vim
-```
-
-## Git
-
-```bash
-sudo pacman -S git
-```
-
-## Yarn
-
-```bash
-npm install -g yarn
 ```
