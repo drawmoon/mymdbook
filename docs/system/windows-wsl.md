@@ -130,7 +130,7 @@ sudo apt install xorg -y
 配置将图形显示到 X server 所在的机器上：
 
 ```bash
-export DISPLAY=${ip}:0.0 # 例如：export DISPLAY=192.168.3.3:0.0
+export DISPLAY=$(grep -m 1 nameserver /etc/resolv.conf | awk '{print $2}'):0.0
 ```
 
 以上步骤完成后，即可在 WSL 中启动图形界面应用。
