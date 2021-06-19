@@ -6,6 +6,7 @@
   - [语法高亮](#语法高亮)
   - [历史记录](#历史记录)
 - [在 Windows 中启动 WSL 图形应用](#在-windows-中启动-wsl-图形应用)
+- [在 Windows 中启动 WSL 桌面](#在-windows-中启动-wsl-桌面)
 - [systemctl](#systemctl)
 - [WSL 使用 Windows 的代理](#wsl-使用-windows-的代理)
 
@@ -130,10 +131,116 @@ sudo apt install xorg -y
 配置将图形显示到 X server 所在的机器上：
 
 ```bash
+sudo vim /etc/profile.d/x.sh
+```
+
+将以下内容输入到 `x.sh` 中：
+
+```bash
 export DISPLAY=$(grep -m 1 nameserver /etc/resolv.conf | awk '{print $2}'):0.0
 ```
 
+刷新配置
+
+```bash
+source /etc/profile
+```
+
 以上步骤完成后，即可在 WSL 中启动图形界面应用。
+
+## 在 Windows 中启动 WSL 桌面
+
+> 使用 X 协议在 Windows 中渲染 Linux 应用图形界面。这里需要借助 MobaXterm 工具，并启用 X server。
+
+切换为中文环境；
+
+```bash
+sudo dpkg-reconfigure locales
+
+# Locales to be generated:
+# zh_CN .UTF-8 UTF-8
+
+# Default locale for the system environment:
+# en_US.UTF-8
+```
+
+```bash
+sudo apt update
+```
+
+安装字体管理包
+
+```bash
+sudo apt-get install fontconfig -y
+```
+
+安装中文字体
+
+```bash
+sudo mkdir -p /usr/share/fonts/windows
+sudo cp -r /mnt/c/Windows/Fonts/*.ttf /usr/share/fonts/windows/
+```
+
+清除字体缓存
+
+```bash
+fc-cache
+```
+
+生成中文环境
+
+```bash
+sudo locale-gen zh_CN.UTF-8
+```
+
+安装中文输入法
+
+```bash
+sudo apt install fcitx dbus-x11 fcitx-googlepinyin -y
+```
+
+配置用户环境变量：
+
+```bash
+sudo vim /etc/profile.d/fcitx.sh
+
+export GTK_IM_MODULE=fcitx
+export QT_IM_MODULE=fcitx
+export XMODIFIERS=@im=fcitx
+```
+
+安装 LXDE 桌面应用：
+
+```bash
+sudo apt install lxde -y
+```
+
+启动 LXDE：
+
+```bash
+lxsession
+```
+
+你也可以尝试安装其他的桌面应用：
+
+```bash
+# xfce4
+sudo apt install xfce4 xfce4-goodies -y
+# 启动
+startxfce4
+
+# Gnome
+sudo apt install gnome ibus-rime -y
+# 选择 gdm3
+# 启动
+gnome-shell
+
+# KDE
+sudo apt install kde-plasma-desktop -y
+# 选择 sddm
+# 启动
+startkde
+```
 
 ## [systemctl](https://github.com/DamionGans/ubuntu-wsl2-systemd-script)
 
