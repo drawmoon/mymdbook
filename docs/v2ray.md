@@ -1,10 +1,8 @@
-# Windows10 使用 V2ray 配置代理
+# 使用 V2ray 配置代理
 
 ## 下载安装
 
-在 [Github Releases](https://github.com/v2fly/v2ray-core/releases) 中下载预编译的二进制 ZIP 格式压缩包。并解压到主目录下。
-
-配置 `环境变量`，在 `系统变量` 中编辑 `Path`，将 `v2ray` 的路径添加到 `Path` 中。
+在 [Github Releases](https://github.com/v2fly/v2ray-core/releases) 中下载预编译的二进制 ZIP 格式压缩包，解压到任意目录下。
 
 ## 配置 V2ray
 
@@ -240,63 +238,45 @@
 
 ## 启动 V2ray
 
-```powershell
-v2ray
+```bash
+./v2ray
 ```
 
-## 配置开机启动
-
-下载 [NSSM](http://www.nssm.cc/release/nssm-2.24.zip)，并解压到主目录下。
-
-配置 `环境变量`，在 `系统变量` 中编辑 `Path`，将 `NSSM` 的路径添加到 `Path` 中。
-
-启动终端应用，执行以下指令安装服务：
-
-```powershell
-nssm install
-```
-
-执行指令后会启动 `NSSM` 服务安装界面。
-
-- 在 `Path` 中输入 `v2ray` 的所在路径。
-- 在 `Service Name` 中输入 `V2ray-Service`，点击 `Install service` 安装服务。
-
-执行 `nssm start V2ray-Service` 或在 `服务` 中启动 `v2ray`。
+> 如果是 Windows 下，可通过配置 `环境变量`，将 V2ray 的所在路径添加到 `系统变量` 的 `Path` 中，通过 `v2ray` 命令启动 V2ray。
 
 ## 自动配置最优的服务器
 
-克隆 [v2ray-maid](https://github.com/mokeyish/v2ray-maid) 仓库，编译为 EXE 可执行程序，并复制到 `v2ray` 的所在目录下。
+克隆 [v2ray-maid](https://github.com/mokeyish/v2ray-maid) 仓库，编译为可执行程序，并复制到 `v2ray` 的所在目录下。
 
 在主目录中新建 `.v2ray-maid.json` 配置文件，并输入以下内容：
 
 ```json
 {
-  "sub_url": "https://订阅地址.com",
-  "program": "C:\\Users\\用户名\\v2ray\\v2ray.exe",
+  "sub_url": "订阅地址",
+  "program": "v2ray 可执行文件的目标路径",
   "ping_times": 10,
   "concurrency": 6,
   "proxies": [
     {
       "selector": "倍率1",
       "tag": "x1",
-      "target_file": "C:\\Users\\用户名\\v2ray\\config.json",
+      "target_file": "config.json 的目标路径",
       "limit_count": 1
     },
     {
       "selector": "倍率5",
       "tag": "x5",
-      "target_file": "C:\\Users\\用户名\\v2ray\\config.json",
+      "target_file": "config.json 的目标路径",
       "limit_count": 1
     }
   ]
 }
 ```
 
-- `program` 输入 `v2ray` 主程序的目标路径
-- `target_file` 输入 `v2ray` 的配置文件的目标路径
-
 在终端应用中执行以下命令，自动配置最优的服务器：
 
-```powershell
-v2ray-maid
+```bash
+./v2ray-maid
 ```
+
+执行完成后重启 V2ray

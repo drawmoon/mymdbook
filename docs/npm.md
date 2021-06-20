@@ -9,7 +9,7 @@
 
 ## 安装 Nodejs
 
-### Ubuntu
+### Debian/Ubuntu
 
 ```bash
 apt-update install nodejs
