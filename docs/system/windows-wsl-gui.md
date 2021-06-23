@@ -27,26 +27,24 @@ sudo apt install xorg -y
 
 > 使用 X 协议在 Windows 中渲染 Linux 应用图形界面。这里需要借助 MobaXterm 工具，并启用 X server。
 
-切换为中文环境；
+切换为中文环境：
 
 ```bash
 sudo dpkg-reconfigure locales
 
 # Locales to be generated:
-# zh_CN .UTF-8 UTF-8
+# en_US.UTF-8 UTF-8
+# zh_CN.UTF-8 UTF-8
 
 # Default locale for the system environment:
-# en_US.UTF-8
-```
-
-```bash
-sudo apt update
+# zh_CN.UTF-8
 ```
 
 安装字体管理包
 
 ```bash
-sudo apt-get install fontconfig -y
+sudo apt update
+sudo apt-get install fontconfig font-manager -y
 ```
 
 安装中文字体
@@ -83,6 +81,8 @@ export GTK_IM_MODULE=fcitx
 export QT_IM_MODULE=fcitx
 export XMODIFIERS=@im=fcitx
 ```
+
+> 如果遇到启动了 fcitx，并且已添加 Google 拼音输入法，却无法切换输入法，请尝试 [askubuntu](https://askubuntu.com/questions/1126451/unable-to-toggle-between-input-methods-using-fcitx) 上的回答解决该问题
 
 安装 LXDE 桌面应用：
 
