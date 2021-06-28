@@ -124,6 +124,12 @@ URL: https://maven.aliyun.com/repository/public/
 
 ## .NET SDK
 
+通过 [脚本](https://dot.net/v1/dotnet-install.sh) 安装
+
 ```bash
-yaourt -S dotnet-sdk-5.0
+# dotnet 5.0
+./dotnet-install.sh -c 5.0
+
+# dotnet 3.1
+./dotnet-install.sh -c 3.1
 ```
