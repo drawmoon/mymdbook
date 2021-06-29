@@ -1,12 +1,9 @@
-import { asBlob } from 'html-docx-js-typescript';
 import * as path from 'path';
 import * as fs from 'fs';
 import { JSDOM } from 'jsdom';
 import { loadImage, createCanvas } from 'canvas';
+import { asBlob } from 'html-docx-js-typescript';
 // import * as HTMLtoDOCX from 'html-to-docx';
-
-const targetWidth = 595;
-const targetHeight = 842;
 
 const htmlTemplate = `
 <!DOCTYPE html>
@@ -44,7 +41,13 @@ const htmlTemplate = `
 </body>
 </html>`;
 
-function imgZoom(imgWidth: number, imgHeight: number) {
+const targetWidth = 595;
+const targetHeight = 842;
+
+function imgZoom(
+  imgWidth: number,
+  imgHeight: number,
+): { width: number; height: number } {
   let width: number;
   let height: number;
 
@@ -79,11 +82,13 @@ function imgZoom(imgWidth: number, imgHeight: number) {
 
 async function saveDocx(): Promise<void> {
   const htmlString = fs.readFileSync(
-    path.join(process.cwd(), 'assets', 'content.html'),
+    path.join(process.cwd(), 'src', 'HtmlToWord', 'assets', 'content.html'),
     {
       encoding: 'utf-8',
     },
   );
+
+  console.log(htmlString);
 
   const dom = new JSDOM(htmlString);
   const doc = dom.window.document;
@@ -91,7 +96,7 @@ async function saveDocx(): Promise<void> {
   console.log('Converting image to base64');
 
   for (const img of doc.querySelectorAll('img')) {
-    const imgPath = path.join(process.cwd(), img.src);
+    const imgPath = path.join(process.cwd(), 'src', 'HtmlToWord', img.src);
 
     const svg = await loadImage(imgPath);
     console.log(`The image is width: ${svg.width} height: ${svg.height}`);

@@ -1,10 +1,12 @@
 {
-  "name": "html-to-word-demo",
+  "name": "typescript-examples",
   "version": "0.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node dist/index",
+    "start1": "node dist/1.CatchErrorDecorator/index",
+    "start2": "node dist/2.CallbackFunction/index",
+    "start3": "node dist/3.HtmlToWord/index",
     "build": "rimraf dist & tsc",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix"
   },
