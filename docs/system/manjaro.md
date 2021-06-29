@@ -124,12 +124,12 @@ URL: https://maven.aliyun.com/repository/public/
 
 ## .NET SDK
 
-通过 [脚本](https://dot.net/v1/dotnet-install.sh) 安装
+下载 [.NET 5.0 二进制包](https://dotnet.microsoft.com/download/dotnet/5.0)
 
 ```bash
-# dotnet 5.0
-./dotnet-install.sh -c 5.0
-
-# dotnet 3.1
-./dotnet-install.sh -c 3.1
+mkdir $HOME/dotnet
+tar -xzvf dotnet-sdk-5.0.301-linux-x64.tar.gz -C $HOME/dotnet
+vim /etc/profile.d/dotnet.sh
+export PATH=$PATH:$HOME/dotnet
+source /etc/profile
 ```
