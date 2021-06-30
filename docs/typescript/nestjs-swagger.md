@@ -1,15 +1,14 @@
 # Nest Swagger
 
-- [初始化 Swagger](#初始化-swagger)
+- [配置启用 Swagger](#配置启用-swagger)
 - [描述接口参数](#描述接口参数)
-  - [数组类型的 query 参数](#数组类型的-query-参数)
-  - [数组的 form-data 参数](#数组的-form-data-参数)
-- [文件上传](#文件上传)
-  - [上传单个文件](#上传单个文件)
-  - [上传多个文件](#上传多个文件)
-  - [上传指定文件](#上传指定文件)
+  - [数组](#数组)
+- [File upload](#file-upload)
+  - [Single file](#single-file)
+  - [Any files](#any-files)
+  - [Multiple files](#multiple-files)
 
-## 初始化 Swagger
+## 配置启用 Swagger
 
 安装依赖项
 
@@ -17,7 +16,7 @@
 npm install --save @nestjs/swagger swagger-ui-express
 ```
 
-在`main.ts`中初始化`swagger`
+在 `main.ts` 中初始化 `swagger`
 
 ```typescript
 async function bootstrap() {
@@ -25,84 +24,80 @@ async function bootstrap() {
 
   // 初始化 Swagger
   const config = new DocumentBuilder()
-    .setTitle("ToDo API")
-    .setDescription("A simple example nodejs Web API")
-    .setVersion("v1")
+    .setTitle('ToDo API')
+    .setDescription('A simple example nodejs Web API')
+    .setVersion('v1')
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup("api", app, document);
+  SwaggerModule.setup('api', app, document);
 
   await app.listen(3000);
 }
 bootstrap();
 ```
 
-在`controller`中添加控制器描述文本
+在 `controller` 中添加控制器描述文本
 
 ```typescript
-import { ApiTags } from "@nestjs/swagger";
+import { ApiTags } from '@nestjs/swagger';
 
-@ApiTags("ToDo")
+@ApiTags('ToDo')
 export class TodoController {}
 ```
 
 ## 描述接口参数
 
-## 数组类型的 query 参数
+## 数组
+
+Query 参数：
 
 ```typescript
-export class TodoController {
-  @Delete()
-  @ApiQuery({
-    name: "ids",
-    description: "The param description",
-    type: Number,
-    isArray: true,
-    required: true,
-  })
-  batchDelete(
-    @Query(
-      "ids",
-      new ParseArrayPipe({
-        items: Number,
-      })
-    )
-    ids: number[]
-  ): FolderDTO[] {}
-}
+@ApiQuery({
+  name: 'id',
+  description: 'The param description',
+  type: Number,
+  isArray: true,
+})
+getById(
+  @Query(
+    'id',
+    new ParseArrayPipe({
+      items: Number,
+      optional: false,
+    })
+  )
+  id: number[]
+)
 ```
 
-## 数组的 form-data 参数
+Body 参数：
 
 ```typescript
-export class UserBatchDeleteDto {
+class GetUserByIdDTO {
   @ApiProperty({
-    description: "The param description",
+    description: 'The param description',
     type: Number,
     isArray: true,
-    required: true,
   })
-  ids: number[];
+  id: number[];
 }
 
-export class TodoController {
-  @Delete()
-  @ApiBody({
-    type: UserBatchDeleteDto,
-  })
-  batchDelete(
-    @Body(
-      "ids",
-      new ParseArrayPipe({
-        items: Number,
-      })
-    )
-    ids: number[]
-  ): FolderDTO[] {}
-}
+@ApiBody({
+  type: GetUserByIdDTO,
+})
+getById(
+  @Body(
+    'id',
+    new ParseArrayPipe({
+      items: Number,
+      optional: false,
+    })
+  )
+  ids: number[]
+)
 ```
 
-## 文件上传
+## File upload
 
 安装依赖
 
@@ -110,86 +105,83 @@ export class TodoController {
 npm install -D @types/multer
 ```
 
-### 上传单个文件
+### Single file
 
 ```typescript
-export class TodoController {
-  @ApiPost("upload")
-  @ApiBody({
-    description: "上传的文件",
-    schema: {
-      type: "object",
-      properties: {
-        file: {
-          type: "file",
-          format: "binary",
-        },
+@ApiConsumes('multipart/form-data')
+@ApiBody({
+  schema: {
+    type: 'object',
+    required: ['file'],
+    properties: {
+      file: {
+        description: '文件的二进制数据',
+        type: 'file',
+        format: 'binary',
       },
     },
-  })
-  @ApiConsumes("multipart/form-data")
-  @UseInterceptors(FileInterceptor("file"))
-  upload(@UploadedFile() file: Express.Multer.File): void {}
-}
+  },
+})
+@UseInterceptors(FileInterceptor('file'))
+upload(@UploadedFile() file: Express.Multer.File)
 ```
 
-### 上传多个文件
+### Any files
 
 ```typescript
-export class TodoController {
-  @ApiPost("upload")
-  @ApiBody({
-    description: "上传的文件",
-    schema: {
-      type: object,
-      properties: {
-        ["files"]: {
-          type: "array",
-          items: {
-            type: "file",
-            format: "binary",
-          },
+@ApiConsumes('multipart/form-data')
+@ApiBody({
+  schema: {
+    type: object,
+    required: ['files'],
+    properties: {
+      ['files']: {
+        type: 'array',
+        description: '文件的二进制数据',
+        items: {
+          type: 'file',
+          format: 'binary',
         },
       },
     },
-  })
-  @ApiConsumes("multipart/form-data")
-  @UseInterceptors(AnyFilesInterceptor())
-  upload(): void {}
-}
+  },
+})
+@UseInterceptors(AnyFilesInterceptor())
+upload(@UploadedFiles() files: Express.Multer.File[])
 ```
 
-### 上传指定文件
+### Multiple files
 
 ```typescript
-export class TodoController {
-  @ApiPost("upload")
-  @ApiBody({
-    description: "上传的文件",
-    schema: {
-      type: object,
-      properties: {
-        ["readme.md"]: {
-          type: "file",
-          format: "binary",
-        },
-        ["index.docx"]: {
-          type: "file",
-          format: "binary",
-        },
+@ApiConsumes('multipart/form-data')
+@ApiBody({
+  schema: {
+    type: object,
+    required: ['index.docx'],
+    properties: {
+      ['readme.md']: {
+        description: 'Readme.md 二进制数据',
+        type: 'file',
+        format: 'binary',
+        nullable: false,
+      },
+      ['index.docx']: {
+        description: 'Index.docx 二进制数据',
+        type: 'file',
+        format: 'binary',
+        nullable: true,
       },
     },
-  })
-  @ApiConsumes("multipart/form-data")
-  @UseInterceptors(
-    FileFieldsInterceptor([
-      { name: "readme.md", maxCount: 1 },
-      { name: "index.docx", maxCount: 1 },
-    ])
-  )
-  upload(
-    @UploadedFile("readme.md") readme: Express.Multer.File,
-    @UploadedFile("index.docx") docx: Express.Multer.File
-  ): void {}
-}
+  },
+})
+@UseInterceptors(
+  FileFieldsInterceptor([
+    { name: 'readme.md', maxCount: 1 },
+    { name: 'index.docx', maxCount: 1 },
+  ])
+)
+upload(
+  @UploadedFile('readme.md') readme: Express.Multer.File,
+  @UploadedFile('index.docx') docx: Express.Multer.File,
+)
 ```
