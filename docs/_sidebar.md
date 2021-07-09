@@ -20,16 +20,16 @@
   - [更新树实体的父级实体时，没有更新 mpath 的问题临时解决方案](typescript/typeorm-mpath.md)
   - [Puppeteer](typescript/puppeteer.md)
 - **Nginx**
-  - [Nginx 安装](nginx/nginx-install.md)
   - [Nginx 使用笔记](nginx/nginx.md)
   - [Nginx 镜像使用笔记](nginx/nginx-docker.md)
   - [Nginx 常见问题](nginx/nginx-q.md)
+  - [Nginx 安装](nginx/nginx-install.md)
 - **Docker**
-  - [Docker 安装](docker/docker-install.md)
   - [Docker 常用命令](docker/docker.md)
-  - [Docker Network](docker/docker-network.md)
-  - [Docker System](docker/docker-system.md)
+  - [Docker 网络](docker/docker-network.md)
   - [Docker Compose](docker/docker-compose.md)
+  - [Docker System](docker/docker-system.md)
+  - [Docker 安装](docker/docker-install.md)
 - **GitHub**
   - [Github CI/CD](github/github-ci.md)
   - [设置 Github 组织仓库的分支推送权限](github/github-branches-rule.md)

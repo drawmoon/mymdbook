@@ -3,66 +3,97 @@
 ## 拉取镜像
 
 ```bash
-docker pull ubuntu:latest
+docker pull <仓库>
+```
+
+拉取指定标签的镜像
+
+```bash
+docker pull <仓库>[:标签]
+```
+
+比如：
+
+```bash
+docker pull nginx:stable-alpine
 ```
 
 ## 运行容器
 
 ```bash
-# 将本地 3333 端口映射为容器 3000 端口
-docker run -p 3333:3000 --name myapp myapp:latest
+docker run <仓库>
+```
 
-# 后台运行
-docker run -p 3333:3000 --name myapp -d myapp:latest
+`-p` 指定端口映射，映射一个端口到内部容器开放的网络端口。
 
-# 设置环境变量
-docker run -p 3333:3000 -e AUTHORITY=http://localhost:5000 --name myapp myapp:latest
+```bash
+docker run -p 3000:3000 <仓库>
+```
 
-# 以交互模式运行容器
-docker run -it ubuntu:latest /bin/bash
+`--name` 指定容器的名称
+
+```bash
+docker run --name my-web <仓库>
+```
+
+`-d` 标记容器为后台运行
+
+```bash
+docker run -d <仓库>
+```
+
+`-e` 指定环境变量
+
+```bash
+docker run -e PORT=3000 <仓库>
+```
+
+`-it` 以交互模式运行容器
+
+```bash
+docker run -it <仓库> /bin/bash
 
 # 覆盖 Dockerfile 中的 ENTRYPOINT 运行容器
-docker run -it --entrypoint /bin/bash myapp
+docker run -it --entrypoint /bin/bash <仓库>
+```
 
-# 文件映射
-docker run --name myapp -v /home/me/desc.txt:/app myapp:latest
-# Windows 文件映射
-docker run --name myapp -v //D/desc.txt:/app myapp:latest
+`-v` 启动一个挂载数据卷的容器
+
+```bash
+docker run -v /home/nginx.conf:/etc/nginx/nginx.conf nginx
+
+# Windows 下挂载数据卷语法
+docker run -v //D/nginx.conf:/etc/nginx/nginx.conf nginx
 ```
 
 ## 查看容器运行日志
 
 ```bash
-docker logs 1b
-
-# 动态日志
-docker logs 1b -f
-
-# 1b 表示容器的 ID
+docker logs <容器>
 ```
 
-## 启动/停止容器
+`-f` 监听容器的输出
 
 ```bash
-docker start/stop 1b
+docker logs <容器> -f
+```
 
-# 1b 表示容器的 ID
+## 启动/停止/重新启动容器
+
+```bash
+docker start/stop/restart <容器>
 ```
 
 ## 进入容器内部
 
 ```bash
-docker exec -it 1b /bin/bash
-
-# 1b 表示容器的 ID
+docker exec -it <容器> /bin/bash
 ```
 
 ## 连接到正在运行的容器
 
 ```bash
-docker attach 1b
-
-# 1b 表示容器的 ID
+docker attach <容器>
 ```
 
 ## 构建镜像
@@ -70,7 +101,7 @@ docker attach 1b
 创建`Dockerfile`文件
 
 ```Dockerfile
-FROM ubuntu:latest                # 指定基础镜像
+FROM node                         # 指定基础镜像
 WORKDIR /app                      # 指定工作目录
 COPY . .                          # 复制文件
 RUN npm --version \               # 构建镜像时运行的命令
@@ -105,13 +136,16 @@ docker build -t myapp .
 ## 保存镜像
 
 ```bash
-docker save -o myapp.tar myapp:latest # 这里推荐填写镜像名称:标记号，如果填写的是镜像 ID，load 进来的镜像会显示 <none>
+docker save -o myapp.tar [用户/]<仓库>[:标签] # 这里推荐填写仓库:标签，如果填写的是镜像 ID，load 进来的镜像会显示 <none>
 
-# or
-docker save myapp:latest > myapp.tar
+# Or
+docker save [用户/]<仓库>[:标签] > myapp.tar
+```
 
-# zip
-docker save myapp:latest | gzip > myapp-image
+使用`gzip`进行压缩
+
+```bash
+docker save [用户/]<仓库>[:标签] | gzip > myapp.tar
 ```
 
 ## 载入镜像
@@ -119,52 +153,40 @@ docker save myapp:latest | gzip > myapp-image
 ```bash
 docker load -i myapp.tar
 
-# or
+# Or
 docker load < myapp.tar
-
-# -i 完整的指令为 --input
 ```
 
 ## 将容器保存为新的镜像
 
 ```bash
-docker commit 1b drsh/myapp:1.0
-
-# 语法：
-# docker commit <container-id> <user>/<image-name>:<tag>
+docker commit <容器> [用户/]<仓库>[:标签]
 ```
 
 ## 标记镜像
 
 ```bash
-docker tag myapp:1.0 myapp:2.0
-
-# 语法：
-# docker tag <image-name>:<tag> [username/]<image-name>:<tag>
+docker tag [用户/]<仓库>[:标签] [用户/]<仓库>[:标签]
 ```
 
 ## 将镜像上传到镜像仓库
 
 ```bash
 # 登录
-docker login -u drsh -p 123456
-docker push drsh/myapp:1.0
+docker login -u <用户> -p <密码>
+docker push <用户/><仓库>[:标签]
 ```
 
 ## 拷贝容器中的文件
 
 ```bash
-docker cp 1b:/app/myapp .
-
-# 1b 表示容器的 ID
+docker cp <容器>:/app/myapp .
 ```
 
 ## 删除容器/镜像
 
 ```bash
-docker rm/rmi 1b
-
-# 1b 表示容器/镜像的 ID
+docker rm/rmi <容器/仓库>
 ```
 
 ## 示例

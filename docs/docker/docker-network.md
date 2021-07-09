@@ -1,39 +1,37 @@
-# Docker Network
+# Docker 网络
 
-## 查看所有网络
+网络服务是 Docker 提供的一种容器互联的方式。
+
+## 列出所有网络
 
 ```bash
 docker network ls
 ```
 
-## 创建桥接网络
+## 创建网络
 
 ```bash
-docker network create tmpnet
+docker network create <网络>
+```
+
+`-d` 可以指定网络的类型，分别有 `bridge`、`overlay`。
+
+```bash
+docker network create -d bridge <网络>
 ```
 
 ## 删除网络
 
 ```bash
-docker network rm 1b
+docker network rm <网络>
 ```
 
-## 同一台机器上多个容器之间相互通信
+## 连接容器
 
-将容器放在同一网络上，Docker 会自动 DNS 解析容器名称到 IP 地址
-
-```bash
-docker network create tmpnet
-```
-
-然后修改应用的配置，将机器的 IP 更改为容器的名称。示例：
+`--network` 将容器连接到 `my-network` 网络。
 
 ```bash
-docker network create tmpnet
+docker run --network my-network --name pg-server -d postgres
 
-docker run --net tmpnet --name pg_server -d postgres
-
-docker run --net tmpnet --name myapp -e DB_HOST=pg_server -d myapp
-# Or
-# docker run --net tmpnet --name myapp -e DB_CONN_SER="Server=pg_server;Port=5432;" -d myapp
+docker run --network my-network --name my-web -e DB_HOST=pg-server -d web
 ```
