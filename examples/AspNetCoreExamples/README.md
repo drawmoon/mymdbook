@@ -1,0 +1,34 @@
+# AspNetCoreExamples
+
+- OpenApi
+  - Swagger
+  - RedDoc
+- WebApi
+  - JsonPatch
+  - OData
+  - GraphQL
+  - ApiVersion
+- RemoteRequest
+  - WebApiClient
+  - Refit
+- Ocelot
+- ObjectMapper
+  - AutoMapper
+- Localization
+- ControllerExceptions
+- Authentication
+  - MultiSchemeAuthentication
+- BackendJob
+  - HostedService
+  - ScheduleWorkflow
+- Nacos
+- Furion
+- EntityFrameworkCore
+  - InMemoryDatabase
+  - SqliteInMemoryDatabase
+- EmbeddedFile
+- PhysicalFileProvider
+- Protobuf
+- RxNet
+- Minio
+    
