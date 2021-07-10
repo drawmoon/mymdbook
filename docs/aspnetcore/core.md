@@ -1,9 +1,5 @@
 # ASP.NET Core Notes
 
-- [启用可为空的类型检查](#启用可为空的类型检查)
-- [将警告视为错误](#将警告视为错误)
-- [多个项目的全局设置](#多个项目的全局设置)
-- [中央包版本控制](#中央包版本控制)
 - [判断两个集合的元素是否相等](#判断两个集合的元素是否相等)
 - [字典的命名约定](#字典的命名约定)
 - [对象与流之间的序列化与反序列化](#对象与流之间的序列化与反序列化)
@@ -14,79 +10,8 @@
 - [配置 Controller 允许接收空字符串](#配置-controller-允许接收空字符串)
 - [配置 Controller 将空 Body 视为有效输入](#配置-controller-将空-body-视为有效输入)
 - [Switch 使用条件表达式](#switch-使用条件表达式)
-
-## 启用可为空的类型检查
-
-设置所有参考类型都不可为`null`，如果需要某个参考类型可以为`null`，必须显式声明为可空类型，否则会编译警告。
-
-```xml
-<Project Sdk="Microsoft.NET.Sdk">
-    <PropertyGroup>
-        <Nullable>enable</Nullable>
-    </PropertyGroup>
-</Project>
-```
-
-## 将警告视为错误
-
-在项目编译中，将所有警告消息报告为错误。比如，编译器提示某个方法可以标记为`static`时，编译项目则会报错，并且编译失败。
-
-```xml
-<Project Sdk="Microsoft.NET.Sdk">
-    <PropertyGroup>
-        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    </PropertyGroup>
-</Project>
-```
-
-## 多个项目的全局设置
-
-在项目目录下创建`Directory.Build.props`文件，该文件中的配置作用解决方案中的所有项目
-
-```xml
-<Project>
-    <PropertyGroup>
-        <!-- 设置目标框架 -->
-        <TargetFramework>net5.0</TargetFramework>
-        <!-- 设置语言版本 -->
-        <LangVersion>latest</LangVersion>
-        <!-- 可为空的值类型 -->
-        <Nullable>enable</Nullable>
-        <!-- 将警告视为错误 -->
-        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    </PropertyGroup>
-</Project>
-```
-
-## 中央包版本控制
-
-统一的依赖包版本管理有利于项目的维护升级，在`csproj`或`Directory.Build.props`中开启此项功能
-
-```xml
-<Project>
-    <ItemGroup>
-        <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
-    </ItemGroup>
-</Project>
-```
-
-在项目目录下创建`Directory.Packages.props`文件
-
-```xml
-<Project>
-    <ItemGroup>
-        <PackageVersion Include="Newtonsoft.Json" Version="12.0.3" />
-    </ItemGroup>
-</Project>
-```
-
-在`csproj`中引用依赖包
-
-```xml
-<ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" />
-</ItemGroup>
-```
+- [xUnit 测试两个集合的元素是否相等](#测试两个集合的元素是否相等)
+- [xUnit 测试异常情况](#测试异常情况)
 
 ## 判断两个集合的元素是否相等
 
@@ -282,4 +207,29 @@ switch (s)
 }
 
 Console.WriteLine(c);
+```
+
+## xUnit 测试两个集合的元素是否相等
+
+```csharp
+List<string> foo = new(){ "A", "B" };
+List<string> bar = new(){ "A" };
+
+// 是否全部包含
+Assert.All(foo, p => Assert.Contains(p, bar));
+
+// 是否全部不包含
+Assert.All(foo, p => Assert.DoseNotContains(p, bar));
+```
+
+## xUnit 测试异常情况
+
+```csharp
+var exception = await Assert.ThrowsAsync<AppException>(async () =>
+{
+    await tableFieldService.Update(filed);
+});
+
+Assert.Equal("存在重复的表字段名称", exception.Message);
+Assert.Equal(200400, exception.ErrorCode);
 ```

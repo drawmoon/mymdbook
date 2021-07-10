@@ -1,66 +1,50 @@
 # 指定 Internal 成员对外部程序集可见
 
-```c#
-using System.Runtime.CompilerServices;
+在单元测试的场景中，难免会碰到需要调用  `internal` 成员的情况，即可通过 `InternalsVisibleTo` 指定程序集，使该程序集可调用当前项目的 `internal` 成员。
 
-[assembly: InternalsVisibleTo("your assemblyName")]
-```
-
-## Examples
-
-新建类库项目`ProjectA`，并新建`Dashboard`类
+新建项目 `FileStorage`，新建 `FSObject` 类，声明内部方法 `SetName`。
 
 ```c#
-namespace ProjectA
+namespace FileStorage
 {
-    public class Dashboard
+    public class FSObject
     {
-        public string Title { get; internal set; }
+        public string Name { get; internal set; }
 
-        internal void SetTitle(string title)
+        internal void SetName(string name)
         {
-            Title = title;
+            Name = name;
         }
     }
 }
 ```
 
-在`ProjectA`项目的根目录下新建`AssemblyInfo.cs`文件
+在 `FileStorage` 项目下新建 `AssemblyInfo.cs` 文件，并指定可见的程序集 `FileStorage.Tests`。
 
 ```c#
 using System.Runtime.CompilerServices;
 
-[assembly: InternalsVisibleTo("ProjectATest")]
+[assembly: InternalsVisibleTo("FileStorage.Tests")]
 ```
 
-新建单元测试项目`ProjectATest`，并新建`DashboardTests`类
+新建单元测试项目 `FileStorage.Tests`，新建 `FSObjectTests` 类
 
 ```c#
-using ProjectA;
+using FileStorage;
 using Xunit;
 
-namespace ProjectATest
+namespace FileStorage.Tests
 {
-    public class DashboardTests
+    public class FSObjectTests
     {
         [Fact]
-        public void Test1()
+        public void TestSetName()
         {
-            Dashboard dashboard = new();
+            FSObject obj = new();
 
-            dashboard.Title = "Test";
+            obj.SetName("Monica");
 
-            Assert.Equal("Test", dashboard.Title);
-        }
-
-        [Fact]
-        public void Test2()
-        {
-            Dashboard dashboard = new();
-
-            dashboard.SetTitle("Test");
-
-            Assert.Equal("Test", dashboard.Title);
+            Assert.Equal("Monica", obj.Name);
         }
     }
 }

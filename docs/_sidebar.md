@@ -1,11 +1,10 @@
 - **ASP.NET Core**
+  - [启用严格的编译检查](aspnetcore/core-strict-inspection.md)
+  - [多个项目的全局设置](aspnetcore/core-global-settings.md)
   - [Swagger/Redoc](aspnetcore/swagger.md)
   - [OData 与 GraphQL](aspnetcore/odata-and-graphql.md)
   - [EF Core 值转换](aspnetcore/efcore-value-convert.md)
-  - [EF Core 从属实体类型的值转换](aspnetcore/efcore-owned-value-convert.md)
-  - [EF Core 自动递增主键的值转换](aspnetcore/efcore-identity-column-value-convert.md)
   - [EF Core 提交更改时为列动态生成值](aspnetcore/efcore-auto-value-column.md)
-  - [xUnit](aspnetcore/xunit.md)
   - [指定 Internal 成员对外部程序集可见](aspnetcore/assembly-visible-to-specified-assembly.md)
 - **TypeScript**
   - [用 ESLint、Prettier 规范 TypeScript 代码](typescript/typescript-eslint-prettier.md)
