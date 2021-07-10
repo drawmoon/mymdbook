@@ -19,10 +19,10 @@
   - [TypeOrm](typescript/typeorm.md)
   - [更新树实体的父级实体时，没有更新 mpath 的问题临时解决方案](typescript/typeorm-mpath.md)
   - [Puppeteer](typescript/puppeteer.md)
+  - [Nodejs & Npm](npm.md)
 - **Nginx**
   - [Nginx 使用笔记](nginx/nginx.md)
-  - [Nginx 镜像使用笔记](nginx/nginx-docker.md)
-  - [Nginx 常见问题](nginx/nginx-q.md)
+  - [Nginx 问题笔记](nginx/nginx-q.md)
   - [Nginx 安装](nginx/nginx-install.md)
 - **Docker**
   - [Docker 常用命令](docker/docker.md)
@@ -30,19 +30,19 @@
   - [Docker Compose](docker/docker-compose.md)
   - [Docker System](docker/docker-system.md)
   - [Docker 安装](docker/docker-install.md)
-- **GitHub**
+- **CI/CD**
   - [Github CI/CD](github/github-ci.md)
-  - [设置 Github 组织仓库的分支推送权限](github/github-branches-rule.md)
-  - [Github 管理仓库访问权限](github/github-mamage-access.md)
-- [Nodejs & Npm](npm.md)
 - [Web 调试代理工具](whistle.md)
+- **Postgres**
+  - [Postgres 年季月周日条件过滤](postgres/postgres-yqmd.md)
+  - [Linux 下管理 Postgres](postgres/manage-postgres-on-linux.md)
+- **IDE 远程调试**
+  - [VSCode 远程编辑 Linux 文件](ides/vscode-remote-ssh.md)
+  - [Rider 远程调式 Linux 应用](ides/rider-remote-debug.md)
 - [Windows10 终端美化、智能提示](system/windows-terminal.md)
 - [Windows10 WSL](system/windows-wsl.md)
 - [Windows 10 WSL GUI](system/windows-wsl-gui.md)
 - [在 WSL 中使用 Docker Desktop](system/windows-wsl-docker-desktop.md)
 - [Linux 终端美化、智能提示](system/linux-zsh.md)
 - [macOS 终端美化、智能提示](system/macos-zsh.md)
-- [VSCode 远程编辑 Linux 文件](ides/vscode-remote-ssh.md)
-- [Rider 远程调式 Linux 应用](ides/rider-remote-debug.md)
-- [Linux 下管理 Postgres](manage-postgres-on-linux.md)
 - [使用 V2ray 配置代理](v2ray-windows.md)

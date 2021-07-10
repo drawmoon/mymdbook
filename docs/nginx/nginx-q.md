@@ -1,4 +1,4 @@
-# Nginx 常见问题
+# Nginx 问题笔记
 
 ## [emerg]: unknown directive in xxx
 
