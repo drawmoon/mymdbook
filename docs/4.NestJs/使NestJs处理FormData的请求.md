@@ -1,6 +1,6 @@
-# NestJs 处理 form-data 的请求
+# 使 NestJs 处理 form-data 的请求
 
-安装依赖包
+安装
 
 ```bash
 npm install express-form-data
@@ -9,7 +9,7 @@ npm install express-form-data
 yarn add express-form-data
 ```
 
-定义一个`FormDataInterceptor`拦截器，继承自`NestInterceptor`，并用`@Injectable()`装饰器标记`FormDataInterceptor`
+定义一个 `FormDataInterceptor` 拦截器，继承自 `NestInterceptor`，并用 `@Injectable()` 装饰器标记 `FormDataInterceptor`。
 
 ```typescript
 import {
@@ -45,14 +45,13 @@ export class FormDataInterceptor implements NestInterceptor {
 }
 ```
 
-在控制器的方法中绑定`FormDataInterceptor`拦截器
+在控制器的方法中绑定 `FormDataInterceptor` 拦截器。
 
 ```typescript
 export class FolderController {
   @Put(":id/name")
   @UseInterceptors(FormDataInterceptor)
-  @ApiConsumes("multipart/form-data")
-  updateName(
+  rename(
     @Param("id") id: number,
     @Body("newName") newName: string
   ): FolderDTO {
@@ -60,5 +59,3 @@ export class FolderController {
   }
 }
 ```
-
-> 上面代码中`@ApiConsumes('multipart/form-data')`是 Swagger 提供的装饰器，用于描述接口的内容编码类型，这样就可以在 Swagger 中进行`form-data`接口的测试
