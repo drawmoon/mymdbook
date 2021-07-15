@@ -50,3 +50,4 @@
 - [Linux 终端美化、智能提示](system/linux-zsh.md)
 - [macOS 终端美化、智能提示](system/macos-zsh.md)
 - [使用 V2ray 配置代理](v2ray-windows.md)
+- [VirtualBox + Debian 配置静态 IP](system/VirtualBox+Debian配置静态IP.md)

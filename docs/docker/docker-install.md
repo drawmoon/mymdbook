@@ -1,6 +1,8 @@
-# Docker 安装
+# 安装
 
-## Manjaro
+## Docker
+
+> Linux 发行版为 Manjaro，其他发行版的安装请参考 [文档](https://yeasy.gitbook.io/docker_practice/install)。
 
 ```bash
 sudo pacman -S docker
@@ -30,21 +32,11 @@ sudo usermod -aG docker $USER
 
 ## 镜像加速
 
-修改`daemon.json`文件
-
 ```bash
-vim /etc/docker/daemon.json
+curl -sSL https://get.daocloud.io/daotools/set_mirror.sh | sh -s http://f1361db2.m.daocloud.io
 ```
 
-将`http://f1361db2.m.daocloud.io`添加到`registry-mirrors`数组中
-
-```json
-{
-  "registry-mirrors": [
-    "http://f1361db2.m.daocloud.io"
-  ]
-}
-```
+> 该脚本可以将 --registry-mirror 加入到你的 Docker 配置文件 /etc/docker/daemon.json 中。适用于 Ubuntu14.04、Debian、CentOS6 、CentOS7、Fedora、Arch Linux、openSUSE Leap 42.1，其他版本可能有细微不同。更多详情请访问文档。
 
 重启服务
 
@@ -57,4 +49,11 @@ sudo systemctl restart docker
 
 ```bash
 docker info
+```
+
+## Docker Compose
+
+```bash
+curl -L https://get.daocloud.io/docker/compose/releases/download/1.29.2/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
+chmod +x /usr/local/bin/docker-compose
 ```
