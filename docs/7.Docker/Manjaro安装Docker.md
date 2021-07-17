@@ -1,8 +1,4 @@
-# 安装
-
-## Docker
-
-> Linux 发行版为 Manjaro，其他发行版的安装请参考 [文档](https://yeasy.gitbook.io/docker_practice/install)。
+# Manjaro 安装 Docker
 
 ```bash
 sudo pacman -S docker
@@ -13,9 +9,6 @@ sudo pacman -S docker
 ```bash
 sudo systemctl enable docker
 sudo systemctl start docker
-
-# 查看 Docker 状态
-sudo systemctl status docker
 ```
 
 建立 Docker 用户组
@@ -28,6 +21,13 @@ sudo groupadd docker
 
 ```bash
 sudo usermod -aG docker $USER
+```
+
+## Docker Compose
+
+```bash
+curl -L https://get.daocloud.io/docker/compose/releases/download/1.29.2/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
+chmod +x /usr/local/bin/docker-compose
 ```
 
 ## 镜像加速
@@ -49,11 +49,4 @@ sudo systemctl restart docker
 
 ```bash
 docker info
-```
-
-## Docker Compose
-
-```bash
-curl -L https://get.daocloud.io/docker/compose/releases/download/1.29.2/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
-chmod +x /usr/local/bin/docker-compose
 ```
