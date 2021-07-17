@@ -30,8 +30,8 @@
   - [使用镜像](7.Docker/使用镜像.md)
   - [使用镜像](7.Docker/操作容器.md)
   - [网络](7.Docker/网络.md)
-  - [Docker Compose](7.Docker/docker-compose.md)
-  - [Docker System](7.Docker/docker-system.md)
+  - [Docker Compose](7.Docker\Docker-Compose.md)
+  - [Docker System](7.Docker\Docker-System.md)
   - [Manjaro 安装 Docker](7.Docker/Manjaro安装Docker.md)
 - **CI/CD**
   - [Github CI/CD](8.CICD/GitHub-CI.md)
