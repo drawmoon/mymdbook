@@ -10,6 +10,7 @@
   - [保存变更为列生成动态值](2.EntityFrameworkCore/保存变更为列生成动态值.md)
 - **TypeScript**
   - [语法与风格检查](3.TypeScript/语法与风格检查.md)
+  - [为模块扩展属性与方法](3.TypeScript/为模块扩展属性与方法.md)
   - [使用 AutoMapper 实现对象与对象自动映射](3.TypeScript/使用AutoMapper实现对象与对象自动映射.md)
   - [策略模式消除 if-else 的方法](3.TypeScript/策略模式消除if-else的方法.md)
   - [Puppeteer 设置本地存储与请求头](3.TypeScript/Puppeteer设置本地存储与请求头.md)

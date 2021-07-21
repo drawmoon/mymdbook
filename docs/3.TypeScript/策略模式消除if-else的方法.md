@@ -1,30 +1,41 @@
 # 策略模式消除 if-else 的方法
 
 ```typescript
-export class TrashService {
-    private readonly relationRecord: Record<string, <TKey>(id: TKey) => Promise<TargetWithRelation>> = {};
+remove<T>(type: string, id: T) {
+  if (type === 'file') {
 
-    constructor() {
-    this.initRelationRecord();
-    }
+  } else if (type === 'folder') {
 
-    private initRelationRecord(): void {
-    // 处理 Folder 的业务逻辑
-    this.relationRecord[FolderEntity.name] = async (id) => {
-        // ...
-        return targetObject;
-    };
+  } else if (type === 'tag') {
+    
+  } else {
+    
+  }
+}
+```
 
-    // 处理 File 的业务逻辑
-    this.relationRecord[FileEntity.name] = async (id) => {
-        // ...
-        return targetObject;
-    };
-    }
+```typescript
+private readonly relationRecord: Record<string, <TKey>(id: TKey) => Promise<void>> = {};
+  
+constructor() {
+  this.initRelationRecord();
+}
 
-    async delete(trashObject: TrashObject): Promise<void> {
-    const targetWithRelation = await this.relationRecord[trashObject.objectType](trashObject.objectId);
-    // ...
-    }
+private initRelationRecord(): void {
+  this.relationRecord['folder'] = async (id) => {
+    
+  };
+
+  this.relationRecord['file'] = async (id) => {
+    
+  };
+
+  this.relationRecord['tag'] = async (id) => {
+    
+  };
+}
+
+async remove<T>(type: string, id: T): Promise<void> {
+  await this.relationRecord[type](id);
 }
 ```
