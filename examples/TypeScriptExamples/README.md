@@ -3,3 +3,4 @@
 - CatchErrorDecorator
 - CallbackFunction
 - HtmlToWord
+- ModuleExtensions
