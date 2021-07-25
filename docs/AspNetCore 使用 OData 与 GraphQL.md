@@ -1,4 +1,4 @@
-# OData 与 GraphQL
+# AspNetCore 使用 OData 与 GraphQL
 
 - [OData](#odata)
 - [GraphQL](#graphql)
@@ -24,7 +24,7 @@ Install-Package Microsoft.EntityFrameworkCore.InMemory
 
 新建一个用户实体和订单实体
 
-```c#
+```csharp
 public class User
 {
     public int Id { get; set; }
@@ -69,7 +69,7 @@ public class OrderDetail
 
 新建 `AppDbContext.cs` 文件，创建数据库上下文
 
-```c#
+```csharp
 public class AppDbContext : DbContext
 {
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
@@ -105,7 +105,7 @@ public class AppDbContext : DbContext
 
 将数据库上下文添加到容器中
 
-```c#
+```csharp
 public void ConfigureServices(IServiceCollection services)
 {
     // 添加 in-memory 数据库
@@ -123,7 +123,7 @@ public void ConfigureServices(IServiceCollection services)
 新建一个 `AppEdmModel.cs` 文件，将实体添加 OData 模型中。 \
 在 `AppEdmModel` 类中可以指定实体的 CRUD 操作权限，权限声明添加到 OData 模型中后，授权中间件将会读取这些权限声明，处理不同请求所需要的权限范围。
 
-```c#
+```csharp
 using Microsoft.OData.Edm;
 using Microsoft.OData.ModelBuilder;
 
@@ -171,7 +171,7 @@ namespace ODataDemo.Models
 
 在 `Startup.cs` 中配置 OData 服务，和指定 OData 的接口路由
 
-```c#
+```csharp
 public void ConfigureServices(IServiceCollection services)
 {
     // 添加 OData。
@@ -200,7 +200,7 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 
 新建控制器，并继承 `ODataController` 类
 
-```c#
+```csharp
 public class UsersController : ODataController
 {
     private readonly AppDbContext _dbContext;
@@ -344,7 +344,7 @@ Install-Package OData.Swagger
 
 在`ConfigureServices`中注册服务
 
-```c#
+```csharp
 public void ConfigureServices(IServiceCollection services)
 {
     services.AddOData();

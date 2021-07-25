@@ -1,15 +1,15 @@
-# 使用 AutoMapper 实现对象与对象自动映射
+# TypeScript 使用 AutoMapper 实现对象与对象自动映射
 
 安装
 
 ```bash
-npm i @automapper/core @automapper/classes reflect-metadata
-npm i -D @automapper/types
+npm install @automapper/core @automapper/classes reflect-metadata
+npm install -D @automapper/types
 ```
 
-用`AutoMap`装饰属性
+使用 `AutoMap` 装饰器装饰属性
 
-```ts
+```typescript
 import { AutoMap } from "@automapper/classes";
 
 export class User {
@@ -45,10 +45,9 @@ export class UserDTO {
 }
 ```
 
-创建`Profile`
+创建 `Profile`，新建 `mapper-profile.ts` 文件
 
-```ts
-// mapper-profile.ts
+```typescript
 import { CamelCaseNamingConvention, mapFrom } from "@automapper/core";
 import type { MappingProfile } from "@automapper/types";
 import { UserDTO } from "../dtos/user.dto";
@@ -65,10 +64,9 @@ export const UserProfile: MappingProfile = (mapper) => {
 }
 ```
 
-创建`Mapper`
+创建 `Mapper`，新建 `mapper.ts` 文件
 
-```ts
-// mapper.ts
+```typescript
 import { classes } from "@automapper/classes";
 import { createMapper } from "@automapper/core";
 import { UserProfile } from "./mapper-profile";
@@ -81,7 +79,7 @@ export const Mapper = createMapper({
 Mapper.addProfile(UserProfile);
 ```
 
-使用`Mapper`
+使用 `Mapper`
 
 ```ts
 const users: User[] = [

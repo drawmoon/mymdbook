@@ -1,4 +1,4 @@
-# Windows 10 终端美化、智能提示
+# Windows10 终端美化、智能提示
 
 - [美化 PowerShell](#美化-powershell)
 - [自动补全、语法高亮显示](#自动补全、语法高亮显示)

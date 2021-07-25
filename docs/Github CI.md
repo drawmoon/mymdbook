@@ -1,11 +1,8 @@
-# Github CI/CD
+# Github CI
 
 > GitHub Actions 是 GitHub 提供的仓库自动工作流程功能，用户可以利用 GitHub 提供的免费计算机资源轻松实现 CI/CD，还可以用来做很多有意思的事情。
 
-- [关于 Github Actions 持续集成](https://docs.github.com/cn/actions/guides/about-continuous-integration)
-- [查看所有 Actions](https://github.com/marketplace?type=actions)
-
-## 在 GitHub 项目中创建一个简单的 CI 工作流程
+## 创建一个 CI 工作流程
 
 在项目根目录创建`.github/workflows/ci.yml`文件，Github 会自动执行`workflows`目录下的`yml`文件
 
@@ -74,3 +71,5 @@ jobs:
       - name: test
         run: npm run test
 ```
+
+- [查看所有 Actions](https://github.com/marketplace?type=actions)
