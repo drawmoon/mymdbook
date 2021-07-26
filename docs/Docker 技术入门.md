@@ -4,6 +4,7 @@
 - [使用镜像](#使用镜像)
 - [操作容器](#操作容器)
 - [使用 Dockerfile 构建镜像](#使用-dockerfile-构建镜像)
+- [Dockerfile 多阶段构建](#dockerfile-多阶段构建)
 - [网络](#网络)
 - [Docker 三剑客之 Compose](#docker-三剑客之-compose)
 - [磁盘清理](#磁盘清理)
@@ -278,8 +279,7 @@ docker cp <容器>:/app/myapp .
 FROM node
 WORKDIR /app
 COPY . .
-RUN npm --version \
-  && npm install \
+RUN npm install \
   && npm run build
 ENTRYPOINT ["node", "dist/main"]
 ```
@@ -305,6 +305,28 @@ docker build -t myapp .
 
 ```bash
 docker build -t myapp -f Dockerfile.custom .
+```
+
+## Dockerfile 多阶段构建
+
+为何要使用多阶段构建？
+
+- 减少重复劳动
+- 保护源代码
+- 降低镜像体积
+
+```Dockerfile
+FROM node AS build
+WORKDIR /source
+COPY . .
+RUN npm install \
+    && npm run build
+
+FROM node
+WORKDIR /app
+COPY --from=build /source/dist .
+COPY --from=build /source/node_modules node_modules
+ENTRYPOINT [ "node", "main" ]
 ```
 
 ## 网络
