@@ -199,7 +199,7 @@ docker tag nginx nginx:custom
 
 ### 将镜像上传到镜像仓库
 
-首先通过 `login` 登录到镜像仓库，再通过 `push` 上传镜像到仓库
+首先通过 `login` 登录到注册服务器，再通过 `push` 上传镜像到仓库
 
 ```bash
 docker tag nginx user/nginx
@@ -341,7 +341,7 @@ docker exec -it some-nginx bash
 `-it` 以交互模式进入容器\
 `-u` 设置执行命令的用户\
 `--privileged` 分配最高权限，例如：`--privileged=true`\
-`--detach-keys` 指定退出 `attach` 的快捷键
+`--detach-keys` 指定退出 `exec` 的快捷键
 
 ### 导出容器
 
