@@ -6,6 +6,8 @@
 - [操作容器](#操作容器)
 - [使用 Dockerfile 构建镜像](#使用-dockerfile-构建镜像)
 - [Dockerfile 多阶段构建](#dockerfile-多阶段构建)
+- [构建 ASP.NET Core 应用镜像](#构建-aspnet-core-应用镜像)
+- [构建 Tomcat Web 应用镜像](#构建-tomcat-web-应用镜像)
 - [网络](#网络)
 - [Docker 三剑客之 Compose](#docker-三剑客之-compose)
 - [磁盘清理](#磁盘清理)
@@ -379,7 +381,8 @@ docker cp some-nginx:/app/myapp .
 - `WORKDIR`: 指定工作目录
 - `COPY`: 复制文件
 - `ADD`: 更高级的复制命令，支持 URL
-- `ENV`: 设置环境变量，示例：ENV k1=v1 k2=v2
+- `ARG`: 定义构建镜像时使用的变量
+- `ENV`: 设置环境变量，示例：`ENV k1=v1 k2=v2`
 - `RUN`: 构建镜像时运行的命令
 - `EXPOSE`: 指定暴露的端口
 - `USER`: 指定执行后续命令的用户和用户组
@@ -438,6 +441,58 @@ WORKDIR /app
 COPY --from=build /source/dist .
 COPY --from=build /source/node_modules node_modules
 ENTRYPOINT [ "node", "main" ]
+```
+
+## 构建 ASP.NET Core 应用镜像
+
+`dotnet/sdk` 镜像用于生成应用\
+`dotnet/aspnet` 镜像包含 ASP.NET Core 运行时，用于运行应用
+
+```Dockerfile
+FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
+WORKDIR /source
+COPY WebApplication.sln .
+COPY WebApplication WebApplication
+RUN dotnet restore \
+  && dotnet publish -c Release -o /app --no-restore
+
+FROM mcr.microsoft.com/dotnet/aspnet:5.0 AS prod
+WORKDIR /app
+COPY --from=build /app .
+ENTRYPOINT [ "dotnet", "WebApplication.dll" ]
+```
+
+## 构建 Tomcat Web 应用镜像
+
+```Dockerfile
+FROM openjdk:8-slim AS build
+WORKDIR /source
+COPY source .
+RUN chmod +x ./mvnw \
+    && ./mvnw clean install package
+
+FROM tomcat:8-jdk8
+COPY run.sh .
+COPY --from=build /source/target/example-0.0.1-SNAPSHOT.war webapps/
+ENV TZ=PRC
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
+	&& chmod +x ./run.sh
+ENTRYPOINT ["./run.sh"]
+```
+
+编写 `run.sh` 脚本文件， 内容如下：
+
+```bash
+#!/bin/bash
+
+cd /usr/local/tomcat/bin
+./startup.sh
+cd /usr/local/tomcat/logs
+if [ ! -f catalina.out ]
+then
+   sleep 3s
+fi
+tail -f catalina.out
 ```
 
 ## 网络
