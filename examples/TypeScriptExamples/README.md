@@ -1,6 +1,9 @@
 # TypeScriptExamples
 
-- CatchErrorDecorator
+- Inheritance
 - CallbackFunction
-- HtmlToWord
+- CatchErrorDecorator
 - ModuleExtensions
+- HtmlToWord
+- ActivityObserver
+- Koa
