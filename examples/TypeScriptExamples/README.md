@@ -5,5 +5,5 @@
 - CatchErrorDecorator
 - ModuleExtensions
 - HtmlToWord
-- ActivityObserver
+- ActivityObject
 - Koa

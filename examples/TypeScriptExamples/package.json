@@ -9,10 +9,11 @@
     "start3": "node dist/3.CatchErrorDecorator/index",
     "start4": "node dist/4.ModuleExtensions/index",
     "start5": "node dist/5.HtmlToWord/index",
-    "start6": "node dist/6.ActivityObserver/index",
+    "start6": "node dist/6.ActivityObject/index",
     "start7": "node dist/7.Koa/index",
     "build": "rimraf dist & tsc",
-    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix"
+    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
+    "test": "jest"
   },
   "keywords": [
     "typescript",
@@ -22,6 +23,7 @@
   "license": "MIT",
   "devDependencies": {
     "@types/express": "^4.17.13",
+    "@types/jest": "^26.0.24",
     "@types/jsdom": "^16.2.10",
     "@types/koa": "^2.13.4",
     "@types/koa-router": "^7.4.4",
@@ -33,8 +35,10 @@
     "eslint": "^7.26.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^3.4.0",
+    "jest": "^27.0.6",
     "prettier": "^2.3.0",
     "rimraf": "^3.0.2",
+    "ts-jest": "^27.0.4",
     "ts-node": "^9.1.1",
     "typescript": "^4.2.4"
   },
@@ -48,5 +52,22 @@
     "koa-router": "^10.0.0",
     "sleep": "^6.3.0",
     "uuid": "^8.3.2"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "ts"
+    ],
+    "rootDir": "src",
+    "testRegex": ".*\\.spec\\.ts$",
+    "transform": {
+      "^.+\\.(t|j)s$": "ts-jest"
+    },
+    "collectCoverageFrom": [
+      "**/*.(t|j)s"
+    ],
+    "coverageDirectory": "../coverage",
+    "testEnvironment": "node"
   }
 }
