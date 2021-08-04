@@ -1,6 +1,6 @@
 #!/bin/bash
 cd /usr/local/tomcat/webapps
-unzip -oq example.war -d example
+unzip -oq example-0.0.1-SNAPSHOT.war -d example
 rm -rf *.war
 set -e
 if [ $CUSTOMER ]
