@@ -235,6 +235,9 @@ class ToDoService {
 }
 ```
 
+> 注意：
+> `Request` 对象的注入范围是 `REQUEST`，注入了 `Request` 对象的服务的生命周期也会变更为 `REQUEST`。
+
 ## 处理 form-data 请求
 
 安装
