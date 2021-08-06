@@ -1,5 +1,7 @@
 # TypeScriptExamples
 
+- DifferentiatingTypes
+- Overloading
 - Inheritance
 - CallbackFunction
 - CatchErrorDecorator
