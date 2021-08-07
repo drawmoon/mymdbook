@@ -9,6 +9,9 @@ class UserService:
     print("UserService call")
     print(todo)
 
+  def __del__(self):
+    print("UserService del")
+
   def get_name(self) -> str:
     return self.name
 
