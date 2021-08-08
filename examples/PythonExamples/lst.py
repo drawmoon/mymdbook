@@ -1,4 +1,4 @@
-from typing import List
+from typing import Iterable, List
 
 
 some_list = ["Mimi Randall", "Damien Kane", "Keiron Partridge"]
@@ -58,6 +58,7 @@ print("List index: ", index)
 # 反转集合
 some_list.reverse()
 print("List reverse: ", some_list)
+print("List reverse: ", some_list[::-1])
 
 # 排序
 some_list.sort()
@@ -91,3 +92,13 @@ listA = [1, 2, 3, 4]
 listB = [4, 5, 6]
 result = any(item in listA for item in listB)
 print("List any: ", result)
+
+# 取最大值
+digit_list = [2, 54, 12, 45, 31, 6]
+print("List max: ", max(digit_list))
+
+# 取最小值
+print("List min: ", min(digit_list))
+
+# 求和
+print("List sum: ", sum(digit_list))
