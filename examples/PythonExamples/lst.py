@@ -118,3 +118,34 @@ print("original id:", id(original_list), "deepcopied id:", id(copied_list))
 deepcopied_list[0] = "A"
 deepcopied_list[2][0] = "Reef Salinas"
 print("original val:", original_list, "deepcopied val:", copied_list)
+
+
+# 列表生成式
+digit_list = [i for i in range(10)]
+print(digit_list)
+
+# 集合去重
+repeated_list = [1, 1, 2, 3, 4]
+print(list(set(repeated_list)))
+
+# 集合过滤查询
+class User:
+  id: str
+  name: str
+  age: int
+
+  def __init__(self, id: str, name: str, age: int) -> None:
+      self.id = id
+      self.name = name
+      self.age = age
+
+user_list = [
+  User("1", "Elysha Montes", 31),
+  User("2", "Amman Rutledge", 33)
+]
+
+some_user = next(filter(lambda u: u.id == "1", user_list))
+print(some_user)
+
+some_user2 = [u for u in user_list if u.id == "1"][0]
+print(some_user2)
