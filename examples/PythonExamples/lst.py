@@ -1,6 +1,3 @@
-from typing import Iterable, List
-
-
 some_list = ["Mimi Randall", "Damien Kane", "Keiron Partridge"]
 
 some_list[0] = "Marwah Grant"
@@ -63,6 +60,8 @@ print("List reverse: ", some_list[::-1])
 # 排序
 some_list.sort()
 print("List sort: ", some_list)
+some_list.sort(reverse=True)
+print("List sort(desc): ", some_list)
 
 # 统计元素出现的次数
 some_names4 = [1, 1, 1, 2, 3]
@@ -102,3 +101,20 @@ print("List min: ", min(digit_list))
 
 # 求和
 print("List sum: ", sum(digit_list))
+
+# 浅克隆
+original_list = [1, 2, ["Micah Mcphee", "Lleyton Connolly"]]
+copied_list = original_list.copy()
+print("original id:", id(original_list), "copied id:", id(copied_list))
+copied_list[0] = "A"
+copied_list[2][0] = "Reef Salinas"
+print("original val:", original_list, "copied val:", copied_list)
+
+# 深克隆
+import copy
+original_list = [1, 2, ["Micah Mcphee", "Lleyton Connolly"]]
+deepcopied_list = copy.deepcopy(original_list)
+print("original id:", id(original_list), "deepcopied id:", id(copied_list))
+deepcopied_list[0] = "A"
+deepcopied_list[2][0] = "Reef Salinas"
+print("original val:", original_list, "deepcopied val:", copied_list)
