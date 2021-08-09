@@ -45,3 +45,9 @@ some_dict5[5.5] = "Munoz"
 
 print(some_dict5) # 输出结果: {5: 'Yuvaan', 5.5: 'Munoz'}
 print(5 == 5.0, hash(5) == hash(5.0)) # True True
+
+
+# Dict to str
+some_cookies = {"reqid": "20210809", "sid": "12345670"}
+cookie_str = ";".join([f"{key}={val}" for (key, val) in some_cookies.items()])
+print(cookie_str)
