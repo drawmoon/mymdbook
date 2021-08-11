@@ -149,3 +149,7 @@ print(some_user)
 
 some_user2 = [u for u in user_list if u.id == "1"][0]
 print(some_user2)
+
+
+# 转换为元组
+print(tuple(some_list))

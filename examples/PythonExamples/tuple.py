@@ -9,3 +9,7 @@ print(tup[0:2])
 print(tup.index("World"))
 
 print(tup.count("Hello"))
+
+
+# 转换为列表
+print(list(tup))
