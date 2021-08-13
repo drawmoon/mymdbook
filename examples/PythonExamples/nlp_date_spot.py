@@ -1,10 +1,8 @@
 from datetime import datetime, timedelta
-from typing import Optional
 from dateutil.parser import parse
 import hanlp
-import re
+from lark import Lark, Visitor, Tree, Token
 
-DATE_REG = r"([0-9零一二两三四五六七八九]{2,4}[年\-\/])?([0-9一二两三四五六七八九十]{1,2}[月\-\/])?([0-9一二两三四五六七八九十]{1,3}[号日])?([0-9零一二两三四五六七八九十百]{1,2}[点时:])?([0-9零一二三四五六七八九十百]{1,2}}分?)?([0-9零一二三四五六七八九十百]{1,2}秒)?"
 
 CN_DATE = {"今天": 0, "当天": 0, "明天": 1, "后天": 2}
 
@@ -16,10 +14,8 @@ def process_input(text):
 
     han_lp = hanlp.load(hanlp.pretrained.mtl.CLOSE_TOK_POS_NER_SRL_DEP_SDP_CON_ELECTRA_SMALL_ZH)
     doc = han_lp([text])
-    # print(doc)
 
     ner = doc["ner/ontonotes"]
-    # print(ner)
     dt_text = ""
     for i, (word, typ, s, e) in enumerate(ner[0]):
         if i == 0:
@@ -32,11 +28,29 @@ def process_input(text):
     return dt_text
 
 
+class DateTreeVisitor(Visitor):
+    date_dict = {"hour": "00", "minute": "00", "second": "00"}
+
+    def years(self, tree: Tree):
+        self.date_dict["year"] = self.__scan_values__(tree)
+
+    def months(self, tree: Tree):
+        self.date_dict["month"] = self.__scan_values__(tree)
+
+    def days(self, tree: Tree):
+        self.date_dict["day"] = self.__scan_values__(tree)
+
+    @staticmethod
+    def __scan_values__(tree: Tree):
+        val = ""
+        for child in tree.children:
+            if not isinstance(child, Token):
+                raise TypeError("子节点不是 Token")
+            val += child.value
+        return val
+
+
 def date_str_to_digit(s, typ):
-    for suf in ["年", "月", "日", "号", "时", "分", "秒", "/", "-", ":"]:
-        if s.endswith(suf):
-            s = s.removesuffix(suf)
-            break
     if typ == "year":
         if s.isdigit():
             return int(s) if len(s) == 4 else int(datetime.today().year / 100) * 100 + int(s)
@@ -69,20 +83,30 @@ def parse_datetime(dt_str):
         dt = parse(dt_str)
         return dt.strftime('%Y-%m-%d %H:%M:%S')
     except:
-        target_date: Optional[datetime] = None
-        m = re.match(DATE_REG, dt_str)
-        if len(m.groups()) != 0:
-            match_dates = m.groups(default="00")
-            date_group = {}
-            for i, k in enumerate(["year", "month", "day", "hour", "minute", "second"]):
-                date_group[k] = match_dates[i]
+        date_parser = Lark(r"""
+            start: date
+            date : years? months? days? "当天"?
 
-            params = {}
-            for group in date_group:
-                digit = date_str_to_digit(date_group[group], group)
-                if digit is not None:
-                    params[group] = int(digit)
-            target_date = datetime.today().replace(**params)
+            years   : DIGIT DIGIT (DIGIT DIGIT)? ("年" | "-" | "/")
+            months  : DIGIT DIGIT? ("月" | "-" | "/")
+            days    : DIGIT (DIGIT DIGIT?)? "日"?
+
+            DIGIT: /["0-9零一二两三四五六七八九十"]/
+
+            // Disregard spaces in text
+            %ignore " "
+        """)
+        parse_tree = date_parser.parse(dt_str)
+        visitor = DateTreeVisitor()
+        visitor.visit(parse_tree)
+        date_group = visitor.date_dict
+
+        params = {}
+        for group in date_group:
+            digit = date_str_to_digit(date_group[group], group)
+            if digit is not None:
+                params[group] = digit
+        target_date = datetime.today().replace(**params)
         return None if target_date is None else target_date.strftime('%Y-%m-%d %H:%M:%S')
 
 
