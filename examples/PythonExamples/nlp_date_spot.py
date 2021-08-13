@@ -1,11 +1,12 @@
 from datetime import datetime, timedelta
+from typing import Optional
 from dateutil.parser import parse
 import hanlp
 import re
 
 DATE_REG = r"([0-9零一二两三四五六七八九]{2,4}[年\-\/])?([0-9一二两三四五六七八九十]{1,2}[月\-\/])?([0-9一二两三四五六七八九十]{1,3}[号日])?([0-9零一二两三四五六七八九十百]{1,2}[点时:])?([0-9零一二三四五六七八九十百]{1,2}}分?)?([0-9零一二三四五六七八九十百]{1,2}秒)?"
 
-DATE_KEY = {"今天": 0, "当天": 0, "明天": 1, "后天": 2}
+CN_DATE = {"今天": 0, "当天": 0, "明天": 1, "后天": 2}
 
 CN_DIGIT = {'零': 0, '一': 1, '二': 2, '两': 2, '三': 3, '四': 4, '五': 5, '六': 6, '七': 7, '八': 8, '九': 9, '十': 10}
 
@@ -24,7 +25,7 @@ def process_input(text):
         if i == 0:
             dt_text = word
             continue
-        if word in DATE_KEY.keys():
+        if word in CN_DATE.keys():
             dt_text += word
 
     print("查找到的日期", dt_text)
@@ -68,7 +69,7 @@ def parse_datetime(dt_str):
         dt = parse(dt_str)
         return dt.strftime('%Y-%m-%d %H:%M:%S')
     except:
-        target_date = ""
+        target_date: Optional[datetime] = None
         m = re.match(DATE_REG, dt_str)
         if len(m.groups()) != 0:
             match_dates = m.groups(default="00")
