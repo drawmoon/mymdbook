@@ -99,13 +99,12 @@ def parse_datetime(dt_str):
         parse_tree = date_parser.parse(dt_str)
         visitor = DateTreeVisitor()
         visitor.visit(parse_tree)
-        date_group = visitor.date_dict
 
         params = {}
-        for group in date_group:
-            digit = date_str_to_digit(date_group[group], group)
+        for key, val in visitor.date_dict.items():
+            digit = date_str_to_digit(val, key)
             if digit is not None:
-                params[group] = digit
+                params[key] = digit
         target_date = datetime.today().replace(**params)
         return None if target_date is None else target_date.strftime('%Y-%m-%d %H:%M:%S')
 
