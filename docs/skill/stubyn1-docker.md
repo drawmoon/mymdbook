@@ -1,4 +1,4 @@
-# Docker 技术入门
+# 学习笔记1: Docker
 
 - [Docker 简介](#docker-简介)
 - [安装 Docker](#安装-docker)
@@ -9,8 +9,9 @@
 - [构建 ASP.NET Core 应用镜像](#构建-aspnet-core-应用镜像)
 - [构建 Tomcat Web 应用镜像](#构建-tomcat-web-应用镜像)
 - [网络](#网络)
+- [其他命令](#其他命令)
 - [Docker 三剑客之 Compose](#docker-三剑客之-compose)
-- [磁盘清理](#磁盘清理)
+- [企业级容器管理平台 Rancher](#企业级容器管理平台-rancher)
 
 ## Docker 简介
 
@@ -533,6 +534,28 @@ docker run --network my-network --name pg-server -d postgres
 docker run --network my-network --name my-web -e DB_HOST=pg-server -d web
 ```
 
+## 其他命令
+
+### 查看 Docker 的磁盘使用
+
+```bash
+docker system df
+```
+
+### 清理磁盘
+
+删除关闭的容器、无用的数据卷、网络和构建缓存
+
+```bash
+docker system prune
+```
+
+### 清理构建缓存
+
+```bash
+docker builder prune
+```
+
 ## Docker 三剑客之 Compose
 
 Compose 可以通过编写 `docker-compose.yml` 模板文件，来定义一组相关联的容器为一个项目。
@@ -723,24 +746,23 @@ docker-compose build <服务>
 docker-compose build --no-cache <服务>
 ```
 
-## 磁盘清理
+## 企业级容器管理平台 Rancher
 
-### 查看 Docker 的磁盘使用
-
-```bash
-docker system df
-```
-
-### 清理磁盘
-
-删除关闭的容器、无用的数据卷、网络和构建缓存
+### 安装 Rancher Server
 
 ```bash
-docker system prune
+sudo docker run -d --restart=unless-stopped -p 8080:8080 rancher/server
 ```
 
-### 清理构建缓存
+Rancher UI 的默认端口是 `8080`，访问 `http://localhost:8080` 打开 Rancher UI。
 
-```bash
-docker builder prune
-```
+### 添加主机
+
+在 Rancher UI 中，点击 `基础架构`，然后再点击 `添加主机`，默认选择的是 `Custom` ，然后会得到一个运行 `Rancher Agent` 容器的 Docker 命令。
+
+![Rancher 添加主机](../assets/Rancher添加主机.png)
+
+
+### 添加应用
+
+![Rancher 添加应用](../assets/Rancher添加应用.png)

@@ -15,4 +15,4 @@ async function main() {
   await page.screenshot({ path: 'dist/example.png', type: 'png' });
 }
 
-main().then();
+main();

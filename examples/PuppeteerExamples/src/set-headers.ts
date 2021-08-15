@@ -16,4 +16,4 @@ async function main() {
   await page.goto('https://www.example.com', { waitUntil: 'domcontentloaded' });
 }
 
-main().then();
+main();

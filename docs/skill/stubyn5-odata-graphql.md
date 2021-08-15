@@ -1,4 +1,4 @@
-# AspNetCore 使用 OData 与 GraphQL
+# 学习笔记5: OData 与 GraphQL
 
 - [OData](#odata)
 - [GraphQL](#graphql)

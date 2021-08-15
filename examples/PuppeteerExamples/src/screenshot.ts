@@ -26,4 +26,4 @@ async function main() {
   await browser.close();
 }
 
-main().then();
+main();

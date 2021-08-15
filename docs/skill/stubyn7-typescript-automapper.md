@@ -1,4 +1,4 @@
-# TypeScript 使用 AutoMapper 实现对象与对象自动映射
+# 学习笔记7: TypeScript 使用 AutoMapper 实现对象与对象自动映射
 
 安装
 

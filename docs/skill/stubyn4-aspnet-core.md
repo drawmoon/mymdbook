@@ -1,10 +1,10 @@
-# AspNetCore 入门
+# 学习笔记4: ASP.NET Core
 
 - [中间件管道，Map 与 MapWhen](#中间件管道，map-与-mapwhen)
 - [配置 Controller 允许接收空字符串](#配置-controller-允许接收空字符串)
 - [配置 Controller 将空 Body 视为有效输入](#配置-controller-将空-body-视为有效输入)
 - [配置 Kestrel 监听的端口](#配置-kestrel-监听的端口)
-- [Swagger](#swagger)
+- [Swagger 与 Redoc](#swagger-与-redoc)
 - [多个项目的全局设置](#多个项目的全局设置)
 - [启用严格的编译检查](#启用严格的编译检查)
 - [发布部署到 Linux](#发布部署到-linux)
@@ -98,7 +98,7 @@ public void ConfigureServices(IServiceCollection services)
 }
 ```
 
-## Swagger
+## Swagger 与 Redoc
 
 > Swagger、Redoc 是基于 OpenAPI 规范的工具，例如生成 RESTful API 文档、API 调用等。
 
@@ -200,7 +200,7 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 }
 ```
 
-![Swagger 效果图](../images/swagger.png)
+![Swagger](../assets/swagger.png)
 
 启用 ReDoc UI
 
@@ -235,7 +235,7 @@ public class startup
 }
 ```
 
-![ReDoc 效果图](../images/redoc.png)
+![ReDoc](../assets/redoc.png)
 
 ## 多个项目的全局设置
 

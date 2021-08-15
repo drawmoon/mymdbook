@@ -1,4 +1,4 @@
-# EntityFrameworkCore 入门
+# 学习笔记8: EntityFramework Core
 
 - [值转换](#值转换)
 - [提交更改时为列动态生成值](#提交更改时为列动态生成值)

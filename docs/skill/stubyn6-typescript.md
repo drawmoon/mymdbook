@@ -1,4 +1,4 @@
-# TypeScript 入门
+# 学习笔记6: TypeScript
 
 - [Npm 包管理与 NodeJs 版本管理](#npm-包管理与-nodejs-版本管理)
 - [语法与风格检查](#语法与风格检查)
