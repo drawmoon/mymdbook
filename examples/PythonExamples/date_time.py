@@ -1,15 +1,37 @@
-import datetime
+from datetime import datetime, date, timedelta
+from dateutil.relativedelta import relativedelta
+from dateutil.parser import parse
 
 # 获取当前时间
-today = datetime.datetime.now()
-print(today)
+now = datetime.now()
+print(now)
 
 # 获取当前时间，不包含时分秒
-today = datetime.date.today()
+today = date.today()
 print(today)
 
+year = date.today().year
+month = date.today().strftime("%Y-%m")
+day = date.today()
+print("本年", year, "本月", month, "本日", day)
+
 # 加一天
-print(today + datetime.timedelta(days=1))
+print(now + timedelta(days=1))
 
 # 减一天
-print(today - datetime.timedelta(days=1))
+print(now - timedelta(days=1))
+print(now + timedelta(days=-1))
+
+# 加一月
+print(now + relativedelta(months=1))
+
+# 减一月
+print(now - relativedelta(months=1))
+print(now + relativedelta(months=-1))
+
+# 加一年
+print(now + relativedelta(years=1))
+
+# 减一年
+print(now - relativedelta(years=1))
+print(now + relativedelta(years=-1))

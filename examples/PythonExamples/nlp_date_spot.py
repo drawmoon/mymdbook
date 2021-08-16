@@ -1,10 +1,24 @@
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 from dateutil.parser import parse
+from dateutil.relativedelta import relativedelta
 import hanlp
 from lark import Lark, Visitor, Tree, Token
 
 
-CN_DATE = {"今天": 0, "当天": 0, "明天": 1, "后天": 2}
+CN_DATE = {
+    "今天": lambda: date.today(),
+    "明天": lambda: date.today() + timedelta(days=1),
+    "后天": lambda: date.today() + timedelta(days=2),
+    "昨天": lambda: date.today() - timedelta(days=1),
+    "前天": lambda: date.today() - timedelta(days=2),
+    "本月": lambda: parse(date.today().strftime("%Y-%m")),
+    "上月": lambda: (date.today() - relativedelta(months=1)).strftime("%Y-%m"),
+    "下月": lambda: (date.today() + relativedelta(months=1)).strftime("%Y-%m"),
+    "今年": lambda: date.today().year,
+    "明年": lambda: (date.today() + relativedelta(years=1)).year,
+    "去年": lambda: (date.today() - relativedelta(years=1)).year,
+    "前年": lambda: (date.today() - relativedelta(years=2)).year,
+}
 
 CN_DIGIT = {'零': 0, '一': 1, '二': 2, '两': 2, '三': 3, '四': 4, '五': 5, '六': 6, '七': 7, '八': 8, '九': 9, '十': 10}
 
@@ -21,7 +35,7 @@ def process_input(text):
         if i == 0:
             dt_text = word
             continue
-        if word in CN_DATE.keys():
+        if word in ["当天"]:
             dt_text += word
 
     print("查找到的日期", dt_text)
@@ -35,9 +49,19 @@ class DateTreeVisitor(Visitor):
         self.date_dict["year"] = self.__scan_values__(tree)
 
     def months(self, tree: Tree):
+        today = date.today()
+        keys = self.date_dict.keys()
+        if "year" not in keys:
+            self.date_dict["year"] = str(today.year)
         self.date_dict["month"] = self.__scan_values__(tree)
 
     def days(self, tree: Tree):
+        today = date.today()
+        keys = self.date_dict.keys()
+        if "year" not in keys:
+            self.date_dict["year"] = str(today.year)
+        if "month" not in keys:
+            self.date_dict["month"] = str(today.month).rjust(2, "0")
         self.date_dict["day"] = self.__scan_values__(tree)
 
     @staticmethod
@@ -83,6 +107,10 @@ def parse_datetime(dt_str):
         dt = parse(dt_str)
         return dt.strftime('%Y-%m-%d %H:%M:%S')
     except:
+        if dt_str in CN_DATE:
+            target_date = CN_DATE[dt_str]()
+            return target_date.strftime('%Y-%m-%d %H:%M:%S')
+
         date_parser = Lark(r"""
             start: date
             date : years? months? days? "当天"?
@@ -106,10 +134,11 @@ def parse_datetime(dt_str):
             if digit is not None:
                 params[key] = digit
         target_date = datetime.today().replace(**params)
-        return None if target_date is None else target_date.strftime('%Y-%m-%d %H:%M:%S')
+        return None if target_date is None else target_date.strftime("%Y-%m-%d %H:%M:%S")
 
 
-input_text = "帮我查看一下二零一七年七月二十三日当天购买了什么"
+# input_text = "帮我查看一下二零一七年七月二十三日当天购买了什么"
+input_text = "帮我查看一下二零一七年购买了什么"
 
 date_text = process_input(input_text)
 print("解析的日期是", parse_datetime(date_text))

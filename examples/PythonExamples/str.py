@@ -76,3 +76,8 @@ y = "1234567890abcdefghijklmnop"
 translate_table = str.maketrans(x, y)
 # 使用指定的转换表替换字符串中的每一个字符
 print("hello world".translate(translate_table))
+
+# 对齐
+some_name = "Nafisa Plummer"
+print(some_name.ljust(15, "-")) # Nafisa Plummer-
+print(some_name.rjust(15, "-")) # -Nafisa Plummer
