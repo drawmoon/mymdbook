@@ -583,7 +583,6 @@ services:
 
   db:
     image: postgres
-    container_name: pg-server
     # volumes: 
     #   - /app/ioea/data/pgdata:/var/lib/postgresql-static/data
     environment:
@@ -595,7 +594,6 @@ services:
 
   obs:
     image: minio/minio
-    container_name: minio-server
     # volumes:
     #    - /tmp/data:/tmp/data
     environment:
@@ -608,14 +606,13 @@ services:
 
   app:
     image: app
-    container_name: my-app
     environment:
-      DATABASE_HOST: pg-server
+      DATABASE_HOST: db
       DATABASE_PORT: 5432
       DATABASE_USERNAME: postgres
       DATABASE_PASSWORD: postgres
       DATABASE_NAME: postgres
-      MINIO_END_POINT: minio-server
+      MINIO_END_POINT: obs
       MINIO_PORT: 9000
       MINIO_ROOT_USER: AKIAIOSFODNN7EXAMPLE
       MINIO_ROOT_PASSWORD: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
@@ -627,10 +624,9 @@ services:
 
   nginx:
     image: nginx:latest
-    container_name: nginx-server
     volumes:
-      - /app/ioea/conf/nginx.conf:/etc/nginx/nginx.conf
-      # - /app/ioea/wwwroot:/usr/share/nginx/html
+      - /app/myapp/conf/nginx.conf:/etc/nginx/nginx.conf
+      # - /app/myapp/wwwroot:/usr/share/nginx/html
     ports:
       - "80:80"
     depends_on:
@@ -765,4 +761,32 @@ Rancher UI 的默认端口是 `8080`，访问 `http://localhost:8080` 打开 Ran
 
 ### 添加应用
 
+在 Rancher UI 中，点击 `应用`，然后再点击 `用户`，即可看到用户的应用管理界面。点击上方的 `添加应用` 进入配置界面。
+
 ![Rancher 添加应用](../assets/Rancher添加应用.png)
+
+### 根据 docker-compose 配置文件添加应用
+
+Rancher 添加应用支持导入 `docker-compose.yml` 配置文件。
+
+![Rancher添加应用-DockerCompose](../assets/Rancher添加应用-DockerCompose.png)
+
+点击 `创建` 后，会立即启动容器，并跳转到应用详情界面，显示为 `Active` 的容器表示成功运行。
+
+![Rancher应用详情](../assets/Rancher应用详情.png)
+
+### 启用 Kubernetes
+
+在 Rancher UI 中，点击 `应用商店`，然后再点击 `官方认证`，进入到 Kubernetes 详情页面，可在详情页面中启用 Kubernetes。
+
+![Rancher配置Kubernetes](../assets/Rancher配置Kubernetes.png)
+
+点击 `启用` 后会在 `基础设施` 中添加一个名为 `Kubernetes` 的应用。
+
+![Rancher-Kubernetes应用](../assets/Rancher-Kubernetes应用.png)
+
+当应用启动后，在环境主页中会出现 `Kubernetes 仪表板`，点击 `Kubernetes UI` 进入到 Kubernetes 管理界面。
+
+![Rancher-Kubernetes仪表板](../assets/Rancher-Kubernetes仪表板.png)
+
+![Rancher-Kubernetes管理界面](../assets/Rancher-Kubernetes管理界面.png)
