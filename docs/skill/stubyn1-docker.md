@@ -200,14 +200,22 @@ docker import nginx.tar nginx
 docker tag nginx nginx:custom
 ```
 
-### 将镜像上传到镜像仓库
-
-首先通过 `login` 登录到注册服务器，再通过 `push` 上传镜像到仓库
+### 登录镜像注册中心
 
 ```bash
-docker tag nginx user/nginx
-docker login -u user -p 123456
-docker push user/nginx
+docker login
+```
+
+登录到指定镜像注册中心：
+
+```bash
+docker login http://docker.k8s
+```
+
+### 推送镜像
+
+```bash
+docker push drawmoon/nginx
 ```
 
 ## 操作容器
@@ -363,7 +371,7 @@ docker export some-nginx > nginx.tar
 ### 将容器保存为新的镜像
 
 ```bash
-docker commit some-nginx 
+docker commit some-nginx drawmoon/nginx
 ```
 
 `-m` 可以指定信息，例如：`-m "Commit Message"`
@@ -575,7 +583,15 @@ docker-compose --version
 
 ### Compose 模板文件
 
-新建 `docker-compose.yml` 文件
+新建 `docker-compose.yml` 文件，声明模版文件的版本为 `3`，模版文件中声明了 4 个服务，分别是 `db`、`obs`、`app`、`nginx`。
+
+- `image`: 指定服务拉取并运行的镜像
+- `volumes`: 配置挂载文件卷
+- `environment`: 配置服务的环境变量
+- `ports`: 配置服务对外暴露的端口
+- `command`: 运行服务时执行的指令
+- `restart`: 指定是否在服务终止后自动重启服务
+- `depends_on`: 告诉部署依赖的服务
 
 ```yml
 version: "3"
@@ -747,46 +763,112 @@ docker-compose build --no-cache <服务>
 ### 安装 Rancher Server
 
 ```bash
-sudo docker run -d --restart=unless-stopped -p 8080:8080 rancher/server
+docker run -d --privileged --restart=unless-stopped -p 80:80 -p 443:443 rancher/rancher:latest
 ```
 
-Rancher UI 的默认端口是 `8080`，访问 `http://localhost:8080` 打开 Rancher UI。
+Rancher UI 的默认端口是 `443`，访问 `https://localhost` 打开 Rancher UI。
 
-### 添加主机
+![rancher_first_use](../assets/rancher_first_use.png)
 
-在 Rancher UI 中，点击 `基础架构`，然后再点击 `添加主机`，默认选择的是 `Custom` ，然后会得到一个运行 `Rancher Agent` 容器的 Docker 命令。
+### 部署工作负载
 
-![Rancher 添加主机](../assets/Rancher添加主机.png)
+选择项目，选择工作负载，可以看到当前项目下的工作负载。
 
+![rancher_workload_list](../assets/rancher_workload_list.png)
 
-### 添加应用
+点击部署，填写配置后再点击 `部署` 后，会立即启动 `Pod`，显示 `Active` 的 `Pod` 就已经运行成功了。
 
-在 Rancher UI 中，点击 `应用`，然后再点击 `用户`，即可看到用户的应用管理界面。点击上方的 `添加应用` 进入配置界面。
+![rancher_deploy_workload](../assets/rancher_deploy_workload.png)
 
-![Rancher 添加应用](../assets/Rancher添加应用.png)
+#### 导入 YAML 文件部署工作负载
 
-### 根据 docker-compose 配置文件添加应用
+点击 `导入 YAML`，然后选择 `从文件中读取`，选择 `yaml` 文件，选择 `命名空间`，最后点击 `导入`。
 
-Rancher 添加应用支持导入 `docker-compose.yml` 配置文件。
+![rancher_import_workload](../assets/rancher_import_workload.png)
 
-![Rancher添加应用-DockerCompose](../assets/Rancher添加应用-DockerCompose.png)
+### 添加服务
 
-点击 `创建` 后，会立即启动容器，并跳转到应用详情界面，显示为 `Active` 的容器表示成功运行。
+选择项目，选择服务发现，可以看到项目下部署的服务。
 
-![Rancher应用详情](../assets/Rancher应用详情.png)
+![rancher_svc_list](../assets/rancher_svc_list.png)
 
-### 启用 Kubernetes
+点击 **添加 DNS 记录**，进入到添加界面。
 
-在 Rancher UI 中，点击 `应用商店`，然后再点击 `官方认证`，进入到 Kubernetes 详情页面，可在详情页面中启用 Kubernetes。
+![rancher_add_svc.png](../assets/rancher_add_svc.png)
 
-![Rancher配置Kubernetes](../assets/Rancher配置Kubernetes.png)
+#### 导入 YAML 文件添加服务
 
-点击 `启用` 后会在 `基础设施` 中添加一个名为 `Kubernetes` 的应用。
+点击 `导入 YAML`，然后选择 `从文件中读取`，选择 `yaml` 文件，选择 `命名空间`，最后点击 `导入`。
 
-![Rancher-Kubernetes应用](../assets/Rancher-Kubernetes应用.png)
+![rancher_import_svc.png](../assets/rancher_import_svc.png)
 
-当应用启动后，在环境主页中会出现 `Kubernetes 仪表板`，点击 `Kubernetes UI` 进入到 Kubernetes 管理界面。
+### 添加持久化卷
 
-![Rancher-Kubernetes仪表板](../assets/Rancher-Kubernetes仪表板.png)
+选择集群，选择存储 -> 持久卷，可以看到集群下的持久卷。
 
-![Rancher-Kubernetes管理界面](../assets/Rancher-Kubernetes管理界面.png)
+![rancher_pv_list](../assets/rancher_pv_list.png)
+
+点击 `添加 PV`。
+
+![rancher_add_pv](../assets/rancher_add_pv.png)
+
+#### 导入 YAML 文件添加持久化卷
+
+点击 `导入 YAML`，然后选择 `从文件中读取`，选择 `yaml` 文件，选择 `命名空间`，最后点击 `导入`。
+
+![rancher_import_pv](../assets/rancher_import_pv.png)
+
+### 添加持久卷声明
+
+选择项目，选择 PVC，可以看到项目下的持久卷声明。
+
+![rancher_pvc_list](../assets/rancher_pvc_list.png)
+
+#### 导入 YAML 文件添加持久卷声明
+
+点击 `导入 YAML`，然后选择 `从文件中读取`，选择 `yaml` 文件，选择 `命名空间`，最后点击 `导入`。
+
+![rancher_import_pvc](../assets/rancher_import_pvc.png)
+
+### 配置私有镜像注册中心
+
+在 Rancher 容器中 `/etc/rancher/k3s/` 目录下创建 `registries.yaml` 文件，例如：
+
+```bash
+mirrors:
+  "docker.k8s":
+    endpoint:
+      - "http://docker.k8s"
+```
+
+#### 有账号密码认证的私有镜像注册中心
+
+```bash
+mirrors:
+  "docker.k8s":
+    endpoint:
+      - "http://docker.k8s"
+configs:
+  "docker.k8s":
+  auth:
+    username: admin
+    password: admin
+```
+
+#### 使用 TLS
+
+```bash
+mirrors:
+  "docker.k8s":
+    endpoint:
+      - "https://docker.k8s"
+configs:
+  "docker.k8s":
+  auth:
+    username: admin
+    password: admin
+  tls:
+    cert_file: /cert_file
+    key_file: /key_file
+    ca_file: /ca_file
+```
