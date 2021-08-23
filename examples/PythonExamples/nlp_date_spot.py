@@ -3,6 +3,7 @@ from dateutil.parser import parse
 from dateutil.relativedelta import relativedelta
 import hanlp
 from lark import Lark, Visitor, Tree, Token
+from typing import Dict
 
 
 CN_DATE = {
@@ -43,7 +44,10 @@ def process_input(text):
 
 
 class DateTreeVisitor(Visitor):
-    date_dict = {"hour": "00", "minute": "00", "second": "00"}
+    date_dict: Dict[str, str]
+
+    def __init__(self):
+        self.date_dict = {"hour": "00", "minute": "00", "second": "00"}
 
     def years(self, tree: Tree):
         self.date_dict["year"] = self.__scan_values__(tree)
