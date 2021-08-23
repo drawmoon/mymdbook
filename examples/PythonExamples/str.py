@@ -68,7 +68,6 @@ print(some_name.removeprefix("N"))
 # 移除指定后缀字符串
 print(some_name.removesuffix("r"))
 
-
 x = "abcdefghijklmnopqrstuvwxyz"
 y = "1234567890abcdefghijklmnop"
 
@@ -79,5 +78,8 @@ print("hello world".translate(translate_table))
 
 # 对齐
 some_name = "Nafisa Plummer"
-print(some_name.ljust(15, "-")) # Nafisa Plummer-
-print(some_name.rjust(15, "-")) # -Nafisa Plummer
+print(some_name.ljust(15, "-"))  # Nafisa Plummer-
+print(some_name.rjust(15, "-"))  # -Nafisa Plummer
+
+# 转列表
+print(list("abc"))
