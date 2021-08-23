@@ -4,28 +4,14 @@ from dateutil.relativedelta import relativedelta
 import hanlp
 from lark import Lark, Visitor, Tree, Token
 from typing import Dict
+import calendar
 
 
-CN_DATE = {
-    "今天": lambda: date.today(),
-    "明天": lambda: date.today() + timedelta(days=1),
-    "后天": lambda: date.today() + timedelta(days=2),
-    "昨天": lambda: date.today() - timedelta(days=1),
-    "前天": lambda: date.today() - timedelta(days=2),
-    "本月": lambda: parse(date.today().strftime("%Y-%m")),
-    "上月": lambda: (date.today() - relativedelta(months=1)).strftime("%Y-%m"),
-    "下月": lambda: (date.today() + relativedelta(months=1)).strftime("%Y-%m"),
-    "今年": lambda: date.today().year,
-    "明年": lambda: (date.today() + relativedelta(years=1)).year,
-    "去年": lambda: (date.today() - relativedelta(years=1)).year,
-    "前年": lambda: (date.today() - relativedelta(years=2)).year,
-}
-
-CN_DIGIT = {'零': 0, '一': 1, '二': 2, '两': 2, '三': 3, '四': 4, '五': 5, '六': 6, '七': 7, '八': 8, '九': 9, '十': 10}
+CN_DIGIT = {"零": 0, "一": 1, "二": 2, "两": 2, "三": 3, "四": 4, "五": 5, "六": 6, "七": 7, "八": 8, "九": 9, "十": 10}
 
 
 def process_input(text):
-    print("输入的字符", text)
+    print("输入的字符:", text)
 
     han_lp = hanlp.load(hanlp.pretrained.mtl.CLOSE_TOK_POS_NER_SRL_DEP_SDP_CON_ELECTRA_SMALL_ZH)
     doc = han_lp([text])
@@ -39,7 +25,7 @@ def process_input(text):
         if word in ["当天"]:
             dt_text += word
 
-    print("查找到的日期", dt_text)
+    print("查找到的日期:", dt_text)
     return dt_text
 
 
@@ -106,25 +92,54 @@ def date_str_to_digit(s, typ):
         return digit
 
 
+def parse_cn_date(dt_str):
+    rst = []
+    switch = {
+        "今年": lambda n: n.year,
+        "明年": lambda n: (n + relativedelta(years=1)).year,
+        "去年": lambda n: (n - relativedelta(years=1)).year,
+        "前年": lambda n: (n - relativedelta(years=2)).year,
+        "本月": lambda n: n.month,
+        "上月": lambda n: (n - relativedelta(months=1)).month,
+        "下月": lambda n: (n + relativedelta(months=1)).month,
+        "今天": lambda n: n,
+        "明天": lambda n: n + timedelta(days=1),
+        "后天": lambda n: n + timedelta(days=2),
+        "昨天": lambda n: n - timedelta(days=1),
+        "前天": lambda n: n - timedelta(days=2),
+    }
+    if dt_str not in switch:
+        return []
+    now = date.today()
+    val = switch[dt_str](now)
+    if dt_str.endswith("年"):
+        rst.extend([date(val, 1, 1), date(val, 12, 31)])
+    elif dt_str.endswith("月"):
+        last = calendar.monthrange(now.year, val)[1]
+        rst.extend([date(now.year, val, 1), date(now.year, val, last)])
+    elif dt_str.endswith("天"):
+        rst.append(val)
+    return [] if len(rst) == 0 else [s.strftime("%Y-%m-%d %H:%M:%S") for s in rst]
+
+
 def parse_datetime(dt_str):
+    rst = parse_cn_date(dt_str)
+    if len(rst) != 0:
+        return tuple(rst)
     try:
         dt = parse(dt_str)
-        return dt.strftime('%Y-%m-%d %H:%M:%S')
+        rst.append(dt.strftime("%Y-%m-%d %H:%M:%S"))
     except:
-        if dt_str in CN_DATE:
-            target_date = CN_DATE[dt_str]()
-            return target_date.strftime('%Y-%m-%d %H:%M:%S')
-
         date_parser = Lark(r"""
             start: date
             date : years? months? days? "当天"?
-
+            
             years   : DIGIT DIGIT (DIGIT DIGIT)? ("年" | "-" | "/")
             months  : DIGIT DIGIT? ("月" | "-" | "/")
             days    : DIGIT (DIGIT DIGIT?)? "日"?
-
+            
             DIGIT: /["0-9零一二两三四五六七八九十"]/
-
+            
             // Disregard spaces in text
             %ignore " "
         """)
@@ -138,11 +153,15 @@ def parse_datetime(dt_str):
             if digit is not None:
                 params[key] = digit
         target_date = datetime.today().replace(**params)
-        return None if target_date is None else target_date.strftime("%Y-%m-%d %H:%M:%S")
+        if target_date is not None:
+            rst.append(target_date.strftime("%Y-%m-%d %H:%M:%S"))
+    return None if len(rst) == 0 else tuple(rst)
 
 
 # input_text = "帮我查看一下二零一七年七月二十三日当天购买了什么"
-input_text = "帮我查看一下二零一七年购买了什么"
+# input_text = "帮我查看一下二零一七年购买了什么"
+input_text = "帮我查看一下本月购买了什么"
 
 date_text = process_input(input_text)
-print("解析的日期是", parse_datetime(date_text))
+rst = parse_datetime(date_text)
+print("解析的日期是:", ", ".join(rst))
