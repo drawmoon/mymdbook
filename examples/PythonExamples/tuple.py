@@ -13,3 +13,5 @@ print(tup.count("Hello"))
 
 # 转换为列表
 print(list(tup))
+
+print(len(tup))
