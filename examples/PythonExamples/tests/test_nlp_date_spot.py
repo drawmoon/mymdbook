@@ -13,7 +13,7 @@ def month_last_day(year: int, month: int):
     return f"{year}-{v(month)}-{last}"
 
 
-class NlpDateSpotTest(unittest.TestCase):
+class NlpDateSpotTestCase(unittest.TestCase):
     def test_date_str_to_digit(self):
         test_str = "17"
         d = date_str_to_digit(test_str, "year")
