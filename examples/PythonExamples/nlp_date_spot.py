@@ -113,22 +113,38 @@ def parse_cn_date(dt_str):
     now = date.today()
     val = switch[dt_str](now)
     if dt_str.endswith("年"):
-        rst.extend([date(val, 1, 1), date(val, 12, 31)])
+        rst.extend(build_date(val))
     elif dt_str.endswith("月"):
-        last = calendar.monthrange(now.year, val)[1]
-        rst.extend([date(now.year, val, 1), date(now.year, val, last)])
+        rst.extend(build_date(month=val))
     elif dt_str.endswith("天"):
         rst.append(val)
-    return [] if len(rst) == 0 else [s.strftime("%Y-%m-%d %H:%M:%S") for s in rst]
+    return rst
+
+
+def build_date(year: int = None, month: int = None, day: int = None, **keyword):
+    rst = []
+    if day is not None:
+        dt = datetime.today().replace(year=year, month=month, day=day, **keyword)
+        rst.append(dt)
+    elif year is None and month is not None:
+        now = date.today()
+        last_day = calendar.monthrange(now.year, month)[1]
+        rst.extend([date(now.year, month, 1), date(now.year, month, last_day)])
+    elif year is not None and month is not None:
+        last_day = calendar.monthrange(year, month)[1]
+        rst.extend([date(year, month, 1), date(year, month, last_day)])
+    elif year is not None:
+        rst.extend([date(year, 1, 1), date(year, 12, 31)])
+    return rst
 
 
 def parse_datetime(dt_str):
     rst = parse_cn_date(dt_str)
     if len(rst) != 0:
-        return tuple(rst)
+        return tuple([s.strftime("%Y-%m-%d %H:%M:%S") for s in rst])
     try:
         dt = parse(dt_str)
-        rst.append(dt.strftime("%Y-%m-%d %H:%M:%S"))
+        rst.append(dt)
     except:
         date_parser = Lark(r"""
             start: date
@@ -152,15 +168,11 @@ def parse_datetime(dt_str):
             digit = date_str_to_digit(val, key)
             if digit is not None:
                 params[key] = digit
-        target_date = datetime.today().replace(**params)
-        if target_date is not None:
-            rst.append(target_date.strftime("%Y-%m-%d %H:%M:%S"))
-    return None if len(rst) == 0 else tuple(rst)
+        rst = build_date(**params)
+    return None if len(rst) == 0 else tuple([s.strftime("%Y-%m-%d %H:%M:%S") for s in rst])
 
 
-# input_text = "帮我查看一下二零一七年七月二十三日当天购买了什么"
-# input_text = "帮我查看一下二零一七年购买了什么"
-input_text = "帮我查看一下本月购买了什么"
+input_text = "帮我查看一下二零一七年七月二十三日当天购买了什么"
 
 date_text = process_input(input_text)
 rst = parse_datetime(date_text)
