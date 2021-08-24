@@ -89,12 +89,12 @@ class NlpDateSpotTest(unittest.TestCase):
         self.assertEqual(len(d), 1)
         self.assertEqual(d[0], "2017-07-23 00:00:00")
 
-        test_str = "二零一七年七月二十三日"
+        test_str = "二零一七年七月二十三"
         d = parse_datetime(test_str)
         self.assertEqual(len(d), 1)
         self.assertEqual(d[0], "2017-07-23 00:00:00")
 
-        test_str = "二零一七年七月二十三"
+        test_str = "二零一七年七月二十三日"
         d = parse_datetime(test_str)
         self.assertEqual(len(d), 1)
         self.assertEqual(d[0], "2017-07-23 00:00:00")
@@ -103,6 +103,42 @@ class NlpDateSpotTest(unittest.TestCase):
         d = parse_datetime(test_str)
         self.assertEqual(len(d), 1)
         self.assertEqual(d[0], "2017-07-23 00:00:00")
+
+        test_str = "2017年"
+        d = parse_datetime(test_str)
+        self.assertEqual(len(d), 2)
+        self.assertEqual(d[0], "2017-01-01 00:00:00")
+        self.assertEqual(d[1], "2017-12-31 00:00:00")
+
+        test_str = "二零一七年"
+        d = parse_datetime(test_str)
+        self.assertEqual(len(d), 2)
+        self.assertEqual(d[0], "2017-01-01 00:00:00")
+        self.assertEqual(d[1], "2017-12-31 00:00:00")
+
+        test_str = "2017年7月"
+        d = parse_datetime(test_str)
+        self.assertEqual(len(d), 2)
+        self.assertEqual(d[0], "2017-07-01 00:00:00")
+        self.assertEqual(d[1], "2017-07-31 00:00:00")
+
+        test_str = "二零一七年七月"
+        d = parse_datetime(test_str)
+        self.assertEqual(len(d), 2)
+        self.assertEqual(d[0], "2017-07-01 00:00:00")
+        self.assertEqual(d[1], "2017-07-31 00:00:00")
+
+        test_str = "7月"
+        d = parse_datetime(test_str)
+        self.assertEqual(len(d), 2)
+        self.assertEqual(d[0], f"{now.year}-07-01 00:00:00")
+        self.assertEqual(d[1], f"{now.year}-07-31 00:00:00")
+
+        test_str = "七月"
+        d = parse_datetime(test_str)
+        self.assertEqual(len(d), 2)
+        self.assertEqual(d[0], f"{now.year}-07-01 00:00:00")
+        self.assertEqual(d[1], f"{now.year}-07-31 00:00:00")
 
         test_str = "07/11"
         d = parse_datetime(test_str)
@@ -114,20 +150,25 @@ class NlpDateSpotTest(unittest.TestCase):
         self.assertEqual(len(d), 1)
         self.assertEqual(d[0], f"{now.year}-07-11 00:00:00")
 
-        test_str = "07月11日"
-        d = parse_datetime(test_str)
-        self.assertEqual(len(d), 1)
-        self.assertEqual(d[0], f"{now.year}-07-11 00:00:00")
-
         test_str = "07月11"
         d = parse_datetime(test_str)
         self.assertEqual(len(d), 1)
         self.assertEqual(d[0], f"{now.year}-07-11 00:00:00")
 
+        test_str = "07月11日"
+        d = parse_datetime(test_str)
+        self.assertEqual(len(d), 1)
+        self.assertEqual(d[0], f"{now.year}-07-11 00:00:00")
+
+        test_str = "11日当天"
+        d = parse_datetime(test_str)
+        self.assertEqual(len(d), 1)
+        self.assertEqual(d[0], f"{now.year}-{v(now.month)}-11 00:00:00")
+
         test_str = "十一日当天"
         d = parse_datetime(test_str)
         self.assertEqual(len(d), 1)
-        self.assertEqual(d[0], "2021-08-11 00:00:00")
+        self.assertEqual(d[0], f"{now.year}-{v(now.month)}-11 00:00:00")
 
         test_str = "今年"
         d = parse_datetime(test_str)
