@@ -71,9 +71,7 @@ class NlpDateSpotTestCase(unittest.TestCase):
         d = date_str_to_digit(test_str, "day")
         self.assertEqual(d, 1)
 
-    def test_parse_datetime(self):
-        now = date.today()
-
+    def test_parse_year(self):
         test_str = "2017/7/23"
         d = parse_datetime(test_str)
         self.assertEqual(len(d), 1)
@@ -128,6 +126,9 @@ class NlpDateSpotTestCase(unittest.TestCase):
         self.assertEqual(d[0], "2017-07-01 00:00:00")
         self.assertEqual(d[1], "2017-07-31 00:00:00")
 
+    def test_parse_month(self):
+        now = date.today()
+
         test_str = "7月"
         d = parse_datetime(test_str)
         self.assertEqual(len(d), 2)
@@ -160,6 +161,9 @@ class NlpDateSpotTestCase(unittest.TestCase):
         self.assertEqual(len(d), 1)
         self.assertEqual(d[0], f"{now.year}-07-11 00:00:00")
 
+    def test_parse_day(self):
+        now = date.today()
+
         test_str = "11日当天"
         d = parse_datetime(test_str)
         self.assertEqual(len(d), 1)
@@ -170,6 +174,7 @@ class NlpDateSpotTestCase(unittest.TestCase):
         self.assertEqual(len(d), 1)
         self.assertEqual(d[0], f"{now.year}-{v(now.month)}-11 00:00:00")
 
+    def test_parse_cn_date(self):
         test_str = "今年"
         d = parse_datetime(test_str)
         self.assertEqual(len(d), 2)
