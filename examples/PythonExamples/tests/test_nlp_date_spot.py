@@ -1,20 +1,21 @@
 import unittest
 from nlp_date_spot import date_str_to_digit, parse_datetime
 from datetime import date
+from dateutil.relativedelta import relativedelta
 import calendar
 
 
-def v(val: int, c: int = 0):
-    return str(val + c).rjust(2, "0")
+def start_of_month(date_time: date):
+    return f"{date_time.year}-{str(date_time.month).rjust(2, '0')}-01 00:00:00"
 
 
-def month_last_day(year: int, month: int):
-    last = calendar.monthrange(year, month)[1]
-    return f"{year}-{v(month)}-{last}"
+def end_of_month(date_time: date):
+    last = calendar.monthrange(date_time.year, date_time.month)[1]
+    return f"{date_time.year}-{str(date_time.month).rjust(2, '0')}-{last} 00:00:00"
 
 
 class NlpDateSpotTestCase(unittest.TestCase):
-    def test_date_str_to_digit(self):
+    def test_year_str_to_digit(self):
         test_str = "17"
         d = date_str_to_digit(test_str, "year")
         self.assertEqual(d, 2017)
@@ -39,6 +40,7 @@ class NlpDateSpotTestCase(unittest.TestCase):
         d = date_str_to_digit(test_str, "year")
         self.assertEqual(d, 2007)
 
+    def test_month_str_to_digit(self):
         test_str = "12"
         d = date_str_to_digit(test_str, "month")
         self.assertEqual(d, 12)
@@ -55,6 +57,7 @@ class NlpDateSpotTestCase(unittest.TestCase):
         d = date_str_to_digit(test_str, "month")
         self.assertEqual(d, 1)
 
+    def test_day_str_to_digit(self):
         test_str = "31"
         d = date_str_to_digit(test_str, "day")
         self.assertEqual(d, 31)
@@ -114,6 +117,21 @@ class NlpDateSpotTestCase(unittest.TestCase):
         self.assertEqual(d[0], "2017-01-01 00:00:00")
         self.assertEqual(d[1], "2017-12-31 00:00:00")
 
+        test_str = "17年"
+        d = parse_datetime(test_str)
+        self.assertEqual(len(d), 2)
+        self.assertEqual(d[0], "2017-01-01 00:00:00")
+        self.assertEqual(d[1], "2017-12-31 00:00:00")
+
+        test_str = "一七年"
+        d = parse_datetime(test_str)
+        self.assertEqual(len(d), 2)
+        self.assertEqual(d[0], "2017-01-01 00:00:00")
+        self.assertEqual(d[1], "2017-12-31 00:00:00")
+
+    def test_parse_month(self):
+        now = date.today()
+
         test_str = "2017年7月"
         d = parse_datetime(test_str)
         self.assertEqual(len(d), 2)
@@ -126,9 +144,6 @@ class NlpDateSpotTestCase(unittest.TestCase):
         self.assertEqual(d[0], "2017-07-01 00:00:00")
         self.assertEqual(d[1], "2017-07-31 00:00:00")
 
-    def test_parse_month(self):
-        now = date.today()
-
         test_str = "7月"
         d = parse_datetime(test_str)
         self.assertEqual(len(d), 2)
@@ -140,6 +155,9 @@ class NlpDateSpotTestCase(unittest.TestCase):
         self.assertEqual(len(d), 2)
         self.assertEqual(d[0], f"{now.year}-07-01 00:00:00")
         self.assertEqual(d[1], f"{now.year}-07-31 00:00:00")
+
+    def test_parse_day(self):
+        now = date.today()
 
         test_str = "07/11"
         d = parse_datetime(test_str)
@@ -161,20 +179,19 @@ class NlpDateSpotTestCase(unittest.TestCase):
         self.assertEqual(len(d), 1)
         self.assertEqual(d[0], f"{now.year}-07-11 00:00:00")
 
-    def test_parse_day(self):
-        now = date.today()
-
         test_str = "11日当天"
         d = parse_datetime(test_str)
         self.assertEqual(len(d), 1)
-        self.assertEqual(d[0], f"{now.year}-{v(now.month)}-11 00:00:00")
+        self.assertEqual(d[0], f"{now.year}-{str(now.month).rjust(2, '0')}-11 00:00:00")
 
         test_str = "十一日当天"
         d = parse_datetime(test_str)
         self.assertEqual(len(d), 1)
-        self.assertEqual(d[0], f"{now.year}-{v(now.month)}-11 00:00:00")
+        self.assertEqual(d[0], f"{now.year}-{str(now.month).rjust(2, '0')}-11 00:00:00")
 
     def test_parse_cn_date(self):
+        now = date.today()
+
         test_str = "今年"
         d = parse_datetime(test_str)
         self.assertEqual(len(d), 2)
@@ -202,45 +219,45 @@ class NlpDateSpotTestCase(unittest.TestCase):
         test_str = "本月"
         d = parse_datetime(test_str)
         self.assertEqual(len(d), 2)
-        self.assertEqual(d[0], f"{now.year}-{v(now.month)}-01 00:00:00")
-        self.assertEqual(d[1], f"{month_last_day(now.year, now.month)} 00:00:00")
+        self.assertEqual(d[0], start_of_month(now))
+        self.assertEqual(d[1], end_of_month(now))
 
         test_str = "上月"
         d = parse_datetime(test_str)
         self.assertEqual(len(d), 2)
-        self.assertEqual(d[0], f"{now.year}-{v(now.month, -1)}-01 00:00:00")
-        self.assertEqual(d[1], f"{month_last_day(now.year, now.month - 1)} 00:00:00")
+        self.assertEqual(d[0], start_of_month(now - relativedelta(months=1)))
+        self.assertEqual(d[1], end_of_month(now - relativedelta(months=1)))
 
         test_str = "下月"
         d = parse_datetime(test_str)
         self.assertEqual(len(d), 2)
-        self.assertEqual(d[0], f"{now.year}-{v(now.month, 1)}-01 00:00:00")
-        self.assertEqual(d[1], f"{month_last_day(now.year, now.month + 1)} 00:00:00")
+        self.assertEqual(d[0], start_of_month(now + relativedelta(months=1)))
+        self.assertEqual(d[1], end_of_month(now + relativedelta(months=1)))
 
         test_str = "今天"
         d = parse_datetime(test_str)
         self.assertEqual(len(d), 1)
-        self.assertEqual(d[0], f"{now.year}-{v(now.month)}-{v(now.day)} 00:00:00")
+        self.assertEqual(d[0], now.strftime("%Y-%m-%d %H:%M:%S"))
 
         test_str = "明天"
         d = parse_datetime(test_str)
         self.assertEqual(len(d), 1)
-        self.assertEqual(d[0], f"{now.year}-{v(now.month)}-{v(now.day, 1)} 00:00:00")
+        self.assertEqual(d[0], (now + relativedelta(days=1)).strftime("%Y-%m-%d %H:%M:%S"))
 
         test_str = "后天"
         d = parse_datetime(test_str)
         self.assertEqual(len(d), 1)
-        self.assertEqual(d[0], f"{now.year}-{v(now.month)}-{v(now.day, 2)} 00:00:00")
+        self.assertEqual(d[0], (now + relativedelta(days=2)).strftime("%Y-%m-%d %H:%M:%S"))
 
         test_str = "昨天"
         d = parse_datetime(test_str)
         self.assertEqual(len(d), 1)
-        self.assertEqual(d[0], f"{now.year}-{v(now.month)}-{v(now.day, -1)} 00:00:00")
+        self.assertEqual(d[0], (now - relativedelta(days=1)).strftime("%Y-%m-%d %H:%M:%S"))
 
         test_str = "前天"
         d = parse_datetime(test_str)
         self.assertEqual(len(d), 1)
-        self.assertEqual(d[0], f"{now.year}-{v(now.month)}-{v(now.day, -2)} 00:00:00")
+        self.assertEqual(d[0], (now - relativedelta(days=2)).strftime("%Y-%m-%d %H:%M:%S"))
 
 
 if __name__ == "__main__":
