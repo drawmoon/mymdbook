@@ -8,6 +8,7 @@
 - [多个项目的全局设置](#多个项目的全局设置)
 - [启用严格的编译检查](#启用严格的编译检查)
 - [发布部署到 Linux](#发布部署到-linux)
+- [使用 Mock 来编写代码的单元测试](#使用-mock-来编写代码的单元测试)
 
 ## 中间件管道，Map 与 MapWhen
 
@@ -351,4 +352,49 @@ chmod +x MyProject && MyProject
     }
   }
 }
+```
+
+## 使用 Mock 来编写代码的单元测试
+
+安装依赖并引入命名空间：
+
+```csharp
+using Moq;
+```
+
+使用 `Mock` 构造接口：
+
+```csharp
+var userServiceMock = new Mock<IUserService>();
+```
+
+模拟属性：
+
+```csharp
+userServiceMock.Setup(p => p.Current)
+    .Returns(new UserContextForTest());
+```
+
+模拟方法：
+
+```csharp
+userServiceMock.Setup(p => p.GetOnlineUser())
+    .Returns(new List<IUserContext> { new UserContext(Guid.NewGuid().ToString(), "HeHuan") });
+
+userServiceMock.Setup(p => p.Switch(It.IsNotNull<string>()))
+    .Returns(new UserContext(Guid.NewGuid().ToString(), "KangJia"));
+
+userServiceMock.Setup(p => p.FindUser(It.IsIn<string>("TanMu"), It.IsAny<string>()))
+    .Returns(new UserContext(Guid.NewGuid().ToString(), "TanMu"));
+```
+
+使用模拟对象的实例：
+
+```csharp
+var userService = userServiceMock.Object;
+
+var currentUser = userService.Current;
+var onlineUsers = userService.GetOnlineUser();
+var switchUser = userService.Switch(Guid.NewGuid().ToString());
+var findUser = userService.FindUser("TanMu", "ko");
 ```
