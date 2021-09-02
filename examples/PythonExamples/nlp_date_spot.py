@@ -1,18 +1,15 @@
-from datetime import date
-from dateutil.parser import parse
+from datetime import datetime
 from dateutil.relativedelta import relativedelta
 import hanlp
 from lark import Lark, Visitor, Tree, Token
 from typing import Dict
-import calendar
 import os
-
 
 CN_DIGIT = {"零": 0, "一": 1, "二": 2, "两": 2, "三": 3, "四": 4, "五": 5, "六": 6, "七": 7, "八": 8, "九": 9, "十": 10}
 
 
 def now():
-    return date(2021, 9, 1)  # if os.getenv("ENVIRONMENT") == "TEST" else date.today()
+    return datetime(2021, 9, 1)  # if os.getenv("ENVIRONMENT") == "TEST" else date.today()
 
 
 def process_input(text):
@@ -98,7 +95,6 @@ def date_str_to_digit(s, typ):
 
 
 def parse_cn_date(dt_str):
-    rst = []
     switch = {
         "今年": lambda n: n.year,
         "明年": lambda n: (n + relativedelta(years=1)).year,
@@ -117,62 +113,65 @@ def parse_cn_date(dt_str):
         return []
     val = switch[dt_str](now())
     if dt_str.endswith("年"):
-        rst.extend(build_date(val))
-    elif dt_str.endswith("月"):
-        rst.extend(build_date(month=val))
-    elif dt_str.endswith("天"):
-        rst.append(val)
-    return rst
+        return build_date(val)
+    if dt_str.endswith("月"):
+        return build_date(month=val)
+    if dt_str.endswith("天"):
+        return build_date(val.year, val.month, val.day)
+    return []
 
 
 def build_date(year: int = None, month: int = None, day: int = None, **keyword):
-    rst = []
-    today = now()
     if day is not None:
-        dt = today.replace(year=year, month=month, day=day)
-        rst.append(dt)
-    elif year is None and month is not None:
-        last_day = calendar.monthrange(today.year, month)[1]
-        rst.extend([date(today.year, month, 1), date(today.year, month, last_day)])
-    elif year is not None and month is not None:
-        last_day = calendar.monthrange(year, month)[1]
-        rst.extend([date(year, month, 1), date(year, month, last_day)])
-    elif year is not None:
-        rst.extend([date(year, 1, 1), date(year, 12, 31)])
-    return rst
+        start_date = datetime(year, month, day)
+        end_date = start_date + relativedelta(days=1)
+        return [start_date, end_date]
+    if year is None and month is not None:
+        today = now()
+        start_date = datetime(today.year, month, 1)
+        end_date = start_date + relativedelta(months=1)
+        return [start_date, end_date]
+    if year is not None and month is not None:
+        start_date = datetime(year, month, 1)
+        end_date = start_date + relativedelta(months=1)
+        return [start_date, end_date]
+    if year is not None:
+        start_date = datetime(year, 1, 1)
+        end_date = start_date + relativedelta(years=1)
+        return [start_date, end_date]
+    return []
 
 
 def parse_datetime(dt_str):
     rst = parse_cn_date(dt_str)
     if len(rst) != 0:
         return tuple([s.strftime("%Y-%m-%d %H:%M:%S") for s in rst])
-    try:
-        dt = parse(dt_str)
-        rst.append(dt)
-    except:
-        date_parser = Lark(r"""
-            start: date
-            date : years? months? days? "当天"?
-            
-            years   : DIGIT DIGIT (DIGIT DIGIT)? ("年" | "-" | "/")
-            months  : DIGIT DIGIT? ("月" | "-" | "/")
-            days    : DIGIT (DIGIT DIGIT?)? "日"?
-            
-            DIGIT: /["0-9零一二两三四五六七八九十"]/
-            
-            // Disregard spaces in text
-            %ignore " "
-        """)
-        parse_tree = date_parser.parse(dt_str)
-        visitor = DateTreeVisitor()
-        visitor.visit(parse_tree)
+    date_parser = Lark(r"""
+        start: date
+        date : (date_full | date_month_day | years? months? days?) "当天"?
+        
+        date_full: years months days
+        date_month_day: months days
+        
+        years   : DIGIT DIGIT (DIGIT DIGIT)? ("年" | "-" | "/")
+        months  : DIGIT DIGIT? ("月" | "月份" | "-" | "/")
+        days    : DIGIT (DIGIT DIGIT?)? ("日" | "号")?
+        
+        DIGIT: /["0-9零一二两三四五六七八九十"]/
+        
+        // Disregard spaces in text
+        %ignore " "
+    """)
+    parse_tree = date_parser.parse(dt_str)
+    visitor = DateTreeVisitor()
+    visitor.visit(parse_tree)
 
-        params = {}
-        for key, val in visitor.date_dict.items():
-            digit = date_str_to_digit(val, key)
-            if digit is not None:
-                params[key] = digit
-        rst = build_date(**params)
+    params = {}
+    for key, val in visitor.date_dict.items():
+        digit = date_str_to_digit(val, key)
+        if digit is not None:
+            params[key] = digit
+    rst = build_date(**params)
     return None if len(rst) == 0 else tuple([s.strftime("%Y-%m-%d %H:%M:%S") for s in rst])
 
 
@@ -180,4 +179,4 @@ input_text = "帮我查看一下二零一七年七月二十三日当天购买了
 
 date_text = process_input(input_text)
 rst = parse_datetime(date_text)
-print("解析的日期是:", ", ".join(rst))
+print("解析为查询条件:", f"时间 >= '{rst[0]}' and 时间 < '{rst[1]}'")
