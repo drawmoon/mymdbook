@@ -7,7 +7,7 @@ import os
 
 
 def now():
-    return datetime(2021, 9, 1)  # if os.getenv("ENVIRONMENT") == "TEST" else date.today()
+    return datetime(2021, 9, 1)  # if os.getenv("ENVIRONMENT") == "TEST" else datetime.now()
 
 
 def process_input(text):
@@ -89,30 +89,6 @@ class CnDateProcessor:
         return build_date(today.year)
 
     @staticmethod
-    def 上半年():
-        pass
-
-    @staticmethod
-    def 下半年():
-        pass
-
-    @staticmethod
-    def 第一季度():
-        pass
-
-    @staticmethod
-    def 第二季度():
-        pass
-
-    @staticmethod
-    def 第三季度():
-        pass
-
-    @staticmethod
-    def 第四季度():
-        pass
-
-    @staticmethod
     def 本月():
         today = now()
         return build_date(month=today.month)
@@ -157,6 +133,50 @@ class CnDateProcessor:
         today = now()
         today -= relativedelta(days=2)
         return build_date(today.year, today.month, today.day)
+
+    @staticmethod
+    def 上半年():
+        today = now()
+        start_date = datetime(today.year, 1, 1)
+        end_date = datetime(today.year, 7, 1)
+        return [start_date, end_date]
+
+    @staticmethod
+    def 下半年():
+        today = now()
+        start_date = datetime(today.year, 7, 1)
+        today += relativedelta(years=1)
+        end_date = datetime(today.year, 1, 1)
+        return [start_date, end_date]
+
+    @staticmethod
+    def 第一季度():
+        today = now()
+        start_date = datetime(today.year, 1, 1)
+        end_date = datetime(today.year, 4, 1)
+        return [start_date, end_date]
+
+    @staticmethod
+    def 第二季度():
+        today = now()
+        start_date = datetime(today.year, 4, 1)
+        end_date = datetime(today.year, 7, 1)
+        return [start_date, end_date]
+
+    @staticmethod
+    def 第三季度():
+        today = now()
+        start_date = datetime(today.year, 7, 1)
+        end_date = datetime(today.year, 10, 1)
+        return [start_date, end_date]
+
+    @staticmethod
+    def 第四季度():
+        today = now()
+        start_date = datetime(today.year, 10, 1)
+        today += relativedelta(years=1)
+        end_date = datetime(today.year, 1, 1)
+        return [start_date, end_date]
 
 
 def str_to_digit(s, typ):

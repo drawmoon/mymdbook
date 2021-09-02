@@ -258,6 +258,42 @@ class NlpDateSpotTestCase(unittest.TestCase):
         self.assertEqual(d[0], "2021-08-30 00:00:00")
         self.assertEqual(d[1], "2021-08-31 00:00:00")
 
+        test_str = "上半年"
+        d = parse(test_str)
+        self.assertEqual(len(d), 2)
+        self.assertEqual(d[0], "2021-01-01 00:00:00")
+        self.assertEqual(d[1], "2021-07-01 00:00:00")
+
+        test_str = "下半年"
+        d = parse(test_str)
+        self.assertEqual(len(d), 2)
+        self.assertEqual(d[0], "2021-07-01 00:00:00")
+        self.assertEqual(d[1], "2022-01-01 00:00:00")
+
+        test_str = "第一季度"
+        d = parse(test_str)
+        self.assertEqual(len(d), 2)
+        self.assertEqual(d[0], "2021-01-01 00:00:00")
+        self.assertEqual(d[1], "2021-04-01 00:00:00")
+
+        test_str = "第二季度"
+        d = parse(test_str)
+        self.assertEqual(len(d), 2)
+        self.assertEqual(d[0], "2021-04-01 00:00:00")
+        self.assertEqual(d[1], "2021-07-01 00:00:00")
+
+        test_str = "第三季度"
+        d = parse(test_str)
+        self.assertEqual(len(d), 2)
+        self.assertEqual(d[0], "2021-07-01 00:00:00")
+        self.assertEqual(d[1], "2021-10-01 00:00:00")
+
+        test_str = "第四季度"
+        d = parse(test_str)
+        self.assertEqual(len(d), 2)
+        self.assertEqual(d[0], "2021-10-01 00:00:00")
+        self.assertEqual(d[1], "2022-01-01 00:00:00")
+
 
 if __name__ == "__main__":
     unittest.main()
