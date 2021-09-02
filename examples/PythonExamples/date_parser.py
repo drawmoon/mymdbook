@@ -5,8 +5,6 @@ from lark import Lark, Visitor, Tree, Token
 from typing import Dict
 import os
 
-CN_DIGIT = {"零": 0, "一": 1, "二": 2, "两": 2, "三": 3, "四": 4, "五": 5, "六": 6, "七": 7, "八": 8, "九": 9, "十": 10}
-
 
 def now():
     return datetime(2021, 9, 1)  # if os.getenv("ENVIRONMENT") == "TEST" else date.today()
@@ -66,11 +64,107 @@ class DateTreeVisitor(Visitor):
         return val
 
 
-def date_str_to_digit(s, typ):
+class CnDateProcessor:
+    @staticmethod
+    def 今年():
+        today = now()
+        return build_date(today.year)
+
+    @staticmethod
+    def 明年():
+        today = now()
+        today += relativedelta(years=1)
+        return build_date(today.year)
+
+    @staticmethod
+    def 去年():
+        today = now()
+        today -= relativedelta(years=1)
+        return build_date(today.year)
+
+    @staticmethod
+    def 前年():
+        today = now()
+        today -= relativedelta(years=2)
+        return build_date(today.year)
+
+    @staticmethod
+    def 上半年():
+        pass
+
+    @staticmethod
+    def 下半年():
+        pass
+
+    @staticmethod
+    def 第一季度():
+        pass
+
+    @staticmethod
+    def 第二季度():
+        pass
+
+    @staticmethod
+    def 第三季度():
+        pass
+
+    @staticmethod
+    def 第四季度():
+        pass
+
+    @staticmethod
+    def 本月():
+        today = now()
+        return build_date(month=today.month)
+
+    @staticmethod
+    def 下月():
+        today = now()
+        today += relativedelta(months=1)
+        return build_date(month=today.month)
+
+    @staticmethod
+    def 上月():
+        today = now()
+        today -= relativedelta(months=1)
+        return build_date(month=today.month)
+
+    @staticmethod
+    def 今天():
+        today = now()
+        return build_date(today.year, today.month, today.day)
+
+    @staticmethod
+    def 明天():
+        today = now()
+        today += relativedelta(days=1)
+        return build_date(today.year, today.month, today.day)
+
+    @staticmethod
+    def 后天():
+        today = now()
+        today += relativedelta(days=2)
+        return build_date(today.year, today.month, today.day)
+
+    @staticmethod
+    def 昨天():
+        today = now()
+        today -= relativedelta(days=1)
+        return build_date(today.year, today.month, today.day)
+
+    @staticmethod
+    def 前天():
+        today = now()
+        today -= relativedelta(days=2)
+        return build_date(today.year, today.month, today.day)
+
+
+def str_to_digit(s, typ):
+    cn_digit = {"零": 0, "一": 1, "二": 2, "两": 2, "三": 3, "四": 4, "五": 5, "六": 6, "七": 7, "八": 8, "九": 9, "十": 10}
     if typ == "year":
         if s.isdigit():
             return int(s) if len(s) == 4 else int(now().year / 100) * 100 + int(s)
-        s = "".join([str(CN_DIGIT[c]) for c in s if c in CN_DIGIT.keys()])
+        s = "".join([str(cn_digit[c]) for c in s if c in cn_digit.keys()])
         if s.isdigit():
             return int(s) if len(s) == 4 else int(now().year / 100) * 100 + int(s)
         else:
@@ -81,8 +175,8 @@ def date_str_to_digit(s, typ):
         two_digit = 1
         digit = 0
         for c in s[::-1]:
-            if c in CN_DIGIT.keys():
-                tmp = CN_DIGIT[c]
+            if c in cn_digit.keys():
+                tmp = cn_digit[c]
                 if tmp >= 10:
                     two_digit = tmp
                 else:
@@ -92,33 +186,6 @@ def date_str_to_digit(s, typ):
         if digit < two_digit:
             digit += two_digit
         return digit
-
-
-def parse_cn_date(dt_str):
-    switch = {
-        "今年": lambda n: n.year,
-        "明年": lambda n: (n + relativedelta(years=1)).year,
-        "去年": lambda n: (n - relativedelta(years=1)).year,
-        "前年": lambda n: (n - relativedelta(years=2)).year,
-        "本月": lambda n: n.month,
-        "上月": lambda n: (n - relativedelta(months=1)).month,
-        "下月": lambda n: (n + relativedelta(months=1)).month,
-        "今天": lambda n: n,
-        "明天": lambda n: n + relativedelta(days=1),
-        "后天": lambda n: n + relativedelta(days=2),
-        "昨天": lambda n: n - relativedelta(days=1),
-        "前天": lambda n: n - relativedelta(days=2),
-    }
-    if dt_str not in switch:
-        return []
-    val = switch[dt_str](now())
-    if dt_str.endswith("年"):
-        return build_date(val)
-    if dt_str.endswith("月"):
-        return build_date(month=val)
-    if dt_str.endswith("天"):
-        return build_date(val.year, val.month, val.day)
-    return []
 
 
 def build_date(year: int = None, month: int = None, day: int = None, **keyword):
@@ -142,7 +209,15 @@ def build_date(year: int = None, month: int = None, day: int = None, **keyword):
     return []
 
 
-def parse_datetime(dt_str):
+def parse_cn_date(dt_str):
+    processor = CnDateProcessor()
+    if hasattr(processor, dt_str):
+        fn = getattr(processor, dt_str)
+        return fn()
+    return []
+
+
+def parse(dt_str):
     rst = parse_cn_date(dt_str)
     if len(rst) != 0:
         return tuple([s.strftime("%Y-%m-%d %H:%M:%S") for s in rst])
@@ -168,7 +243,7 @@ def parse_datetime(dt_str):
 
     params = {}
     for key, val in visitor.date_dict.items():
-        digit = date_str_to_digit(val, key)
+        digit = str_to_digit(val, key)
         if digit is not None:
             params[key] = digit
     rst = build_date(**params)
@@ -178,5 +253,5 @@ def parse_datetime(dt_str):
 input_text = "帮我查看一下二零一七年七月二十三日当天购买了什么"
 
 date_text = process_input(input_text)
-rst = parse_datetime(date_text)
+rst = parse(date_text)
 print("解析为查询条件:", f"时间 >= '{rst[0]}' and 时间 < '{rst[1]}'")
