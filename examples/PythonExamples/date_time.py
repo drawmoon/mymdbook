@@ -44,3 +44,6 @@ print(calendar.monthrange(now.year, now.month))
 print(now - timedelta(days=now.weekday()))
 # 本周最后一天
 print(now + timedelta(days=6 - now.weekday()))
+
+print(datetime(2020, 1, 1).strftime("%Y-%m-%d %H:%M:%S"))
+print(datetime(2020, 1, 1, 23, 59, 59).strftime("%Y-%m-%d %H:%M:%S"))
