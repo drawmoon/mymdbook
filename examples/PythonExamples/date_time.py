@@ -37,13 +37,16 @@ print(now + relativedelta(years=1))
 print(now - relativedelta(years=1))
 print(now + relativedelta(years=-1))
 
-# 本月最后一天
-print(calendar.monthrange(now.year, now.month))
+print("本月最后一天", calendar.monthrange(now.year, now.month))
 
-# 本周第一天
-print(now - timedelta(days=now.weekday()))
-# 本周最后一天
-print(now + timedelta(days=6 - now.weekday()))
+print("本周第一天", now - timedelta(days=now.weekday()))
+print("本周最后一天", now + timedelta(days=6 - now.weekday()))
+
+last_week = now - timedelta(weeks=1)
+print("上周第一天", last_week - timedelta(days=last_week.weekday()))
+
+next_week = now + timedelta(weeks=1)
+print("下周第一天", next_week - timedelta(days=next_week.weekday()))
 
 print(datetime(2020, 1, 1).strftime("%Y-%m-%d %H:%M:%S"))
 print(datetime(2020, 1, 1, 23, 59, 59).strftime("%Y-%m-%d %H:%M:%S"))

@@ -67,72 +67,110 @@ class DateTreeVisitor(Visitor):
 class CnDateProcessor:
     @staticmethod
     def 今年():
-        today = now()
-        return build_date(today.year)
+        time = now()
+        return build_date(time.year)
 
     @staticmethod
     def 明年():
-        today = now()
-        today += relativedelta(years=1)
-        return build_date(today.year)
+        time = now()
+        time += relativedelta(years=1)
+        return build_date(time.year)
 
     @staticmethod
     def 去年():
-        today = now()
-        today -= relativedelta(years=1)
-        return build_date(today.year)
+        time = now()
+        time -= relativedelta(years=1)
+        return build_date(time.year)
 
     @staticmethod
     def 前年():
-        today = now()
-        today -= relativedelta(years=2)
-        return build_date(today.year)
+        time = now()
+        time -= relativedelta(years=2)
+        return build_date(time.year)
 
     @staticmethod
     def 本月():
-        today = now()
-        return build_date(month=today.month)
+        time = now()
+        return build_date(month=time.month)
 
     @staticmethod
     def 下月():
-        today = now()
-        today += relativedelta(months=1)
-        return build_date(month=today.month)
+        time = now()
+        time += relativedelta(months=1)
+        return build_date(month=time.month)
 
     @staticmethod
     def 上月():
-        today = now()
-        today -= relativedelta(months=1)
-        return build_date(month=today.month)
+        time = now()
+        time -= relativedelta(months=1)
+        return build_date(month=time.month)
 
     @staticmethod
     def 今天():
-        today = now()
-        return build_date(today.year, today.month, today.day)
+        time = now()
+        return build_date(time.year, time.month, time.day)
 
     @staticmethod
     def 明天():
-        today = now()
-        today += relativedelta(days=1)
-        return build_date(today.year, today.month, today.day)
+        time = now()
+        time += relativedelta(days=1)
+        return build_date(time.year, time.month, time.day)
 
     @staticmethod
     def 后天():
-        today = now()
-        today += relativedelta(days=2)
-        return build_date(today.year, today.month, today.day)
+        time = now()
+        time += relativedelta(days=2)
+        return build_date(time.year, time.month, time.day)
 
     @staticmethod
     def 昨天():
-        today = now()
-        today -= relativedelta(days=1)
-        return build_date(today.year, today.month, today.day)
+        time = now()
+        time -= relativedelta(days=1)
+        return build_date(time.year, time.month, time.day)
 
     @staticmethod
     def 前天():
-        today = now()
-        today -= relativedelta(days=2)
-        return build_date(today.year, today.month, today.day)
+        time = now()
+        time -= relativedelta(days=2)
+        return build_date(time.year, time.month, time.day)
+
+    @staticmethod
+    def 上午():
+        time = now()
+        start_date = datetime(time.year, time.month, time.day)
+        end_date = start_date.replace(hour=12)
+        return [start_date, end_date]
+
+    @staticmethod
+    def 下午():
+        time = now()
+        start_date = datetime(time.year, time.month, time.day, 12)
+        end_date = start_date.replace(hour=19)
+        return [start_date, end_date]
+
+    @staticmethod
+    def 本周():
+        time = now()
+        start_date = time - relativedelta(days=time.weekday())
+        time += relativedelta(weeks=1)
+        end_date = time - relativedelta(days=time.weekday())
+        return [start_date, end_date]
+
+    @staticmethod
+    def 上周():
+        time = now()
+        last_week = time - relativedelta(weeks=1)
+        start_date = last_week - relativedelta(days=last_week.weekday())
+        end_date = time - relativedelta(days=time.weekday())
+        return [start_date, end_date]
+
+    @staticmethod
+    def 下周():
+        time = now() + relativedelta(weeks=1)
+        start_date = time - relativedelta(days=time.weekday())
+        time += relativedelta(weeks=1)
+        end_date = time - relativedelta(days=time.weekday())
+        return [start_date, end_date]
 
     @staticmethod
     def 上半年():
@@ -270,7 +308,8 @@ def parse(dt_str):
     return None if len(rst) == 0 else tuple([s.strftime("%Y-%m-%d %H:%M:%S") for s in rst])
 
 
-input_text = "帮我查看一下二零一七年七月二十三日当天购买了什么"
+# input_text = "帮我查看一下二零一七年七月二十三日当天购买了什么"
+input_text = "帮我查看一下下周购买了什么"
 
 date_text = process_input(input_text)
 rst = parse(date_text)
