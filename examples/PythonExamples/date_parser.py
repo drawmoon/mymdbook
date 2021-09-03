@@ -308,8 +308,7 @@ def parse(dt_str):
     return None if len(rst) == 0 else tuple([s.strftime("%Y-%m-%d %H:%M:%S") for s in rst])
 
 
-# input_text = "帮我查看一下二零一七年七月二十三日当天购买了什么"
-input_text = "帮我查看一下下周购买了什么"
+input_text = "帮我查看一下二零一七年七月二十三日当天购买了什么"
 
 date_text = process_input(input_text)
 rst = parse(date_text)
