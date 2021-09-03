@@ -7,6 +7,7 @@ import os
 
 
 def now():
+    # 方便进行单元测试
     return datetime(2021, 9, 1)  # if os.getenv("ENVIRONMENT") == "TEST" else datetime.now()
 
 
@@ -14,16 +15,17 @@ def process_input(text):
     print("输入的字符:", text)
 
     han_lp = hanlp.load(hanlp.pretrained.mtl.CLOSE_TOK_POS_NER_SRL_DEP_SDP_CON_ELECTRA_SMALL_ZH)
-    doc = han_lp([text])
+    doc = han_lp(text)
 
     ner = doc["ner/ontonotes"]
     dt_text = ""
-    for i, (word, typ, s, e) in enumerate(ner[0]):
-        if i == 0:
-            dt_text = word
-            continue
-        if word in ["当天"]:
+    for i, (word, typ, s, e) in enumerate(ner):
+        if typ in ["DATE", "TIME"]:
             dt_text += word
+        if typ in ["ORDINAL", "INTEGER"]:
+            nxt = i + 1
+            if len(ner) > nxt and ner[nxt][1] in ["DATE", "TIME"]:
+                dt_text += word
 
     print("查找到的日期:", dt_text)
     return dt_text
@@ -308,7 +310,7 @@ def parse(dt_str):
     return None if len(rst) == 0 else tuple([s.strftime("%Y-%m-%d %H:%M:%S") for s in rst])
 
 
-input_text = "帮我查看一下二零一七年七月二十三日当天购买了什么"
+input_text = "第四季度总共有多少订单"
 
 date_text = process_input(input_text)
 rst = parse(date_text)
