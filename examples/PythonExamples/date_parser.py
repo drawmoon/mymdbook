@@ -2,7 +2,7 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 import hanlp
 from lark import Lark, Visitor, Tree, Token
-from typing import Dict
+from typing import Dict, List, Tuple
 import os
 
 
@@ -17,18 +17,36 @@ def process_input(text):
     han_lp = hanlp.load(hanlp.pretrained.mtl.CLOSE_TOK_POS_NER_SRL_DEP_SDP_CON_ELECTRA_SMALL_ZH)
     doc = han_lp(text)
 
-    ner = doc["ner/ontonotes"]
-    dt_text = ""
-    for i, (word, typ, s, e) in enumerate(ner):
-        if typ in ["DATE", "TIME"]:
-            dt_text += word
-        if typ in ["ORDINAL", "INTEGER"]:
-            nxt = i + 1
-            if len(ner) > nxt and ner[nxt][1] in ["DATE", "TIME"]:
-                dt_text += word
+    ner = merge(doc["ner/ontonotes"])
 
+    dt_text = ner[0][0]
     print("查找到的日期:", dt_text)
     return dt_text
+
+
+def merge(lst: List[Tuple[str, str, int, int]]):
+    merged = []
+    slice_word = ""
+    slice_s = 0
+    for i, (word, typ, s, e) in enumerate(lst):
+        if slice_word == "":
+            slice_s = s
+        nxt = lst[i + 1] if len(lst) > i + 1 else None
+        # 如果没有相邻的或已经是最后一个元素
+        if nxt is None or e != nxt[2]:
+            if slice_word != "":
+                merged.append((slice_word + word, typ, slice_s, e))
+                slice_word = ""
+            else:
+                merged.append((word, typ, s, e))
+        else:
+            # 下一个元素的类型与当前的类型一致，需要合并
+            if typ == nxt[1]:
+                slice_word += word
+            # 当前的类型是序数或整数并且下一个元素的类型是日期或时间，需要合并
+            elif typ in ["ORDINAL", "INTEGER"] and nxt[1] in ["DATE", "TIME"]:
+                slice_word += word
+    return merged
 
 
 class DateTreeVisitor(Visitor):

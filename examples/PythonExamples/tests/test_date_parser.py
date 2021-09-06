@@ -1,8 +1,25 @@
 import unittest
-from date_parser import str_to_digit, parse
+from date_parser import str_to_digit, parse, merge
 
 
-class NlpDateSpotTestCase(unittest.TestCase):
+class DateParserTestCase(unittest.TestCase):
+    def test_merge(self):
+        ner = [("2017年", "DATE", 0, 1), ("2021年", "DATE", 3, 4)]
+        rst = merge(ner)
+        self.assertEqual(len(rst), 2)
+        self.assertEqual(rst[0], ("2017年", "DATE", 0, 1))
+        self.assertEqual(rst[1], ("2021年", "DATE", 3, 4))
+
+        ner = [("第四", "ORDINAL", 0, 1), ("季度", "DATE", 1, 2)]
+        rst = merge(ner)
+        self.assertEqual(len(rst), 1)
+        self.assertEqual(rst[0], ("第四季度", "DATE", 0, 2))
+
+        ner = [("2021年7月28日", "DATE", 4, 7), ("当天", "DATE", 7, 8)]
+        rst = merge(ner)
+        self.assertEqual(len(rst), 1)
+        self.assertEqual(rst[0], ("2021年7月28日当天", "DATE", 4, 8))
+
     def test_year_str_to_digit(self):
         test_str = "17"
         d = str_to_digit(test_str, "year")
