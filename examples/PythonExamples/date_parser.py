@@ -301,10 +301,7 @@ def parse(dt_str):
         return tuple([s.strftime("%Y-%m-%d %H:%M:%S") for s in rst])
     date_parser = Lark(r"""
         start: date
-        date : (date_full | date_month_day | years? months? days?) "当天"?
-        
-        date_full: years months days
-        date_month_day: months days
+        date : years? months? | ((years? months)? days) "当天"?
         
         years   : DIGIT DIGIT (DIGIT DIGIT)? ("年" | "-" | "/")
         months  : DIGIT DIGIT? ("月" | "月份" | "-" | "/")
