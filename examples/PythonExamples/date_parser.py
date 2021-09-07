@@ -331,7 +331,7 @@ def parse(dt_str):
         comb: CN_DATE | "第"? DIGIT "个"? UNIT
         
         CN_DATE: "上半年" | "下半年"
-        UNIT   : "月" | "周" | "天"
+        UNIT   : "季度" | "月" | "周" | "天"
         DIGIT  : /["0-9零一二两三四五六七八九十"]/
         
         // Disregard spaces in text
