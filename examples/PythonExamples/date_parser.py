@@ -43,8 +43,8 @@ def merge(lst: List[Tuple[str, str, int, int]]):
             # 下一个元素的类型与当前的类型一致，需要合并
             if typ == nxt[1]:
                 slice_word += word
-            # 当前的类型是序数或整数并且下一个元素的类型是日期或时间，需要合并
-            elif typ in ["ORDINAL", "INTEGER"] and nxt[1] in ["DATE", "TIME"]:
+            # 当前的类型是序数、整数或基数并且下一个元素的类型是日期或时间，需要合并
+            elif typ in ["ORDINAL", "INTEGER", "CARDINAL"] and nxt[1] in ["DATE", "TIME"]:
                 slice_word += word
     return merged
 
@@ -214,28 +214,28 @@ class CnDateProcessor:
         return [start_date, end_date]
 
     @staticmethod
-    def 第一季度():
+    def 一季度():
         today = now()
         start_date = datetime(today.year, 1, 1)
         end_date = datetime(today.year, 4, 1)
         return [start_date, end_date]
 
     @staticmethod
-    def 第二季度():
+    def 二季度():
         today = now()
         start_date = datetime(today.year, 4, 1)
         end_date = datetime(today.year, 7, 1)
         return [start_date, end_date]
 
     @staticmethod
-    def 第三季度():
+    def 三季度():
         today = now()
         start_date = datetime(today.year, 7, 1)
         end_date = datetime(today.year, 10, 1)
         return [start_date, end_date]
 
     @staticmethod
-    def 第四季度():
+    def 四季度():
         today = now()
         start_date = datetime(today.year, 10, 1)
         today += relativedelta(years=1)
@@ -294,9 +294,11 @@ def build_date(year: int = None, month: int = None, day: int = None):
 
 
 def parse_cn_date(dt_str):
+    table = str.maketrans("第1234", " 一二三四")
+    member = dt_str.translate(table).strip()
     processor = CnDateProcessor()
-    if hasattr(processor, dt_str):
-        fn = getattr(processor, dt_str)
+    if hasattr(processor, member):
+        fn = getattr(processor, member)
         return fn()
     return []
 
