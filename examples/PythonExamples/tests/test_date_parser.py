@@ -341,6 +341,31 @@ class DateParserTestCase(unittest.TestCase):
         self.assertEqual(d[0], "2021-10-01 00:00:00")
         self.assertEqual(d[1], "2022-01-01 00:00:00")
 
+    def test_comb_date(self):
+        test_str = "2017年上半年"
+        d = parse(test_str)
+        self.assertEqual(len(d), 2)
+        self.assertEqual(d[0], "2017-01-01 00:00:00")
+        self.assertEqual(d[1], "2017-07-01 00:00:00")
+
+        test_str = "二零一七年上半年"
+        d = parse(test_str)
+        self.assertEqual(len(d), 2)
+        self.assertEqual(d[0], "2017-01-01 00:00:00")
+        self.assertEqual(d[1], "2017-07-01 00:00:00")
+
+        test_str = "2017年下半年"
+        d = parse(test_str)
+        self.assertEqual(len(d), 2)
+        self.assertEqual(d[0], "2017-07-01 00:00:00")
+        self.assertEqual(d[1], "2018-01-01 00:00:00")
+
+        test_str = "二零一七年下半年"
+        d = parse(test_str)
+        self.assertEqual(len(d), 2)
+        self.assertEqual(d[0], "2017-07-01 00:00:00")
+        self.assertEqual(d[1], "2018-01-01 00:00:00")
+
 
 if __name__ == "__main__":
     unittest.main()

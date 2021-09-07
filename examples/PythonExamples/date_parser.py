@@ -2,7 +2,7 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 import hanlp
 from lark import Lark, Visitor, Tree, Token
-from typing import Dict, List, Tuple
+from typing import Dict, List, Tuple, Optional
 import os
 
 
@@ -51,9 +51,11 @@ def merge(lst: List[Tuple[str, str, int, int]]):
 
 class DateTreeVisitor(Visitor):
     date_dict: Dict[str, str]
+    comb_date: Optional[str]
 
     def __init__(self):
-        self.date_dict = {"hour": "00", "minute": "00", "second": "00"}
+        self.date_dict = {}
+        self.comb_date = None
 
     def years(self, tree: Tree):
         self.date_dict["year"] = self.__scan_values__(tree)
@@ -73,6 +75,9 @@ class DateTreeVisitor(Visitor):
         if "month" not in keys:
             self.date_dict["month"] = str(today.month).rjust(2, "0")
         self.date_dict["day"] = self.__scan_values__(tree)
+
+    def comb(self, tree: Tree):
+        self.comb_date = self.__scan_values__(tree)
 
     @staticmethod
     def __scan_values__(tree: Tree):
@@ -266,7 +271,7 @@ def str_to_digit(s, typ):
         return digit
 
 
-def build_date(year: int = None, month: int = None, day: int = None, **keyword):
+def build_date(year: int = None, month: int = None, day: int = None):
     if day is not None:
         start_date = datetime(year, month, day)
         end_date = start_date + relativedelta(days=1)
@@ -295,19 +300,36 @@ def parse_cn_date(dt_str):
     return []
 
 
+def process_comb_date(date_lst: List[datetime], comb_str: str):
+    comb_rst = parse_cn_date(comb_str)
+    if len(comb_rst) == 0:
+        pass
+    rst = []
+    for i, dt in enumerate(date_lst):
+        rpc_date = comb_rst[i]
+        rst.append(dt.replace(month=rpc_date.month, day=rpc_date.day))
+    if comb_rst[0].year == comb_rst[1].year:
+        rst[1] = rst[1].replace(year=rst[0].year)
+    return rst
+
+
 def parse(dt_str):
     rst = parse_cn_date(dt_str)
     if len(rst) != 0:
         return tuple([s.strftime("%Y-%m-%d %H:%M:%S") for s in rst])
     date_parser = Lark(r"""
         start: date
-        date : years? months? | ((years? months)? days) "当天"?
+        date : years? months? comb? | ((years? months)? days) "当天"?
         
-        years   : DIGIT DIGIT (DIGIT DIGIT)? ("年" | "-" | "/")
-        months  : DIGIT DIGIT? ("月" | "月份" | "-" | "/")
-        days    : DIGIT (DIGIT DIGIT?)? ("日" | "号")?
+        years : DIGIT DIGIT (DIGIT DIGIT)? ("年" | "-" | "/")
+        months: DIGIT DIGIT? ("月" | "月份" | "-" | "/")
+        days  : DIGIT (DIGIT DIGIT?)? ("日" | "号")?
         
-        DIGIT: /["0-9零一二两三四五六七八九十"]/
+        comb: CN_DATE | "第"? DIGIT "个"? UNIT
+        
+        CN_DATE: "上半年" | "下半年"
+        UNIT   : "月" | "周" | "天"
+        DIGIT  : /["0-9零一二两三四五六七八九十"]/
         
         // Disregard spaces in text
         %ignore " "
@@ -322,11 +344,13 @@ def parse(dt_str):
         if digit is not None:
             params[key] = digit
     rst = build_date(**params)
+    if visitor.comb_date is not None:
+        rst = process_comb_date(rst, visitor.comb_date)
     return None if len(rst) == 0 else tuple([s.strftime("%Y-%m-%d %H:%M:%S") for s in rst])
 
 
 input_text = "第四季度总共有多少订单"
 
-date_text = process_input(input_text)
-rst = parse(date_text)
-print("解析为查询条件:", f"时间 >= '{rst[0]}' and 时间 < '{rst[1]}'")
+input_date = process_input(input_text)
+parsed = parse(input_date)
+print("解析为查询条件:", f"时间 >= '{parsed[0]}' and 时间 < '{parsed[1]}'")
