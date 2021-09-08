@@ -2,7 +2,7 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 import hanlp
 from lark import Lark, Visitor, Tree, Token
-from typing import Dict, List, Tuple
+from typing import Dict, List, Tuple, Optional
 import os
 
 
@@ -11,10 +11,19 @@ def now():
     return datetime(2021, 9, 1)  # if os.getenv("ENVIRONMENT") == "TEST" else datetime.now()
 
 
+def set_whitelist(han_lp):
+    dic = {"1季度": "DATE", "第1季度": "DATE", "一季度": "DATE",
+           "2季度": "DATE", "第2季度": "DATE", "二季度": "DATE",
+           "3季度": "DATE", "第3季度": "DATE", "三季度": "DATE",
+           "4季度": "DATE", "第4季度": "DATE", "四季度": "DATE"}
+    han_lp["ner/ontonotes"].dict_whitelist = dict([(k, v) for k, v in dic.items() if v == "DATE"])
+
+
 def process_input(text):
     print("输入的字符:", text)
 
     han_lp = hanlp.load(hanlp.pretrained.mtl.CLOSE_TOK_POS_NER_SRL_DEP_SDP_CON_ELECTRA_SMALL_ZH)
+    set_whitelist(han_lp)
     doc = han_lp(text)
 
     ner = merge(doc["ner/ontonotes"])
@@ -43,17 +52,19 @@ def merge(lst: List[Tuple[str, str, int, int]]):
             # 下一个元素的类型与当前的类型一致，需要合并
             if typ == nxt[1]:
                 slice_word += word
-            # 当前的类型是序数或整数并且下一个元素的类型是日期或时间，需要合并
-            elif typ in ["ORDINAL", "INTEGER"] and nxt[1] in ["DATE", "TIME"]:
+            # 当前的类型是序数、整数或基数并且下一个元素的类型是日期或时间，需要合并
+            elif typ in ["ORDINAL", "INTEGER", "CARDINAL"] and nxt[1] in ["DATE", "TIME"]:
                 slice_word += word
     return merged
 
 
 class DateTreeVisitor(Visitor):
     date_dict: Dict[str, str]
+    comb_date: Optional[str]
 
     def __init__(self):
-        self.date_dict = {"hour": "00", "minute": "00", "second": "00"}
+        self.date_dict = {}
+        self.comb_date = None
 
     def years(self, tree: Tree):
         self.date_dict["year"] = self.__scan_values__(tree)
@@ -74,6 +85,9 @@ class DateTreeVisitor(Visitor):
             self.date_dict["month"] = str(today.month).rjust(2, "0")
         self.date_dict["day"] = self.__scan_values__(tree)
 
+    def comb(self, tree: Tree):
+        self.comb_date = self.__scan_values__(tree)
+
     @staticmethod
     def __scan_values__(tree: Tree):
         val = ""
@@ -84,6 +98,7 @@ class DateTreeVisitor(Visitor):
         return val
 
 
+# noinspection PyPep8Naming,NonAsciiCharacters
 class CnDateProcessor:
     @staticmethod
     def 今年():
@@ -208,28 +223,28 @@ class CnDateProcessor:
         return [start_date, end_date]
 
     @staticmethod
-    def 第一季度():
+    def 一季度():
         today = now()
         start_date = datetime(today.year, 1, 1)
         end_date = datetime(today.year, 4, 1)
         return [start_date, end_date]
 
     @staticmethod
-    def 第二季度():
+    def 二季度():
         today = now()
         start_date = datetime(today.year, 4, 1)
         end_date = datetime(today.year, 7, 1)
         return [start_date, end_date]
 
     @staticmethod
-    def 第三季度():
+    def 三季度():
         today = now()
         start_date = datetime(today.year, 7, 1)
         end_date = datetime(today.year, 10, 1)
         return [start_date, end_date]
 
     @staticmethod
-    def 第四季度():
+    def 四季度():
         today = now()
         start_date = datetime(today.year, 10, 1)
         today += relativedelta(years=1)
@@ -266,7 +281,7 @@ def str_to_digit(s, typ):
         return digit
 
 
-def build_date(year: int = None, month: int = None, day: int = None, **keyword):
+def build_date(year: int = None, month: int = None, day: int = None):
     if day is not None:
         start_date = datetime(year, month, day)
         end_date = start_date + relativedelta(days=1)
@@ -288,11 +303,26 @@ def build_date(year: int = None, month: int = None, day: int = None, **keyword):
 
 
 def parse_cn_date(dt_str):
+    table = str.maketrans("第1234", " 一二三四")
+    member = dt_str.translate(table).strip()
     processor = CnDateProcessor()
-    if hasattr(processor, dt_str):
-        fn = getattr(processor, dt_str)
+    if hasattr(processor, member):
+        fn = getattr(processor, member)
         return fn()
     return []
+
+
+def process_comb_date(date_lst: List[datetime], comb_str: str):
+    comb_rst = parse_cn_date(comb_str)
+    if len(comb_rst) == 0:
+        pass
+    rst = []
+    for i, dt in enumerate(date_lst):
+        rpc_date = comb_rst[i]
+        rst.append(dt.replace(month=rpc_date.month, day=rpc_date.day))
+    if comb_rst[0].year == comb_rst[1].year:
+        rst[1] = rst[1].replace(year=rst[0].year)
+    return rst
 
 
 def parse(dt_str):
@@ -301,13 +331,17 @@ def parse(dt_str):
         return tuple([s.strftime("%Y-%m-%d %H:%M:%S") for s in rst])
     date_parser = Lark(r"""
         start: date
-        date : years? months? | ((years? months)? days) "当天"?
+        date : years? months? comb? | ((years? months)? days) "当天"?
         
-        years   : DIGIT DIGIT (DIGIT DIGIT)? ("年" | "-" | "/")
-        months  : DIGIT DIGIT? ("月" | "月份" | "-" | "/")
-        days    : DIGIT (DIGIT DIGIT?)? ("日" | "号")?
+        years : DIGIT DIGIT (DIGIT DIGIT)? ("年" | "-" | "/")
+        months: DIGIT DIGIT? ("月" | "月份" | "-" | "/")
+        days  : DIGIT (DIGIT DIGIT?)? ("日" | "号")?
         
-        DIGIT: /["0-9零一二两三四五六七八九十"]/
+        comb: CN_DATE | "第"? DIGIT "个"? UNIT
+        
+        CN_DATE: "上半年" | "下半年"
+        UNIT   : "季度" | "月" | "周" | "天"
+        DIGIT  : /["0-9零一二两三四五六七八九十"]/
         
         // Disregard spaces in text
         %ignore " "
@@ -322,11 +356,13 @@ def parse(dt_str):
         if digit is not None:
             params[key] = digit
     rst = build_date(**params)
+    if visitor.comb_date is not None:
+        rst = process_comb_date(rst, visitor.comb_date)
     return None if len(rst) == 0 else tuple([s.strftime("%Y-%m-%d %H:%M:%S") for s in rst])
 
 
 input_text = "第四季度总共有多少订单"
 
-date_text = process_input(input_text)
-rst = parse(date_text)
-print("解析为查询条件:", f"时间 >= '{rst[0]}' and 时间 < '{rst[1]}'")
+input_date = process_input(input_text)
+parsed = parse(input_date)
+print("解析为查询条件:", f"时间 >= '{parsed[0]}' and 时间 < '{parsed[1]}'")
