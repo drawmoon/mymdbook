@@ -11,10 +11,19 @@ def now():
     return datetime(2021, 9, 1)  # if os.getenv("ENVIRONMENT") == "TEST" else datetime.now()
 
 
+def set_whitelist(han_lp):
+    dic = {"1季度": "DATE", "第1季度": "DATE", "一季度": "DATE",
+           "2季度": "DATE", "第2季度": "DATE", "二季度": "DATE",
+           "3季度": "DATE", "第3季度": "DATE", "三季度": "DATE",
+           "4季度": "DATE", "第4季度": "DATE", "四季度": "DATE"}
+    han_lp["ner/ontonotes"].dict_whitelist = dict([(k, v) for k, v in dic.items() if v == "DATE"])
+
+
 def process_input(text):
     print("输入的字符:", text)
 
     han_lp = hanlp.load(hanlp.pretrained.mtl.CLOSE_TOK_POS_NER_SRL_DEP_SDP_CON_ELECTRA_SMALL_ZH)
+    set_whitelist(han_lp)
     doc = han_lp(text)
 
     ner = merge(doc["ner/ontonotes"])
