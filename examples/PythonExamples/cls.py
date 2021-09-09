@@ -23,12 +23,25 @@ print(user_name)
 
 
 # 继承、重写
-class UserServiceCustom(UserService):
+class TUserService(UserService):
     def get_name(self) -> str:
-        print("UserServiceCustom get_name")
+        print("TUserService get_name")
         return super().get_name()
 
 
-user_service = UserServiceCustom("Tom")
+user_service = TUserService("Tom")
 user_name = user_service.get_name()
 print(user_name)
+
+
+# 构造参数
+class IdentUserService(UserService):
+    tag: str
+
+    def __init__(self, name: str, tag: str):
+        super(IdentUserService, self).__init__(name)
+        self.tag = tag
+
+
+user_service = IdentUserService("Tom", "lib")
+print(user_service.tag)
