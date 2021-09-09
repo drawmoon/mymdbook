@@ -185,21 +185,50 @@ const value = req.getItem('key1');
 
 ```typescript
 doSome(callback: (id: string) => string) {
+  const tasks = [];
+  for (const task of tasks) {
+    const str = callback(task);
+    console.log(str);
+  }
 }
 
 this.doSome((id) => {
-  
+  // do something...
+  return `Call task, id: <<${id}>>`;
 });
 ```
 
-泛型回调函数
+泛型回调函数：
 
 ```typescript
-doSome(callback: <T>(id: T) => string) {
+function doSome(callback: <T>(id: T) => string) {
+  const tasks = [];
+  for (const task of tasks) {
+    const str = callback(task);
+    console.log(str);
+  }
 }
 
-this.doSome((id) => {
-  
+doSome((id) => {
+  // do something...
+  return `Call task, id: <<${id}>>`;
+});
+```
+
+异步回调函数：
+
+```typescript
+async function doSomeAsync(callback: (id: string) => Promise<string>) {
+  const tasks = [];
+  for (const task of tasks) {
+    const str = await callback(task);
+    console.log(str);
+  }
+}
+
+doSomeAsync(async (id) => {
+  // do something...
+  return `Call task, id: <<${id}>>`;
 });
 ```
 
@@ -208,13 +237,13 @@ this.doSome((id) => {
 ```typescript
 remove<T>(type: string, id: T) {
   if (type === 'file') {
-
+    // do something...
   } else if (type === 'folder') {
-
+    // do something...
   } else if (type === 'tag') {
-    
+    // do something...
   } else {
-    
+    // do something...
   }
 }
 ```
@@ -228,15 +257,15 @@ constructor() {
 
 private initRelationRecord(): void {
   this.relationRecord['folder'] = async (id) => {
-    
+    // do something...
   };
 
   this.relationRecord['file'] = async (id) => {
-    
+    // do something...
   };
 
   this.relationRecord['tag'] = async (id) => {
-    
+    // do something...
   };
 }
 

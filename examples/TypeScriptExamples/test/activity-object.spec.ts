@@ -1,4 +1,4 @@
-import { ActivityObject } from './activity-object';
+import { ActivityObject } from '../src/activity-object';
 
 test('TestGetCount', () => {
   const activityObject = new ActivityObject<{ id: string; name: string }>();

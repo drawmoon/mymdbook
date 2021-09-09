@@ -26,3 +26,13 @@ export class ActivityObject<T> {
     this.list = this.list.filter((p) => p !== subject);
   }
 }
+
+import { v4 } from 'uuid';
+
+const activityObjects = new ActivityObject<string>();
+
+console.log(activityObjects.count());
+activityObjects.wrap(v4(), () => {
+  console.log(activityObjects.count());
+});
+console.log(activityObjects.count());

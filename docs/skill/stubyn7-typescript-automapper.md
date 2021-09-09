@@ -1,13 +1,13 @@
 # 学习笔记7: TypeScript 使用 AutoMapper 实现对象与对象自动映射
 
-安装
+安装：
 
 ```bash
 npm install @automapper/core @automapper/classes reflect-metadata
 npm install -D @automapper/types
 ```
 
-使用 `AutoMap` 装饰器装饰属性
+使用 `AutoMap` 装饰器装饰属性：
 
 ```typescript
 import { AutoMap } from "@automapper/classes";
@@ -45,7 +45,7 @@ export class UserDTO {
 }
 ```
 
-创建 `Profile`，新建 `mapper-profile.ts` 文件
+创建 `Profile`，新建 `mapper-profile.ts` 文件：
 
 ```typescript
 import { CamelCaseNamingConvention, mapFrom } from "@automapper/core";
@@ -64,7 +64,7 @@ export const UserProfile: MappingProfile = (mapper) => {
 }
 ```
 
-创建 `Mapper`，新建 `mapper.ts` 文件
+创建 `Mapper`，新建 `mapper.ts` 文件：
 
 ```typescript
 import { classes } from "@automapper/classes";
@@ -79,7 +79,7 @@ export const Mapper = createMapper({
 Mapper.addProfile(UserProfile);
 ```
 
-使用 `Mapper`
+将 `User` 数组映射为 `UserDTO` 数组：
 
 ```ts
 const users: User[] = [
@@ -88,10 +88,21 @@ const users: User[] = [
     username: 'drsh',
     email: '1340260725@qq.com',
     password: '123',
-    a1: 'a1',
+    a1: 'i from a1',
   }
 ];
 return Mapper.mapArray(users, UserDTO, User);
+```
 
-// 输出结果：[{"id":1,"username":"drsh","email":"1340260725@qq.com","a2":"a1"}]
+输出的结果：
+
+```json
+[
+  {
+    "id":1,
+    "username":"drsh",
+    "email":"1340260725@qq.com",
+    "a2":"i from a1"
+  }
+]
 ```

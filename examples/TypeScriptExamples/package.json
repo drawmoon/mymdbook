@@ -4,16 +4,6 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start1": "node dist/1.DifferentiatingTypes/index",
-    "start2": "node dist/2.Overloading/index",
-    "start3": "node dist/3.Inheritance/index",
-    "start4": "node dist/4.CallbackFunction/index",
-    "start5": "node dist/5.CatchErrorDecorator/index",
-    "start6": "node dist/6.ModuleExtensions/index",
-    "start7": "node dist/7.HtmlToWord/index",
-    "start8": "node dist/8.ActivityObject/index",
-    "start9": "node dist/9.Koa/index",
-    "start10": "node dist/10.Bull/index",
     "build": "rimraf dist & tsc",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest"

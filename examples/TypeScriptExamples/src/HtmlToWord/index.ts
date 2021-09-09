@@ -5,6 +5,8 @@ import { loadImage, createCanvas } from 'canvas';
 import { asBlob } from 'html-docx-js-typescript';
 // import * as HTMLtoDOCX from 'html-to-docx';
 
+const basePath = process.cwd().replace('dist', 'src');
+
 const htmlTemplate = `
 <!DOCTYPE html>
 <html lang="en">
@@ -82,7 +84,7 @@ function imgZoom(
 
 async function saveDocx(): Promise<void> {
   const htmlString = fs.readFileSync(
-    path.join(process.cwd(), 'src', 'HtmlToWord', 'assets', 'content.html'),
+    path.join(basePath, 'assets', 'content.html'),
     {
       encoding: 'utf-8',
     },
@@ -96,7 +98,7 @@ async function saveDocx(): Promise<void> {
   console.log('Converting image to base64');
 
   for (const img of doc.querySelectorAll('img')) {
-    const imgPath = path.join(process.cwd(), 'src', 'HtmlToWord', img.src);
+    const imgPath = path.join(basePath, img.src);
 
     const svg = await loadImage(imgPath);
     console.log(`The image is width: ${svg.width} height: ${svg.height}`);
@@ -125,7 +127,7 @@ async function saveDocx(): Promise<void> {
   // const data = await HTMLtoDOCX(html, null, {
   //   table: { row: { cantSplit: true } },
   // });
-  const filename = path.join(process.cwd(), 'dist', 'file.docx');
+  const filename = path.join(process.cwd(), 'file.docx');
   fs.writeFileSync(filename, data as Buffer);
 }
 
