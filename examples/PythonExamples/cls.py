@@ -45,3 +45,21 @@ class IdentUserService(UserService):
 
 user_service = IdentUserService("Tom", "lib")
 print(user_service.tag)
+
+
+# 在父类中调用子类的方法
+class Foo:
+    def process(self, name: str):
+        if hasattr(self, name):
+            getattr(self, name)()
+        else:
+            print(f"Notfound attr {name}")
+
+
+class Bar(Foo):
+    def tell(self):
+        print("Call tell fn")
+
+
+bar = Bar()
+bar.process("tell")
