@@ -1,5 +1,7 @@
 some_name = "Nafisa Plummer"
 
+print(some_name[0:2])
+
 # 判断是否为空字符串
 print(some_name.isspace())
 
