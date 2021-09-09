@@ -20,3 +20,15 @@ user_service = UserService("Aniya Ford")
 user_service("run")
 user_name = user_service.get_name()
 print(user_name)
+
+
+# 继承、重写
+class UserServiceCustom(UserService):
+    def get_name(self) -> str:
+        print("UserServiceCustom get_name")
+        return super().get_name()
+
+
+user_service = UserServiceCustom("Tom")
+user_name = user_service.get_name()
+print(user_name)
