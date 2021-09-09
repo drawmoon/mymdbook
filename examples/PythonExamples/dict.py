@@ -71,3 +71,9 @@ some_keys = ["Kaitlin", "Yuvaan", "Munoz"]
 print(dict.fromkeys(some_keys, None))
 
 print(len(some_dict))
+
+
+# 合并
+a_dict = {"a": 1, "b": 2}
+b_dict = {"c": 3}
+print(dict(a_dict, **b_dict))
