@@ -1,6 +1,7 @@
 tup = ("Hello", "World", 1, 55)
 
-for t in tup: print(t)
+for t in tup:
+    print(t)
 
 print(tup[0])
 

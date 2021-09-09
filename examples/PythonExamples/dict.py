@@ -71,4 +71,3 @@ some_keys = ["Kaitlin", "Yuvaan", "Munoz"]
 print(dict.fromkeys(some_keys, None))
 
 print(len(some_dict))
-
