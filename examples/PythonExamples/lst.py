@@ -179,3 +179,9 @@ print(some_user2)
 
 # 转换为元组
 print(tuple(some_list))
+
+
+# 合并集合中的集合
+import itertools
+ts_list = [[1, 2, 3], [4, 5, 6]]
+print(list(itertools.chain.from_iterable(ts_list)))
