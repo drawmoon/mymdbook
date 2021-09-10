@@ -12,9 +12,10 @@ today = date.today()
 print(today)
 
 year = date.today().year
+quarter = (date.today().month - 1) // 3 + 1
 month = date.today().strftime("%Y-%m")
 day = date.today()
-print("本年", year, "本月", month, "本日", day)
+print("本年", year, "本季度", quarter, "本月", month, "本日", day)
 
 # 加一天
 print(now + timedelta(days=1))
@@ -36,6 +37,12 @@ print(now + relativedelta(years=1))
 # 减一年
 print(now - relativedelta(years=1))
 print(now + relativedelta(years=-1))
+
+last_quarter = now - relativedelta(months=3)
+print("上季度", (last_quarter.month - 1) // 3 + 1)
+
+next_quarter = now + relativedelta(months=3)
+print("下季度", (next_quarter.month - 1) // 3 + 1)
 
 print("本月最后一天", calendar.monthrange(now.year, now.month))
 
