@@ -385,7 +385,7 @@ def process_comb_date(date_lst: List[datetime], comb_str: str):
 date_grammar = r"""
     start: date | cn_word
     
-    date   : years? months? | (years | months) comb | ((years? months)? days) "当天"?
+    date   : ((years? months)? days) "当天"? | years? months? | (years | months) comb
     cn_word: "第"? (WORD | WORD WORD)? DIGIT? "个"? UNIT ("份" | "度" | "以")? WORD?
     
     years : DIGIT DIGIT (DIGIT DIGIT)? ("年" | "-" | "/")
