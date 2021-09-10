@@ -77,3 +77,8 @@ print(len(some_dict))
 a_dict = {"a": 1, "b": 2}
 b_dict = {"c": 3}
 print(dict(a_dict, **b_dict))
+
+# 合并字典中的集合
+import itertools
+test_dict = {"a": [1, 2, 3], "b": [4, 5, 6]}
+print(list(itertools.chain.from_iterable(test_dict.values())))
