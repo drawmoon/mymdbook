@@ -1,14 +1,14 @@
+from typing import Dict, List, Tuple, Optional
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 import hanlp
 from lark import Lark, Visitor, Tree, Token
-from typing import Dict, List, Tuple, Optional
-import os
+import cn2an
 
 
 def now():
     # 方便进行单元测试
-    return datetime(2021, 9, 1)  # if os.getenv("ENVIRONMENT") == "TEST" else datetime.now()
+    return datetime(2021, 9, 1)
 
 
 def set_whitelist(han_lp):
@@ -60,11 +60,13 @@ def merge(lst: List[Tuple[str, str, int, int]]):
 
 class DateTreeVisitor(Visitor):
     date_dict: Dict[str, str]
-    comb_date: Optional[str]
+    comb_part: Optional[str]
+    cn_word_part: Optional[str]
 
     def __init__(self):
         self.date_dict = {}
-        self.comb_date = None
+        self.comb_part = None
+        self.cn_word_part = None
 
     def years(self, tree: Tree):
         self.date_dict["year"] = self.__scan_values__(tree)
@@ -86,7 +88,10 @@ class DateTreeVisitor(Visitor):
         self.date_dict["day"] = self.__scan_values__(tree)
 
     def comb(self, tree: Tree):
-        self.comb_date = self.__scan_values__(tree)
+        self.comb_part = self.__scan_values__(tree)
+
+    def cn_word(self, tree: Tree):
+        self.cn_word_part = self.__scan_values__(tree)
 
     @staticmethod
     def __scan_values__(tree: Tree):
@@ -98,8 +103,30 @@ class DateTreeVisitor(Visitor):
         return val
 
 
+class CnWordProcessor:
+    synonym_dict: Dict[str, List[str]] = {"本": ["当前", "这个"]}
+
+    def __init__(self, synonym: Optional[Dict[str, List[str]]] = None):
+        if synonym is not None:
+            self.synonym_dict = dict(self.synonym_dict, **synonym)
+
+    def process(self, s: str):
+        # 处理代名词
+        if self.synonym_dict is not None:
+            for k, synonyms in self.synonym_dict.items():
+                for synonym in synonyms:
+                    s = s.replace(synonym, k)
+        if hasattr(self, s):
+            fn = getattr(self, s)
+            return fn()
+
+
 # noinspection PyPep8Naming,NonAsciiCharacters
-class CnDateProcessor:
+class YearCnWordProcessor(CnWordProcessor):
+    def __init__(self):
+        synonym = {"今": ["本"]}
+        super(YearCnWordProcessor, self).__init__(synonym)
+
     @staticmethod
     def 今年():
         time = now()
@@ -124,6 +151,24 @@ class CnDateProcessor:
         return build_date(time.year)
 
     @staticmethod
+    def 上半年():
+        today = now()
+        start_date = datetime(today.year, 1, 1)
+        end_date = datetime(today.year, 7, 1)
+        return [start_date, end_date]
+
+    @staticmethod
+    def 下半年():
+        today = now()
+        start_date = datetime(today.year, 7, 1)
+        today += relativedelta(years=1)
+        end_date = datetime(today.year, 1, 1)
+        return [start_date, end_date]
+
+
+# noinspection PyPep8Naming,NonAsciiCharacters
+class MonthCnWordProcessor(CnWordProcessor):
+    @staticmethod
     def 本月():
         time = now()
         return build_date(month=time.month)
@@ -139,6 +184,13 @@ class CnDateProcessor:
         time = now()
         time -= relativedelta(months=1)
         return build_date(month=time.month)
+
+
+# noinspection PyPep8Naming,NonAsciiCharacters
+class DayCnWordProcessor(CnWordProcessor):
+    def __init__(self):
+        synonym = {"天": ["日"]}
+        super(DayCnWordProcessor, self).__init__(synonym)
 
     @staticmethod
     def 今天():
@@ -183,44 +235,12 @@ class CnDateProcessor:
         end_date = start_date.replace(hour=19)
         return [start_date, end_date]
 
-    @staticmethod
-    def 本周():
-        time = now()
-        start_date = time - relativedelta(days=time.weekday())
-        time += relativedelta(weeks=1)
-        end_date = time - relativedelta(days=time.weekday())
-        return [start_date, end_date]
 
-    @staticmethod
-    def 上周():
-        time = now()
-        last_week = time - relativedelta(weeks=1)
-        start_date = last_week - relativedelta(days=last_week.weekday())
-        end_date = time - relativedelta(days=time.weekday())
-        return [start_date, end_date]
-
-    @staticmethod
-    def 下周():
-        time = now() + relativedelta(weeks=1)
-        start_date = time - relativedelta(days=time.weekday())
-        time += relativedelta(weeks=1)
-        end_date = time - relativedelta(days=time.weekday())
-        return [start_date, end_date]
-
-    @staticmethod
-    def 上半年():
-        today = now()
-        start_date = datetime(today.year, 1, 1)
-        end_date = datetime(today.year, 7, 1)
-        return [start_date, end_date]
-
-    @staticmethod
-    def 下半年():
-        today = now()
-        start_date = datetime(today.year, 7, 1)
-        today += relativedelta(years=1)
-        end_date = datetime(today.year, 1, 1)
-        return [start_date, end_date]
+# noinspection PyPep8Naming,NonAsciiCharacters
+class QuarterlyCnWordProcessor(CnWordProcessor):
+    def __init__(self):
+        synonym = {"一": ["1"], "二": ["2"], "三": ["3"], "四": ["4"]}
+        super(QuarterlyCnWordProcessor, self).__init__(synonym)
 
     @staticmethod
     def 一季度():
@@ -252,33 +272,45 @@ class CnDateProcessor:
         return [start_date, end_date]
 
 
-def str_to_digit(s, typ):
-    cn_digit = {"零": 0, "一": 1, "二": 2, "两": 2, "三": 3, "四": 4, "五": 5, "六": 6, "七": 7, "八": 8, "九": 9, "十": 10}
+# noinspection PyPep8Naming,NonAsciiCharacters
+class WeekCnWordProcessor(CnWordProcessor):
+    def __init__(self):
+        synonym = {"周": ["星期"]}
+        super(WeekCnWordProcessor, self).__init__(synonym)
+
+    @staticmethod
+    def 本周():
+        time = now()
+        start_date = time - relativedelta(days=time.weekday())
+        time += relativedelta(weeks=1)
+        end_date = time - relativedelta(days=time.weekday())
+        return [start_date, end_date]
+
+    @staticmethod
+    def 上周():
+        time = now()
+        last_week = time - relativedelta(weeks=1)
+        start_date = last_week - relativedelta(days=last_week.weekday())
+        end_date = time - relativedelta(days=time.weekday())
+        return [start_date, end_date]
+
+    @staticmethod
+    def 下周():
+        time = now() + relativedelta(weeks=1)
+        start_date = time - relativedelta(days=time.weekday())
+        time += relativedelta(weeks=1)
+        end_date = time - relativedelta(days=time.weekday())
+        return [start_date, end_date]
+
+
+def str2digit(s, typ):
+    opt = cn2an.transform(s)
+    if not opt.isdigit():
+        raise TypeError("字符转换为数字失败")
     if typ == "year":
-        if s.isdigit():
-            return int(s) if len(s) == 4 else int(now().year / 100) * 100 + int(s)
-        s = "".join([str(cn_digit[c]) for c in s if c in cn_digit.keys()])
-        if s.isdigit():
-            return int(s) if len(s) == 4 else int(now().year / 100) * 100 + int(s)
-        else:
-            return None
-    else:
-        if s.isdigit():
-            return int(s)
-        two_digit = 1
-        digit = 0
-        for c in s[::-1]:
-            if c in cn_digit.keys():
-                tmp = cn_digit[c]
-                if tmp >= 10:
-                    two_digit = tmp
-                else:
-                    digit += tmp * two_digit
-            else:
-                return None
-        if digit < two_digit:
-            digit += two_digit
-        return digit
+        if len(opt) == 2:
+            opt = str(now().year)[0:2] + opt
+    return int(opt)
 
 
 def build_date(year: int = None, month: int = None, day: int = None):
@@ -302,18 +334,26 @@ def build_date(year: int = None, month: int = None, day: int = None):
     return []
 
 
-def parse_cn_date(dt_str):
-    table = str.maketrans("第1234", " 一二三四")
-    member = dt_str.translate(table).strip()
-    processor = CnDateProcessor()
-    if hasattr(processor, member):
-        fn = getattr(processor, member)
-        return fn()
-    return []
+def process_cn_word(dt_str):
+    processor: CnWordProcessor
+    if "年" in dt_str:
+        processor = YearCnWordProcessor()
+    elif "季度" in dt_str:
+        processor = QuarterlyCnWordProcessor()
+    elif "月" in dt_str:
+        processor = MonthCnWordProcessor()
+    elif "周" in dt_str or "星期" in dt_str:
+        processor = WeekCnWordProcessor()
+    elif "天" in dt_str or "日" in dt_str or "午" in dt_str:
+        processor = DayCnWordProcessor()
+    else:
+        return []
+    rst = processor.process(dt_str)
+    return [] if rst is None else rst
 
 
 def process_comb_date(date_lst: List[datetime], comb_str: str):
-    comb_rst = parse_cn_date(comb_str)
+    comb_rst = process_cn_word(comb_str)
     if len(comb_rst) == 0:
         pass
     rst = []
@@ -325,43 +365,48 @@ def process_comb_date(date_lst: List[datetime], comb_str: str):
     return rst
 
 
+date_grammar = r"""
+    start: date | cn_word
+    
+    date   : years? months? | (years | months) comb | ((years? months)? days) "当天"?
+    cn_word: "第"? (WORD | WORD WORD)? DIGIT? "个"? UNIT ("份" | "度" | "以")? WORD?
+    
+    years : DIGIT DIGIT (DIGIT DIGIT)? ("年" | "-" | "/")
+    months: DIGIT DIGIT? ("月" | "月份" | "-" | "/")
+    days  : DIGIT (DIGIT DIGIT?)? ("日" | "号")?
+    comb  : COMD | "第"? DIGIT "个"? UNIT
+    
+    COMD : "上半年" | "下半年"
+    WORD : "今" | "本" | "这个" | "当前" | "明" | "后" | "昨" | "上" | "下" | "前" | "后" | "内" | "去" | "半"
+    UNIT : "年" | "季度" | "月" | "周" | "星期" | "天" | "日" | "午"
+    DIGIT: /["0-9零一二两三四五六七八九十"]/
+    
+    // Disregard spaces in text
+    %ignore " "
+"""
+
+
 def parse(dt_str):
-    rst = parse_cn_date(dt_str)
-    if len(rst) != 0:
-        return tuple([s.strftime("%Y-%m-%d %H:%M:%S") for s in rst])
-    date_parser = Lark(r"""
-        start: date
-        date : years? months? comb? | ((years? months)? days) "当天"?
-        
-        years : DIGIT DIGIT (DIGIT DIGIT)? ("年" | "-" | "/")
-        months: DIGIT DIGIT? ("月" | "月份" | "-" | "/")
-        days  : DIGIT (DIGIT DIGIT?)? ("日" | "号")?
-        
-        comb: CN_DATE | "第"? DIGIT "个"? UNIT
-        
-        CN_DATE: "上半年" | "下半年"
-        UNIT   : "季度" | "月" | "周" | "天"
-        DIGIT  : /["0-9零一二两三四五六七八九十"]/
-        
-        // Disregard spaces in text
-        %ignore " "
-    """)
-    parse_tree = date_parser.parse(dt_str)
+    tree = Lark(date_grammar).parse(dt_str)
     visitor = DateTreeVisitor()
-    visitor.visit(parse_tree)
+    visitor.visit(tree)
+
+    if visitor.cn_word_part is not None:
+        rst = process_cn_word(visitor.cn_word_part)
+        return tuple([s.strftime("%Y-%m-%d %H:%M:%S") for s in rst])
 
     params = {}
     for key, val in visitor.date_dict.items():
-        digit = str_to_digit(val, key)
+        digit = str2digit(val, key)
         if digit is not None:
             params[key] = digit
     rst = build_date(**params)
-    if visitor.comb_date is not None:
-        rst = process_comb_date(rst, visitor.comb_date)
+    if visitor.comb_part is not None:
+        rst = process_comb_date(rst, visitor.comb_part)
     return None if len(rst) == 0 else tuple([s.strftime("%Y-%m-%d %H:%M:%S") for s in rst])
 
 
-input_text = "第四季度总共有多少订单"
+input_text = "第4季度总共有多少订单"
 
 input_date = process_input(input_text)
 parsed = parse(input_date)
