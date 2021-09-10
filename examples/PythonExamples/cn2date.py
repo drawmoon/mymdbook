@@ -387,7 +387,7 @@ date_grammar = r"""
     start: date | cn_word
     
     date   : ((years? months)? days) "当天"? | years? months? | (years | months) comb
-    cn_word: "第"? (WORD | WORD WORD)? DIGIT? "个"? UNIT ("份" | "度" | "以")? WORD?
+    cn_word: "第"? (WORD | WORD WORD)? DIGIT? "个"? UNIT ("份" | "度" | "以" | "之")? WORD?
     
     years : DIGIT DIGIT (DIGIT DIGIT)? ("年" | "-" | "/")
     months: DIGIT DIGIT? ("月" | "月份" | "-" | "/")
