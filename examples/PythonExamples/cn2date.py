@@ -237,10 +237,27 @@ class DayCnWordProcessor(CnWordProcessor):
 
 
 # noinspection PyPep8Naming,NonAsciiCharacters
-class QuarterlyCnWordProcessor(CnWordProcessor):
+class QuarterCnWordProcessor(CnWordProcessor):
     def __init__(self):
         synonym = {"一": ["1"], "二": ["2"], "三": ["3"], "四": ["4"]}
-        super(QuarterlyCnWordProcessor, self).__init__(synonym)
+        super(QuarterCnWordProcessor, self).__init__(synonym)
+
+    def 本季度(self):
+        today = now()
+        cur_quarter = (today.month - 1) // 3 + 1
+        return self.process(f"{cur_quarter}季度")
+
+    def 上季度(self):
+        today = now()
+        today -= relativedelta(months=3)
+        cur_quarter = (today.month - 1) // 3 + 1
+        return self.process(f"{cur_quarter}季度")
+
+    def 下季度(self):
+        today = now()
+        today += relativedelta(months=3)
+        cur_quarter = (today.month - 1) // 3 + 1
+        return self.process(f"{cur_quarter}季度")
 
     @staticmethod
     def 一季度():
@@ -339,7 +356,7 @@ def process_cn_word(dt_str):
     if "年" in dt_str:
         processor = YearCnWordProcessor()
     elif "季度" in dt_str:
-        processor = QuarterlyCnWordProcessor()
+        processor = QuarterCnWordProcessor()
     elif "月" in dt_str:
         processor = MonthCnWordProcessor()
     elif "周" in dt_str or "星期" in dt_str:
@@ -406,7 +423,7 @@ def parse(dt_str):
     return None if len(rst) == 0 else tuple([s.strftime("%Y-%m-%d %H:%M:%S") for s in rst])
 
 
-input_text = "第4季度总共有多少订单"
+input_text = "第四季度总共有多少订单"
 
 input_date = process_input(input_text)
 parsed = parse(input_date)
