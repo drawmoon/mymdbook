@@ -12,10 +12,10 @@ def now():
 
 
 def set_whitelist(han_lp):
-    dic = {"1季度": "DATE", "第1季度": "DATE", "一季度": "DATE",
-           "2季度": "DATE", "第2季度": "DATE", "二季度": "DATE",
-           "3季度": "DATE", "第3季度": "DATE", "三季度": "DATE",
-           "4季度": "DATE", "第4季度": "DATE", "四季度": "DATE",
+    dic = {"1季度": "DATE", "第1季度": "DATE", "第1个季度": "DATE", "一季度": "DATE",
+           "2季度": "DATE", "第2季度": "DATE", "第2个季度": "DATE", "二季度": "DATE",
+           "3季度": "DATE", "第3季度": "DATE", "第3个季度": "DATE", "三季度": "DATE",
+           "4季度": "DATE", "第4季度": "DATE", "第4个季度": "DATE", "四季度": "DATE",
            "这个季度": "DATE"}
     han_lp["ner/ontonotes"].dict_whitelist = dict([(k, v) for k, v in dic.items() if v == "DATE"])
 
