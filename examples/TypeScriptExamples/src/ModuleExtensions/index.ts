@@ -1,11 +1,16 @@
-import { Request } from 'express';
+import { Request, Response } from 'express';
 import './express-extensions';
 
-import * as express from 'express';
-const app = express;
+import express = require('express');
+const app: express.Application = express();
 
-const req: Request = app.request;
+app.get('/', (req: Request, res: Response) => {
+  req.setItem('key', 'World');
+  const val = req.getItem('key');
 
-req.setItem('key1', 'value1');
-const value = req.getItem('key1');
-console.log(value);
+  res.send(`Hello ${val}!`);
+});
+
+app.listen(3000, () => {
+  console.log('Now listening on: http://localhost:3000.');
+});
