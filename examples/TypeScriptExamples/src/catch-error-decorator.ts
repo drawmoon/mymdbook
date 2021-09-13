@@ -15,13 +15,13 @@ function errorCatch() {
   };
 }
 
-class Foobar {
+class TestCatchError {
   @errorCatch()
-  foo(): void {
-    console.log('foo');
+  fn(): void {
+    console.log('fn');
     throw new Error('error');
   }
 }
 
-const c = new Foobar();
-c.foo();
+const c = new TestCatchError();
+c.fn();

@@ -16,3 +16,6 @@ arr2[5] = 'Martin';
 
 console.log(arr2.slice(0, 3)); // [ 'George', 'John', 'Thomas' ]
 console.log(arr2.slice(0, -2)); // [ 'George', 'John', 'Thomas', 'James' ]
+
+// 删除并返回最后一个元素
+console.log(arr2.pop());

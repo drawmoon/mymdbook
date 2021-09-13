@@ -9,7 +9,7 @@ export class AppService {
     // 注入了 REQUEST 生命周期的对象后，该对象的生命周期会变更为 REQUEST
     // @Inject(REQUEST)
     // private readonly request: Request,
-    // private readonly userAccessor: UserAccessor,
+    private readonly userAccessor: UserAccessor,
   ) {
     console.log('Invoke AppService constructor');
   }
@@ -17,6 +17,6 @@ export class AppService {
   getHello(req: Request): string {
     console.log('Invoke getHello');
 
-    return 'Hello World!';
+    return `Hello ${this.userAccessor.current}!`;
   }
 }
