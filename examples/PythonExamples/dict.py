@@ -31,7 +31,7 @@ print(some_dict4)
 del some_dict4["b"]
 print(some_dict4)
 
-# 以 Last in First out 的模式删除元素
+# 删除最后一个元素
 some_dict4.popitem()
 print(some_dict4)
 
