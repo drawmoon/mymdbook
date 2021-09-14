@@ -1,6 +1,9 @@
 some_name = "Nafisa Plummer"
 
-print(some_name[0:2])
+print(some_name[0])  # N
+print(some_name[-1])  # r
+print(some_name[0:4])  # Nafi
+print(some_name[0:4:2])  # Nf
 
 # 判断是否为空字符串
 print(some_name.isspace())
@@ -64,15 +67,20 @@ print(some_title.istitle())
 
 
 # 拼接列表中的元素为字符串
-some_list = ["Willard Cote", "Livia Pitts", "Nafisa Plummer"]
-
-join_str = ", ".join(some_list)
+join_str = ", ".join(["Willard Cote", "Livia Pitts", "Nafisa Plummer"])
 print(join_str)
 
-print(join_str.replace(",", "、"))
 
-print(some_name.startswith("N"))
-print(some_name.endswith("r"))
+# 替换指定字符为新的字符
+print("Willard Cote, Livia Pitts".replace(",", "、"))
+
+
+# 判断字符串是否以 xxx 开头
+some_str = "前两周"
+print(some_str.startswith("前"))
+# 判断字符串是否以 xxx 结尾
+some_str = "两周前"
+print(some_name.endswith("前"))
 
 
 # 移除指定前缀字符串
