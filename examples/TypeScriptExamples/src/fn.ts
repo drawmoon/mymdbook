@@ -1,44 +1,43 @@
-// 重载
-interface User {
-  id: string;
+// 回调函数
+function someCallbackFn(): string {
+  return runTask((id): string => {
+    console.log('doSome');
+    return `Call task, id: <<${id}>>`;
+  });
 }
 
-export class UserService {
-  getUser(id: string);
-  getUser(options: (users: User[]) => User);
-  getUser(id: string | ((users: User[]) => User), callback?: () => void) {
-    console.log(id, callback);
-  }
+function runTask(callback: (id: string) => string): string {
+  console.log('runTask');
+  const taskId = '1';
+  return callback(taskId);
 }
 
-const userService = new UserService();
-userService.getUser('1');
-userService.getUser((us) => us[0]);
+console.log(someCallbackFn());
 
-// 继承
-export class Foo {
-  constructor(val: string) {
-    console.log(val);
-  }
-
-  public hello() {
-    console.log('Foo hello');
+// 异步回调函数
+async function someCallbackFn2(callback: (id: string) => Promise<string>) {
+  const tasks = ['1'];
+  for (const task of tasks) {
+    const str = await callback(task);
+    console.log(str);
   }
 }
 
-export class Bar extends Foo {
-  constructor() {
-    super('Bar ctor param');
-  }
+someCallbackFn2(async (id) => {
+  // do something...
+  return `Call task, id: <<${id}>>`;
+});
 
-  public hello() {
-    console.log('Bar hello');
-    super.hello();
+// 泛型回调函数
+function someCallbackFn3(callback: <T>(id: T) => string) {
+  const tasks = ['1'];
+  for (const task of tasks) {
+    const str = callback(task);
+    console.log(str);
   }
 }
 
-const foo = new Foo('Foo ctor param');
-foo.hello();
-
-const bar = new Bar();
-bar.hello();
+someCallbackFn3((id) => {
+  // do something...
+  return `Call task, id: <<${id}>>`;
+});
