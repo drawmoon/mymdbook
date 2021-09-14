@@ -4,6 +4,8 @@ import { AppService } from './app.service';
 import { UserAccessor, UserService } from './user.accessor';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from './auth.guard';
+import { ScopeService } from './scope.service';
+import { SingletonService } from './singleton.service';
 
 const USER_ACCESSOR_PROVIDER = {
   provide: UserAccessor,
@@ -18,6 +20,12 @@ const APP_GUARD_PROVIDER = {
 @Module({
   imports: [],
   controllers: [AppController],
-  providers: [AppService, USER_ACCESSOR_PROVIDER, APP_GUARD_PROVIDER],
+  providers: [
+    AppService,
+    ScopeService,
+    SingletonService,
+    USER_ACCESSOR_PROVIDER,
+    APP_GUARD_PROVIDER,
+  ],
 })
 export class AppModule {}

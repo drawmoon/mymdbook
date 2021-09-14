@@ -6,7 +6,7 @@ export abstract class UserAccessor {
 
 @Injectable({
   // scope: Scope.REQUEST,
-  // scope: Scope.TRANSIENT, // 如果在 DEFAULT 生命周期的对象中注入该对象，该对象只会实例化一次
+  // scope: Scope.TRANSIENT, // 如果在生命周期为 DEFAULT 的对象中注入该对象，该对象只会实例化一次
 })
 export class UserService extends UserAccessor {
   private _currentUser?: string;
