@@ -18,6 +18,7 @@ async function main() {
   const browser = await launch({
     headless: false,
     args: ['--no-sandbox', '--disable-setuid-sandbox'],
+    defaultViewport: { width: 1920, height: 1080 },
   });
 
   const page = await browser.newPage();
@@ -49,6 +50,7 @@ async function main() {
   const browser = await launch({
     headless: false,
     args: ['--no-sandbox', '--disable-setuid-sandbox'],
+    defaultViewport: { width: 1920, height: 1080 },
   });
 
   const page = await browser.newPage();
@@ -84,6 +86,7 @@ async function main() {
   const browser = await launch({
     headless: false,
     args: ['--no-sandbox', '--disable-setuid-sandbox'],
+    defaultViewport: { width: 1920, height: 1080 },
   });
 
   const page = await browser.newPage();
@@ -109,6 +112,7 @@ async function main() {
   const browser = await launch({
     headless: false,
     args: ['--no-sandbox', '--disable-setuid-sandbox'],
+    defaultViewport: { width: 1920, height: 1080 },
   });
 
   const page = await browser.newPage();
@@ -140,6 +144,7 @@ async function main() {
   const browser = await launch({
     headless: false,
     args: ['--no-sandbox', '--disable-setuid-sandbox'],
+    defaultViewport: { width: 1920, height: 1080 },
   });
 
   const page = await browser.newPage();
@@ -166,6 +171,7 @@ async function main() {
   const browser = await launch({
     headless: false,
     args: ['--no-sandbox', '--disable-setuid-sandbox'],
+    defaultViewport: { width: 1920, height: 1080 },
   });
 
   const page = await browser.newPage();
