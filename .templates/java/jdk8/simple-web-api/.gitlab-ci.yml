@@ -1,0 +1,15 @@
+image: gradle:8.1.1-jdk8
+
+stages:
+  - test
+
+before_script:
+  - java -version
+  - gradle --version
+  - chmod +x ./gradlew
+
+test:
+  stage: test
+  script:
+    - gradle check
+    - gradle test

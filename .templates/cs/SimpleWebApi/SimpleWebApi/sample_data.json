@@ -1,0 +1,11 @@
+﻿{
+  "SampleData": {
+    "Employees": [
+      {
+        "Id": 1,
+        "Name": "总经理",
+        "Age": 40
+      }
+    ]
+  }
+}

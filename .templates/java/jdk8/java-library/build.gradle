@@ -1,0 +1,78 @@
+plugins {
+    id 'java-library'
+    id "com.github.johnrengelman.shadow" version "7.1.2"
+    id 'com.diffplug.spotless' version '6.13.0'
+}
+
+apply plugin: 'java-library'
+apply plugin: 'com.github.johnrengelman.shadow'
+apply plugin: 'com.diffplug.spotless'
+
+version = '0.0.1-SNAPSHOT'
+archivesBaseName = 'javalibrary'
+group = 'com.example.javalibrary'
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(8)
+    }
+    withJavadocJar()
+    withSourcesJar()
+}
+
+javadoc.options {
+    encoding = 'UTF-8'
+    links 'https://docs.oracle.com/javase/8/docs/api/'
+}
+
+artifacts {
+    archives javadocJar, sourcesJar, shadowJar
+}
+
+test {
+    useJUnitPlatform()
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+}
+
+[compileJava, compileTestJava].each() {
+    it.options.encoding = "UTF-8"
+}
+
+spotless {
+    java {
+        target '**/*.java'
+        importOrder 'edu', 'com', 'io', 'java', 'javax', 'org', ''
+        removeUnusedImports()
+        trimTrailingWhitespace()
+        palantirJavaFormat()
+    }
+    groovyGradle {
+        target '*.gradle'
+    }
+}
+
+jar {
+    manifest {
+        attributes('Implementation-Title': archivesBaseName,
+                    'Implementation-Version': version,
+                    'Built-By': 'drash',
+                    'Built-JDK': System.getProperty('java.version'),
+                    'Source-Compatibility': sourceCompatibility,
+                    'Target-Compatibility': targetCompatibility)
+    }
+}

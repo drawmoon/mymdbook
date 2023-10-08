@@ -1,0 +1,117 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '2.4.2'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'com.diffplug.spotless' version '6.13.0'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+
+subprojects {
+	apply plugin: 'java'
+	apply plugin: 'org.springframework.boot'
+	apply plugin: 'io.spring.dependency-management'
+	apply plugin: 'com.diffplug.spotless'
+
+	repositories {
+		mavenLocal()
+		mavenCentral()
+	}
+
+	configurations {
+		compileOnly {
+			extendsFrom annotationProcessor
+		}
+	}
+
+	dependencies {
+		implementation 'org.springframework.boot:spring-boot-starter-web'
+		implementation 'org.springframework.boot:spring-boot-starter-validation'
+		implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+		implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+		implementation 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config'
+		implementation 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery'
+		implementation 'org.apache.commons:commons-lang3:3.9'
+		implementation 'io.springfox:springfox-boot-starter:3.0.0'
+
+		runtimeOnly 'mysql:mysql-connector-java'
+		runtimeOnly 'org.postgresql:postgresql'
+
+		annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+
+		compileOnly 'org.projectlombok:lombok'
+		annotationProcessor 'org.projectlombok:lombok'
+
+		testImplementation('org.springframework.boot:spring-boot-starter-test') {
+			exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+		}
+	}
+
+	ext {
+		set('springCloudAlibabaVersion', "2021.1")
+		set('springCloudVersion', "2020.0.6")
+	}
+
+	dependencyManagement {
+		imports {
+			mavenBom "com.alibaba.cloud:spring-cloud-alibaba-dependencies:${springCloudAlibabaVersion}"
+			mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+		}
+	}
+
+	spotless {
+		java {
+			target '**/*.java'
+			importOrder 'edu', 'com', 'io', 'java', 'javax', 'org', ''
+			removeUnusedImports()
+			trimTrailingWhitespace()
+			palantirJavaFormat()
+		}
+		groovyGradle {
+			target '*.gradle'
+		}
+	}
+
+	test {
+		useJUnitPlatform()
+		testLogging {
+			events "passed", "skipped", "failed"
+		}
+	}
+
+	[compileJava, compileTestJava].each() {
+		it.options.encoding = 'UTF-8'
+	}
+
+	bootJar {
+		enabled = false
+	}
+
+	jar {
+		enabled = true
+	}
+}
+
+project(':bootsrap') {
+	dependencies {
+		implementation project(':api')
+	}
+}
+
+project(':api') {
+	dependencies {
+		implementation project(':business')
+	}
+}
+
+project(':business') {
+	dependencies {
+		implementation project(':jpa')
+	}
+}
+
+project(':jpa') {
+}

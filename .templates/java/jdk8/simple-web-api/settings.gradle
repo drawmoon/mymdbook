@@ -1,0 +1,5 @@
+rootProject.name = 'example'
+include('bootsrap')
+include('api')
+include('business')
+include('jpa')
