@@ -2,7 +2,7 @@
 
 ## 依赖注入
 
-通过 `@Bean` 注解：
+通过 `@Bean` 注解注入到容器：
 
 ```java
 @Bean
@@ -11,15 +11,17 @@ public Bean1 bean1() {
 }
 ```
 
-属性注入：
+通过 `@Resource` 注解实现属性注入：
 
 ```java
 @Component
 public class Application {
-    @Autowired
+    @Resource
     private Bean1 bean1;
 }
 ```
+
+> 推荐使用 `@Resource` 而不是 `@Autowired`，`@Resource` 注解属于 J2EE 的，减少了与 Spring 的耦合。
 
 ### 多个 Bean 实例
 
@@ -43,7 +45,7 @@ public Bean1 bean2() {
 ```java
 @Component
 public class Application {
-    @Autowired
+    @Resource
     @Qualifier("bean2")
     private Bean1 bean1;
 }
