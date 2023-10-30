@@ -1,6 +1,8 @@
 # Jackson
 
-## 自定义 Map 序列化
+## 自定义序列化与反序列化
+
+### JsonAnyGetter
 
 - 使用 `@JsonFormat` 只转换声明的字段，忽略 `HashMap` 项。
 - 使用 `@JsonAnyGetter` 返回 `HashMap` 项。
@@ -28,7 +30,7 @@ public class CustomMap extends HashMap<String, Object> {
 }
 ```
 
-输出的 JSON:
+序列化输出的 JSON:
 
 ```json
 {
@@ -37,3 +39,32 @@ public class CustomMap extends HashMap<String, Object> {
     "total": 10
 }
 ```
+
+### JsonAnySetter
+
+```java
+import java.util.HashMap;
+import java.util.Map;
+
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+
+public class MyClass {
+
+    private Map<String, List<String>> map = new HashMap<>();
+
+    @JsonAnySetter
+    private void setProperty(String key, List<String> value) {
+        this.map.put(key, value);
+    }
+}
+```
+
+反序列化输入的 JSON:
+
+```json
+{
+    "array": ["a", "b", "c"]
+}
+```
+
+执行反序列化会将 `array` 作为键添加 `Map` 中。
