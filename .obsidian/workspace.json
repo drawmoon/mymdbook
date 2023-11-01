@@ -4,19 +4,15 @@
     "type": "split",
     "children": [
       {
-        "id": "b0e9ed5e878443e6",
+        "id": "694f0e4cf41a002e",
         "type": "tabs",
         "children": [
           {
-            "id": "92f75561d647c00b",
+            "id": "bf4badfcaba18a68",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Database Functions.md",
-                "mode": "source",
-                "source": false
-              }
+              "type": "empty",
+              "state": {}
             }
           }
         ]
@@ -93,7 +89,6 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Database Functions.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -110,7 +105,6 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Database Functions.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -132,9 +126,7 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {
-                "file": "Database Functions.md"
-              }
+              "state": {}
             }
           },
           {
@@ -164,8 +156,9 @@
       "command-palette:打开命令面板": false
     }
   },
-  "active": "92f75561d647c00b",
+  "active": "bf4badfcaba18a68",
   "lastOpenFiles": [
+    "smartdns-rs_simple_configuration.md",
     "SmartDNS simple configuration.md",
     "Windows PowerShell.md",
     "Golang.md",
