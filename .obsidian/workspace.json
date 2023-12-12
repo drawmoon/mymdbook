@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "694f0e4cf41a002e",
+        "id": "d8984a3940bf21a4",
         "type": "tabs",
         "children": [
           {
-            "id": "bf4badfcaba18a68",
+            "id": "0cb36604b1fd3f98",
             "type": "leaf",
             "state": {
               "type": "empty",
@@ -156,8 +156,9 @@
       "command-palette:打开命令面板": false
     }
   },
-  "active": "bf4badfcaba18a68",
+  "active": "0cb36604b1fd3f98",
   "lastOpenFiles": [
+    "tutorial/java/gradle.md",
     "smartdns-rs_simple_configuration.md",
     "SmartDNS simple configuration.md",
     "Windows PowerShell.md",

@@ -6,10 +6,10 @@
 
 ```groovy
 repositories {
-  maven { url 'https://maven.aliyun.com/repository/public/' }
-  maven { url 'https://maven.aliyun.com/repository/central' }
-  mavenLocal()
-  mavenCentral()
+    maven { url 'https://maven.aliyun.com/repository/public/' }
+    maven { url 'https://maven.aliyun.com/repository/central' }
+    mavenLocal()
+    mavenCentral()
 }
 ```
 
@@ -17,8 +17,8 @@ repositories {
 
 ```groovy
 maven {
-  url '<your maven repo url>'
-  allowInsecureProtocol true
+    url '<你的 Maven 仓库地址>'
+    allowInsecureProtocol true
 }
 ```
 
@@ -27,29 +27,37 @@ maven {
 记录账号密码在 `gradle.properties` 配置文件中：
 
 ```properties
-nexusUsername=<your repo credentials username>
-nexusPassword=<your repo credentials password>
+nexusUsername=<你的 Maven 仓库用户名>
+nexusPassword=<你的 Maven 仓库密码>
 ```
 
 ```groovy
 maven {
-  url '<your maven repo url>'
-  credentials {
-    username = project.properties['nexusUsername']
-    password = project.properties['nexusPassword']
-  }
+    url '<your maven repo url>'
+    credentials {
+        username = project.properties['nexusUsername']
+        password = project.properties['nexusPassword']
+    }
 }
 ```
 
 ## 发布
 
-编辑 `build.gradle` 配置文件：
+创建密钥：
+
+- 安装 [GunPG](https://www.gnupg.org/download/index.html)。
+- 创建 OpenPGP 密钥对：`gpg --gen-key`，并填写 GPG 名称、电子邮箱、密码完成密钥生成。
+- 发布公钥到 OpenPGP：`gpg --keyserver https://keys.openpgp.org --send-keys <你的 PGP Key>`。
+
+如果执行 `send-key` 失败，可以尝试导出公钥手动上传到 [OpenPGP](https://keys.openpgp.org/)。
+
+配置项目，编辑 `build.gradle` 配置文件：
 
 ```groovy
 plugins {
-  id 'java-library'
-  id 'maven-publish'
-  id "com.github.johnrengelman.shadow" version "7.1.2"
+    id 'java-library'
+    id 'maven-publish'
+    id "com.github.johnrengelman.shadow" version "7.1.2"
 }
 
 apply plugin: 'java-library'
@@ -65,122 +73,120 @@ sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
 repositories {
-  mavenLocal()
-  mavenCentral()
+    mavenLocal()
+    mavenCentral()
 }
 
 [compileJava, compileTestJava].each() {
-  it.options.encoding = "UTF-8"
+    it.options.encoding = "UTF-8"
 }
 
 jar {
-  manifest {
-    attributes('Implementation-Title': archivesBaseName,
-            'Implementation-Version': version,
-            'Built-By': 'drash',
-            'Built-JDK': System.getProperty('java.version'),
-            'Source-Compatibility': sourceCompatibility,
-            'Target-Compatibility': targetCompatibility)
-  }
+    manifest {
+        attributes('Implementation-Title': archivesBaseName,
+                'Implementation-Version': version,
+                'Built-By': 'drash',
+                'Built-JDK': System.getProperty('java.version'),
+                'Source-Compatibility': sourceCompatibility,
+                'Target-Compatibility': targetCompatibility)
+    }
 }
 
 java {
-  toolchain {
-    languageVersion = JavaLanguageVersion.of(8)
-  }
-  withJavadocJar()
-  withSourcesJar()
+    withJavadocJar()
+    withSourcesJar()
 }
 
 javadoc.options {
-  encoding = 'UTF-8'
-  links 'https://docs.oracle.com/javase/8/docs/api/'
+    encoding = 'UTF-8'
+    links 'https://docs.oracle.com/javase/8/docs/api/'
 }
 
 artifacts {
-  archives javadocJar, sourcesJar, shadowJar
+    archives javadocJar, sourcesJar, shadowJar
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+            artifactId = archivesBaseName
+            groupId = group
+            version = version
+            pom {
+                name = archivesBaseName
+                packaging = 'jar'
+                description = 'App description'
+                url = 'https://github.com/<你的项目仓库>'
+                inceptionYear = '2023'
+                licenses {
+                    license {
+                        name = 'MIT License'
+                        url = 'https://opensource.org/licenses/MIT'
+                    }
+                }
+                scm {
+                    connection = 'scm:git:git@github.com:<你的项目仓库>.git'
+                    developerConnection = 'scm:git:git@github.com:<你的项目仓库>.git'
+                    url = 'https://github.com/<你的项目仓库>'
+                }
+                developers {
+                    developer {
+                        id = 'drash'
+                        name = 'drawmoon'
+                        email = '1340260725@qq.com'
+                    }
+                }
+            }
+        }
+    }
+    repositories {
+        def releaseRepoUrl = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+        if (version.endsWith("-SNAPSHOT")) {
+            releaseRepoUrl = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
+        }
+        maven {
+            name = "ossrh"
+            url = releaseRepoUrl
+            credentials {
+                username = project.properties['nexusUsername']
+                password = project.properties['nexusPassword']
+            }
+        }
+    }
 }
 
 signing {
-  if (project.properties.containsKey('signing.keyId')) {
-    sign configurations.archives
-  }
-}
-
-afterEvaluate {
-  publishing {
-    publications {
-      plugin(MavenPublication) {
-        from components.java
-        artifactId = archivesBaseName
-        groupId = group
-        version = version
-        pom {
-          name = archivesBaseName
-          packaging = 'jar'
-          description = 'App description'
-          url = 'https://github.com/<your repo>'
-          inceptionYear = '2023'
-          licenses {
-            license {
-              name = 'MIT License'
-              url = 'https://opensource.org/licenses/MIT'
-            }
-          }
-          scm {
-            connection = 'scm:git:git@github.com:<your repo>.git'
-            developerConnection = 'scm:git:git@github.com:<your repo>.git'
-            url = 'https://github.com/<your repo>'
-          }
-          developers {
-            developer {
-              id = 'drash'
-              name = 'drawmoon'
-              email = '1340260725@qq.com'
-            }
-          }
-        }
-      }
-    }
-    repositories {
-      maven {
-        name = "ossrh"
-        url = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
-        credentials {
-            username = project.properties['nexusUsername']
-            password = project.properties['nexusPassword']
-        }
-      }
-    }
-  }
+    sign publishing.publications.mavenJava
 }
 ```
+
+导出 PGP 私钥、公钥：
+
+- 导出公钥：`gpg --armor --export <你的 PGP Key> > secring.pub.gpg`
+- 导出私钥：`gpg --armor --export-secret-keys <你的 PGP Key> > secring.gpg`
 
 编辑 `gradle.properties` 配置文件：
 
 ```properties
-signing.keyId=<your pgp key id>
-signing.password=<your pgp password>
-signing.secretKeyRingFile=<your pgp secret key file path>
+signing.keyId=<PGP Key 后8位字符>
+signing.password=<PGP 密码>
+signing.secretKeyRingFile=<PGP 密钥文件（.pgp 文件）>
 
-nexusUsername=<your repo credentials username>
-nexusPassword=<your repo credentials password>
+nexusUsername=<Sonatype 用户名>
+nexusPassword=<Sonatype 密码>
 ```
+
+> 可以通过 `gpg --list-keys` 命令查看 PGP Key。
 
 编译：
 
 ```bash
-./gradlew clean build -Prelease
+./gradlew clean build
 ```
 
 编译成功后执行发布：
 
 ```bash
 ./gradlew publish
-```
-
-或指定发布到指定的仓库，与 `publishing.repositories` 的 `name` 对应：
-
-```bash
-./gradlew publishAllPublicationsToOssrhRepository
 ```
