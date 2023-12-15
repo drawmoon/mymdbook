@@ -1,0 +1,48 @@
+[
+  {
+    "name": "何超辉",
+    "age": 29,
+    "email": "hechaohui@mail.com",
+    "lockoutEnabled": false,
+    "orders": [
+      {
+        "name": "order1",
+        "orderDetails": [
+          {
+            "name": "orderDetail1"
+          },
+          {
+            "name": "orderDetail2"
+          },
+          {
+            "name": "orderDetail3"
+          }
+        ]
+      },
+      {
+        "name": "order2"
+      },
+      {
+        "name": "order3"
+      }
+    ]
+  },
+  {
+    "name": "刘向阳",
+    "age": 45,
+    "email": "liuxiangyang@mail.com",
+    "lockoutEnabled": false
+  },
+  {
+    "name": "邓扬",
+    "age": 16,
+    "email": "dengyang@mail.com",
+    "lockoutEnabled": false
+  },
+  {
+    "name": "何辉群",
+    "age": 7,
+    "email": "hehuiqun@mail.com",
+    "lockoutEnabled": true
+  }
+]

@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="nacos-sdk-csharp-unofficial.AspNetCore" Version="0.8.0" />
+      <PackageReference Include="nacos-sdk-csharp-unofficial.Extensions.Configuration" Version="0.8.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\NacosExtensions\NacosExtensions.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Update="appsettings.ini">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="appsettings.Development.ini">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
+
+</Project>

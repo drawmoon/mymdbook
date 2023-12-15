@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+	  
+	<!-- 生成内嵌式文件清单 -->
+	<GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
+  </PropertyGroup>
+
+  <ItemGroup>
+	<!-- 匹配 Resources 目录下任何位置下的任何文件 -->
+    <EmbeddedResource Include="Resources/**/*.*"></EmbeddedResource>
+  </ItemGroup>
+
+</Project>

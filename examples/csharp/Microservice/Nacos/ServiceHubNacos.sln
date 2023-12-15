@@ -1,0 +1,46 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication1", "ServiceHubNacos\WebApplication1\WebApplication1.csproj", "{A63DDE9E-2765-4405-B54F-0693EF2B8228}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication2", "ServiceHubNacos\WebApplication2\WebApplication2.csproj", "{99ED33EB-02A5-4AEF-B055-2BBFA1794E41}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication3", "ServiceHubNacos\WebApplication3\WebApplication3.csproj", "{3816E016-0F09-4ECF-A2A3-164E9006F720}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NacosClientExtensions", "ServiceHubNacos\NacosClientExtensions\NacosClientExtensions.csproj", "{9AC93560-289A-4991-9F70-847C459293AD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NacosExtensions", "ServiceHubNacos\NacosExtensions\NacosExtensions.csproj", "{C609DA24-AA1C-4022-A539-731EB9258E80}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NacosExtensions.Tests", "ServiceHubNacos\NacosExtensions.Tests\NacosExtensions.Tests.csproj", "{0186F272-48CB-4931-85EC-B942595CCF20}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A63DDE9E-2765-4405-B54F-0693EF2B8228}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A63DDE9E-2765-4405-B54F-0693EF2B8228}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A63DDE9E-2765-4405-B54F-0693EF2B8228}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A63DDE9E-2765-4405-B54F-0693EF2B8228}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99ED33EB-02A5-4AEF-B055-2BBFA1794E41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99ED33EB-02A5-4AEF-B055-2BBFA1794E41}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99ED33EB-02A5-4AEF-B055-2BBFA1794E41}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99ED33EB-02A5-4AEF-B055-2BBFA1794E41}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3816E016-0F09-4ECF-A2A3-164E9006F720}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3816E016-0F09-4ECF-A2A3-164E9006F720}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3816E016-0F09-4ECF-A2A3-164E9006F720}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3816E016-0F09-4ECF-A2A3-164E9006F720}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9AC93560-289A-4991-9F70-847C459293AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9AC93560-289A-4991-9F70-847C459293AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9AC93560-289A-4991-9F70-847C459293AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9AC93560-289A-4991-9F70-847C459293AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C609DA24-AA1C-4022-A539-731EB9258E80}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C609DA24-AA1C-4022-A539-731EB9258E80}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C609DA24-AA1C-4022-A539-731EB9258E80}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C609DA24-AA1C-4022-A539-731EB9258E80}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0186F272-48CB-4931-85EC-B942595CCF20}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0186F272-48CB-4931-85EC-B942595CCF20}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0186F272-48CB-4931-85EC-B942595CCF20}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0186F272-48CB-4931-85EC-B942595CCF20}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
