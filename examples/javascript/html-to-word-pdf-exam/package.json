@@ -1,0 +1,23 @@
+{
+  "name": "html-to-word-pdf-demo",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "prebuild": "rimraf dist",
+    "build": "tsc",
+    "run": "node dist/index"
+  },
+  "devDependencies": {
+    "@types/jsdom": "^16.2.14",
+    "@types/node": "^15.3.0",
+    "rimraf": "^3.0.2",
+    "typescript": "4.5.4"
+  },
+  "dependencies": {
+    "@drawmoon/html-to-docx": "1.5.1",
+    "canvas": "^2.6.1",
+    "html-pdf-node": "^1.0.7",
+    "jsdom": "^16.5.3"
+  }
+}

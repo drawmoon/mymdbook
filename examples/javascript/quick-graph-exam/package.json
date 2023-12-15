@@ -1,0 +1,39 @@
+{
+  "name": "tspt",
+  "version": "1.0.0",
+  "description": "Simple TypeScript project template.",
+  "main": "src/main.ts",
+  "scripts": {
+    "prebuild": "rimraf dist",
+    "build": "tsc",
+    "run": "node dist/main.js",
+    "lint": "eslint . --ext .ts",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/drawmoon/tspt.git"
+  },
+  "keywords": [
+    "ts",
+    "typescript",
+    "eslint",
+    "template"
+  ],
+  "author": "drsh",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/drawmoon/tspt/issues"
+  },
+  "homepage": "https://github.com/drawmoon/tspt#readme",
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.9.1",
+    "@typescript-eslint/parser": "^5.9.1",
+    "eslint": "^8.6.0",
+    "rimraf": "^3.0.2",
+    "typescript": "^4.5.4"
+  },
+  "dependencies": {
+    "quick-graph-ts": "^1.0.0"
+  }
+}
