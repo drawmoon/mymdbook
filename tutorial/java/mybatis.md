@@ -4,19 +4,19 @@
 
 ```xml
 <select id="selectAll">
-  select
-  <if test="_databaseId == 'mysql'">
-    o.`name`
-  </if>
-  <if test="_databaseId == 'postgres'">
-    o."name"
-  </if>
-  from
-  order o
+    select
+    <if test="_databaseId == 'mysql'">
+        o.`name`
+    </if>
+    <if test="_databaseId == 'postgres'">
+        o."name"
+    </if>
+    from
+        order o
 </select>
 ```
 
-## 根据目标数据库类型动态调整模型列名
+## ~~根据目标数据库类型动态调整模型列名~~
 
 ```java
 import java.lang.reflect.Field;
@@ -150,7 +150,6 @@ public class DatabaseColumnStyleRender implements BeanFactoryPostProcessor, Envi
             return null;
         }
     }
-
 }
 ```
 
@@ -164,24 +163,24 @@ create table order_detail(id integer primary key, name varchar(100), order_id in
 ```java
 @Table
 public class Order {
-  @Id
-  private Integer id;
-  @Column
-  private String name;
-  @Transient
-  private List<OrderDetail> details;
+    @Id
+    private Integer id;
+    @Column
+    private String name;
+    @Transient
+    private List<OrderDetail> details;
 }
 
 @Table
 public class OrderDetail {
-  @Id
-  private Integer id;
-  @Column
-  private String name;
-  @Column
-  private Integer orderId;
-  @Transient
-  private Order order;
+    @Id
+    private Integer id;
+    @Column
+    private String name;
+    @Column
+    private Integer orderId;
+    @Transient
+    private Order order;
 }
 ```
 
@@ -191,30 +190,31 @@ public class OrderDetail {
 
 ```xml
 <resultMap id="includeDetailMap" type="com.osy.model.Order">
-  <id property="id" column="id" />
-  <result property="name" column="name" />
-  <collection property="details" columnPrefix="details_" javaType="ArrayList" ofType="com.osy.model.OrderDetail">
     <id property="id" column="id" />
     <result property="name" column="name" />
-    <result property="orderId" column="order_id" />
-  </collection>
+    <collection property="details" columnPrefix="details_" javaType="ArrayList" ofType="com.osy.model.OrderDetail">
+        <id property="id" column="id" />
+        <result property="name" column="name" />
+        <result property="orderId" column="order_id" />
+    </collection>
 </resultMap>
 ```
 
 ```xml
 <select id="selectIncludeDetailById" resultMap="includeDetailMap">
     select
-    o.id, o.name, od.id as details_id,
-    od.name as details_name od.order_id as details_order_id
- from
- order o
- inner join (
- select id, name
- from
- order_detail) od
- on
- ff.id = ffs.filtration_id
-    where
-    ff.id = #{id};
+        o.id, o.name, od.id as details_id, od.name as details_name od.order_id as details_order_id
+    from
+        order o
+    inner join (
+        select
+            id, name
+        from
+            order_detail
+    ) od on
+        ff.id = ffs.filtration_id
+    <where>
+        ff.id = #{id};
+    </where>
 </select>
 ```
