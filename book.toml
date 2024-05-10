@@ -1,0 +1,5 @@
+[book]
+authors = ["dash"]
+language = "zh"
+multilingual = false
+src = "src"
